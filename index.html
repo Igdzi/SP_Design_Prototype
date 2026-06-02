@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="ma-light" lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM / Історія подій</title>
+    <meta id="ma_viewport" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css" rel="stylesheet" media="screen">
+
+    <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
+    <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
+    <link rel="apple-touch-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/apple-touch-icon.png">
+    <link rel="alternate icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.ico">
+    <link rel="manifest" href="https://login.sendpulse.com/img/favicon/sendpulse/manifest.json">
+</head>
+
+<body class="sp">
+<div id="page-wrapper" class="site-wrapper clearfix">
+    <nav id="menu-navbar" class="navbar sp-navbar js-menu-navbar">
+        <div class="sp-navbar-collapse">
+            <a href="/welcome" class="top-menu-item top-menu-item-logo top-menu-item-logo-desktop" data-analytics-event="ma_header_logo_btn">
+                <img src="https://login.sendpulse.com/img/sendpulse-logo-menu.svg" width="32" alt="SendPulse">
+            </a>
+            <div class="activate-submenu-phone">
+                <a class="top-menu-item top-menu-item-logo" id="activate-submenu-phone">
+                    <img src="https://login.sendpulse.com/img/sendpulse-logo-menu.svg" width="32" alt="SendPulse">
+                    <span class="activate-submenu-phone-item js-header-navbar-toggle-text"></span>
+                </a>
+            </div>
+            <button type="button" class="navbar-toggle collapsed header-navbar-toggle" data-toggle="collapse" data-target="#header-navbar-collapse" aria-expanded="false">
+                <span class="header-navbar-toggle-icon js-header-navbar-toggle-icon"><span class="sp-icon icon-envelope"></span></span>
+                <span class="header-navbar-toggle-text js-header-navbar-toggle-text"></span>
+            </button>
+        </div>
+
+        <ul class="nav navbar-nav sp-nav-services navbar-collapse collapse" id="header-navbar-collapse">
+            <li class="animate js-navbar-item">
+                <a href="/emailservice/" class="top-menu-item" data-analytics-event="ma_header_email_btn">
+                    <span class="sp-icon icon-envelope"></span>
+                    <div class="top-menu-item-text">Розсилки</div>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/automation/" class="top-menu-item" data-analytics-event="ma_header_a360_btn">
+                    <span class="sp-icon icon-chain-a360"></span>
+                    <span class="top-menu-item-text">Automation</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/messengers/" class="top-menu-item" data-analytics-event="ma_header_chatbots_btn">
+                    <span class="sp-icon icon-chatbot"></span>
+                    <span class="top-menu-item-text">Чат-боти</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item active">
+                <a href="/crm/" class="top-menu-item" data-analytics-event="ma_header_crm_btn">
+                    <span class="sp-icon icon-crm"></span>
+                    <span class="top-menu-item-text">CRM</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/landing-pages/" class="top-menu-item" data-analytics-event="ma_header_websites_btn">
+                    <span class="sp-icon icon-landing-site"></span>
+                    <span class="top-menu-item-text">Сайти</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/pop-ups/" class="top-menu-item" data-analytics-event="ma_header_popups_btn">
+                    <span class="sp-icon icon-popup"></span>
+                    <span class="top-menu-item-text">Попапи</span>
+                </a>
+            </li>
+            <li class="animate js-navbar-item">
+                <a href="/push/" class="top-menu-item" data-analytics-event="ma_header_push_btn">
+                    <span class="sp-icon icon-bell"></span>
+                    <div class="top-menu-item-text">Push</div>
+                </a>
+            </li>
+            <li class="animate js-navbar-item">
+                <a href="/smtp/" class="top-menu-item" data-analytics-event="ma_header_smtp_btn">
+                    <span class="sp-icon icon-code"></span>
+                    <div class="top-menu-item-text">SMTP</div>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/edu/" class="top-menu-item" data-analytics-event="ma_header_courses_btn">
+                    <span class="sp-icon icon-edu"></span>
+                    <span class="top-menu-item-text">Курси</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right sp-nav-account">
+            <li class="js-navbar-item hidden"><a href="/manual/" class="section-link"><span>Документація</span></a></li>
+            <li class="js-navbar-item hidden"><a href="/support/" class="section-link"><span>Підтримка</span></a></li>
+            <li class="js-navbar-item hidden" id="setting-item"><a href="/settings/" class="section-link"><span>Налаштування</span></a></li>
+            <li class="animate-accent js-navbar-item hidden-xs"></li>
+            <li class="animate js-navbar-item hidden-xs">
+                <a class="section-link section-info-link section-link-sms" data-toggle="dropdown" data-analytics-event="ma_header_livechat_btn" aria-haspopup="true">
+                    <span class="section-link-sms-inner d-flex">
+                        <span class="social-icon icon-inapp section-link-sms-inner-icon live-chat-icon"></span>
+                        <span class="section-link-sms-inner-send">Встановити онлайн-чат</span>
+                    </span>
+                </a>
+                <ul role="menu" class="dropdown-menu dropdown-menu-onlinechat">
+                    <img src="https://login.sendpulse.com/img/my/1080-ua-min.png" alt="Online chat" class="spacing-bottom d-block" loading="lazy">
+                    <p class="text-muted">Спілкуйтеся з відвідувачами сайту за допомогою віджета онлайн-чату одразу після додавання коду на сайт</p>
+                    <a href="/messengers/connect/live-chat/" class="btn btn-primary w-100">Встановити онлайн-чат</a>
+                </ul>
+            </li>
+            <li class="animate js-navbar-item hidden-xs">
+                <a href="/emailservice/send-sms/" class="section-link section-info-link section-link-sms" data-analytics-event="ma_header_send_sms_btn">
+                    <span class="section-link-sms-inner d-flex">
+                        <span class="sp-icon icon-mobile section-link-sms-inner-icon"></span>
+                        <span class="section-link-sms-inner-send">Надіслати SMS</span>
+                    </span>
+                </a>
+            </li>
+            <li class="noty-button-holder" id="noty-sidebar-app">
+                <a class="noty-button" data-toggle="collapse" href="#notySidebar" data-analytics-event="ma_header_notification_btn">
+                    <span class="sp-icon icon-bell"></span>
+                    <span class="badge status-red" id="noty-sidebar-notread-status">&nbsp;</span>
+                </a>
+            </li>
+            <li class="dropdown" role="navigation">
+                <a class="dropdown-toggle user-dropdown" data-toggle="dropdown" aria-expanded="false" data-analytics-event="ma_header_account_btn" data-target="#bs-example-navbar-collapse-1">
+                    <div id="user_avatar_img_circle" class="img-circle text-center" style="background-color: #f5f5f5;" data-toggle="popover" data-trigger="manual" data-placement="bottom" data-html="true"></div>
+                    <span class="caret"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <div id="side-menu" class="side-menu open">
+            <a href="javascript: void(0);" class="side-menu-close" aria-label="Close">×</a>
+            <div id="accrodion-collapser-phone" class="accrodion-collapser">
+                <ul id="accordion" class="accordion flat-list">
+                    <li><a href="/crm/dashboard"><span class="sp-icon icon-dashboard"></span><span class="sb-link-text truncate"> Головна </span></a></li>
+                    <li><a href="/crm/deals"><span class="sp-icon icon-deal"></span><span class="sb-link-text truncate"> Угоди </span></a></li>
+                    <li><a href="/crm/contacts"><span class="sp-icon icon-users"></span><span class="sb-link-text truncate"> Контакти </span></a></li>
+                    <li><a href="/crm/tasks/kanban"><span class="sp-icon icon-tick"></span><span class="sb-link-text truncate"> Завдання </span></a></li>
+                    <li class="active"><a href="#"><span class="sp-icon icon-revert"></span><span class="sb-link-text truncate"> Історія подій </span></a></li>
+                    <li><a href="/crm/mail"><span class="sp-icon icon-envelope"></span><span class="sb-link-text truncate"> Пошта </span></a></li>
+                    <li class="expandable e-commerce-nav"><a href="#"><span class="sp-icon icon-cart"></span><span class="sb-link-text truncate"> eCommerce <span class="caret pull-right"></span></span></a></li>
+                    <li><a href="/crm/integration"><span class="sp-icon icon-integration"></span><span class="sb-link-text truncate"> Інтеграції </span></a></li>
+                    <li><a href="/crm/file-manager"><span class="sp-icon icon-file-manager"></span><span class="sb-link-text truncate"> Менеджер файлів </span></a></li>
+                    <li><a href="/crm/settings"><span class="sp-icon icon-mixer"></span><span class="sb-link-text truncate">Налаштування</span></a></li>
+                    <li class="last"><a href="/crm/plans"><span class="sp-icon icon-pay-wallet"></span><span class="sb-link-text truncate"> Тарифи </span></a></li>
+                    <li id="refferal_banner-button" class="refferal-button">
+                        <a href="/emailservice/referrals/" class="refferal-button-link">
+                            <span class="refferal-button-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="#FFBD68" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 6C1 4.89543 1.89543 4 3 4H13C14.1046 4 15 4.89543 15 6V12C15 13.1046 14.1046 14 13 14H3C1.89543 14 1 13.1046 1 12V6ZM13 6H3V12H13V6Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M4.78571 2C4.61626 2 4.42735 2.0744 4.26896 2.2518C4.10726 2.43291 4 2.7005 4 3C4 3.2995 4.10726 3.56709 4.26896 3.7482C4.42735 3.9256 4.61626 4 4.78571 4H6.674C6.605 3.81789 6.52487 3.62839 6.43275 3.44079C5.9736 2.5058 5.42109 2 4.78571 2ZM8 5C8.98443 4.82421 8.98437 4.8239 8.98432 4.82358L8.98387 4.82113L8.98304 4.81658L8.98054 4.80314L8.97206 4.75952C8.96483 4.72326 8.95437 4.67284 8.94041 4.61027C8.91252 4.48533 8.87038 4.31079 8.81161 4.10293C8.69512 3.69091 8.50827 3.13001 8.22797 2.55921C7.70497 1.4942 6.65034 0 4.78571 0C4.00797 0 3.28847 0.347023 2.77709 0.919771C2.26902 1.48881 2 2.23863 2 3C2 3.76137 2.26902 4.51119 2.77709 5.08023C3.28847 5.65298 4.00797 6 4.78571 6H9.19439L8.98432 4.82358L8 5Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M7.77203 2.55921C8.29502 1.4942 9.34966 0 11.2143 0C11.992 0 12.7115 0.347023 13.2229 0.919771C13.731 1.48881 14 2.23863 14 3C14 3.76137 13.731 4.51119 13.2229 5.08023C12.7115 5.65298 11.992 6 11.2143 6H6.8056L7.01557 4.82421L7.99999 5C7.01557 4.82421 7.01551 4.82453 7.01557 4.82421L7.01612 4.82113L7.01695 4.81658L7.01945 4.80314L7.02793 4.75952C7.03516 4.72326 7.04562 4.67284 7.05959 4.61027C7.08747 4.48533 7.12962 4.31079 7.18839 4.10293C7.30488 3.69091 7.49172 3.13001 7.77203 2.55921ZM9.32599 4H11.2143C11.3837 4 11.5726 3.9256 11.731 3.7482C11.8927 3.56709 12 3.2995 12 3C12 2.7005 11.8927 2.43291 11.731 2.2518C11.5726 2.0744 11.3837 2 11.2143 2C10.5789 2 10.0264 2.5058 9.56725 3.44079C9.47512 3.62839 9.39499 3.81789 9.32599 4Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M8 5C8.55228 5 9 5.44772 9 6V12C9 12.5523 8.55228 13 8 13C7.44772 13 7 12.5523 7 12V6C7 5.44772 7.44772 5 8 5Z"></path></svg>
+                            </span>
+                            <span class="sb-link-text">Отримати 2 000 грн бонусу</span>
+                            <span class="badge badge-status status-danger"></span>
+                        </a>
+                    </li>
+                    <li class="accordion-footer accordion-footer-plan-email">
+                        <a title="Дійсний до: 27 червня 2026 р., 11:10" href="/crm/plans">
+                            <span class="sp-icon icon-briefcase"></span>
+                            <div class="progress"><div class="progress-bar" style="width: 100%;"></div></div>
+                            <div class="sb-link-text"> Lite <div><small>Перейти до тарифів</small></div></div>
+                        </a>
+                        <a href="/app-marketplace/apps" class="btn btn-default btn-marketplace">
+                            <span class="sp-icon icon-element-plus"></span>
+                            <span class="sb-link-text">Каталог застосунків&nbsp;<sup class="color-danger">β</sup></span>
+                        </a>
+                    </li>
+                </ul>
+                <button class="btn btn-toggle-sidebar pull-right" id="btnToggleSidebar">
+                    <span class="sp-icon icon-chevron-left icon-sidebar-hide"></span>
+                    <span class="sp-icon icon-chevron-right icon-sidebar-show"></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="content-placeholder">
+            <div id="header" class="clearfix"></div>
+            <div id="content-wrapper" class="js-content-wrapper content-wrapper-dashboard">
+                <div id="breadcrumbs">CRM / Аналітика / Історія подій</div>
+
+                <div class="activity-page-header">
+                    <div>
+                        <h1>Історія подій</h1>
+                    </div>
+                </div>
+
+                <ul id="serviceTabs" class="nav nav-tabs activity-tabs"></ul>
+
+                <div class="deals-filter-row">
+                    <div class="dropdown search-filter deals-filter-control">
+                        <a id="button-basic" aria-haspopup="true" aria-expanded="false" href="#">
+                            <span class="sp-icon icon-ap-search"></span>
+                            <span class="title">Фільтр</span>
+                        </a>
+                        <span id="activeFilterParams"></span>
+                    </div>
+                    <label class="activity-search-control" for="activitySearch">
+                        <span class="sp-icon icon-ap-search"></span>
+                        <input id="activitySearch" class="form-control" type="search" placeholder="Пошук по події або менеджеру..." autocomplete="off">
+                    </label>
+                </div>
+
+                <div class="deals-filter-wrap">
+                    <div id="deal-filter-menu" class="dropdown-menu filter-wrap deals-filter" role="menu" aria-labelledby="button-basic">
+                        <div id="filterFixedTop" class="filter-fixed-top">
+                            <div class="top-buttons btn-group btn-group-justified top-buttons-wrap">
+                                <a class="btn btn-action btn-default active">Загальні фільтри</a>
+                                <div class="popover-container">
+                                    <a class="btn btn-action btn-default">Збережені фільтри</a>
+                                </div>
+                            </div>
+                            <div class="filter-change-fields"><span>+Додати нову умову</span></div>
+                            <div id="lockedFilterNotice" class="alert alert-warning activity-filter-warning">
+                                Фільтри недоступні для сервісу на безплатному тарифі. Оновіть тариф, щоб фільтрувати історію.
+                            </div>
+                        </div>
+
+                        <div id="filterScrollWrap" class="filters-scrolbar-wrap">
+                            <div id="dealFiltersWrap" class="filter-wrap-controls">
+                                <div class="form-group activity-manager-filter">
+                                    <label for="managerFilter" title="Менеджер">Менеджер</label>
+                                    <select id="managerFilter" class="form-control">
+                                        <option value="">Всі менеджери</option>
+                                        <option>Юрій Коваленко</option>
+                                        <option>Марина Савченко</option>
+                                        <option>Олена Петренко</option>
+                                        <option>Ігор Мельник</option>
+                                    </select>
+                                </div>
+                                <div id="eventTypeGroups" class="activity-type-groups"></div>
+                            </div>
+                        </div>
+                        <div class="actions-buttons panel-footer activity-filter-actions">
+                            <div class="left"><span id="resetFilters" class="cancel-btn">Скинути</span></div>
+                            <div class="right">
+                                <button id="closeFilters" class="btn btn-default" type="button">Закрити</button>
+                                <button id="applyFilters" class="btn btn-create" type="button">Вибрати</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="freeServiceBanner" class="alert alert-info activity-plan-banner">
+                    <strong id="hiddenCountText">Приховано 0 подій.</strong>
+                    <span>На поточному тарифі доступні тільки останні 10 подій цього сервісу.</span>
+                    <button class="btn btn-primary btn-sm" type="button" data-open-drawer>Перейти до тарифів</button>
+                </div>
+
+                <div id="activitySearchSummary" class="activity-search-summary" aria-live="polite"></div>
+                <main id="activityFeed" class="activity-feed" aria-live="polite"></main>
+                <div id="activityLoader" class="activity-loader">
+                    <span class="sp-icon icon-refresh"></span> Завантаження подій...
+                </div>
+            </div>
+
+            <a class="btn btn-link relevant-kb-btn in" id="relevantKbArticlesBtn" href="https://sendpulse.com/ru/knowledge-base" target="_blank" rel="noreferrer">
+                <span class="sp-icon icon-info-bold" title="Help center"></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailsTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="crm-modal-page">
+                <div class="crm-modal-page__section top">
+                    <div class="crm-modal-page-top">
+                        <div class="title" id="eventDetailsTitle">Деталі події</div>
+                        <div class="close-icon" data-dismiss="modal" aria-label="Close">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.00641 6L0.496792 1.49038L0 0.993585L0.993585 0L1.49038 0.496792L6 5.00641L10.5096 0.496792L11.0064 0L12 0.993585L11.5032 1.49038L6.99358 6L11.5032 10.5096L12 11.0064L11.0064 12L10.5096 11.5032L6 6.99358L1.49038 11.5032L0.993585 12L0 11.0064L0.496793 10.5096L5.00641 6Z" fill="#000000"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="crm-modal-page__section body">
+                    <div id="eventDetailsBody"></div>
+                </div>
+                <div class="crm-modal-page__section bottom">
+                    <div class="crm-modal-page-bottom">
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Зрозуміло</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<aside id="upsellDrawer" class="activity-drawer" aria-hidden="true">
+    <div class="activity-drawer-panel">
+        <button class="close activity-drawer-close" type="button" aria-label="Close">&times;</button>
+        <div class="activity-drawer-icon"><span class="sp-icon icon-lock"></span></div>
+        <h3>Більше історії доступно на платному тарифі</h3>
+        <p>Відкрийте повну хронологію подій, фільтри за менеджером, типами подій і періодами для цього сервісу.</p>
+        <button class="btn btn-primary" type="button">Перейти до тарифів</button>
+    </div>
+</aside>
+
+<script src="scripts/prototype.js"></script>
+</body>
+</html>
