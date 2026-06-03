@@ -179,7 +179,7 @@
         var icon = '<span class="activity-service-icon ' + service.className + '">' + (service.icon ? '<img src="' + service.icon + '" alt="">' : service.code) + '</span>';
         if (locked) {
             icon = '<span class="activity-service-icon ' + service.className + ' service-locked" aria-hidden="true">' +
-                '<img src="assets/icons/locked.svg" alt=""></span>';
+                '<img src="assets/icons/locked.svg?v=20260603-locked-svg" alt=""></span>';
             return '<article class="activity-event is-locked" data-open-drawer>' +
                 icon +
                 '<div class="activity-event-main">' +
