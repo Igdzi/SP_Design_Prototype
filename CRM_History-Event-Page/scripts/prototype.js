@@ -178,7 +178,10 @@
         var service = services[event.service];
         var icon = '<span class="activity-service-icon ' + service.className + '">' + (service.icon ? '<img src="' + service.icon + '" alt="">' : service.code) + '</span>';
         if (locked) {
-            icon = '<span class="activity-service-icon ' + service.className + ' service-locked"><span class="sp-icon icon-lock"></span></span>';
+            icon = '<span class="activity-service-icon ' + service.className + ' service-locked" aria-hidden="true">' +
+                '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                '<path fill-rule="evenodd" clip-rule="evenodd" d="M5 6V4C5 2.34315 6.34315 1 8 1C9.65685 1 11 2.34315 11 4V6H12C12.5523 6 13 6.44772 13 7V14C13 14.5523 12.5523 15 12 15H4C3.44772 15 3 14.5523 3 14V7C3 6.44772 3.44772 6 4 6H5ZM6.5 6H9.5V4C9.5 3.17157 8.82843 2.5 8 2.5C7.17157 2.5 6.5 3.17157 6.5 4V6ZM4.5 7.5V13.5H11.5V7.5H4.5Z" fill="currentColor"/>' +
+                '</svg></span>';
             return '<article class="activity-event is-locked" data-open-drawer>' +
                 icon +
                 '<div class="activity-event-main">' +

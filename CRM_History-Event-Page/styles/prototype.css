@@ -450,6 +450,12 @@
     font-size: 16px;
 }
 
+.activity-service-icon.service-locked svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
 .activity-badge.service-crm { background: #20BEE0; }
 .activity-badge.service-email { background: #F9BD22; }
 .activity-badge.service-automation { background: #17CAA6; }
