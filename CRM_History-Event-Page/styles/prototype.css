@@ -94,7 +94,7 @@
 
 #deal-filter-menu.is-open {
     display: flex;
-    animation: filterMenuIn .18s ease-out both;
+    animation: filterMenuIn .16s cubic-bezier(0, 0, .2, 1) both;
 }
 
 .filter-fixed-top {
@@ -623,7 +623,7 @@
 }
 
 #eventDetailsModal.in .modal-dialog {
-    animation: modalDialogIn .2s ease-out both;
+    animation: modalDialogIn .18s cubic-bezier(0, 0, .2, 1) both;
 }
 
 #eventDetailsModal .crm-modal-page__section.top {
@@ -684,7 +684,7 @@
 
 .activity-drawer.is-open {
     display: block;
-    animation: drawerBackdropIn .18s ease-out both;
+    animation: drawerBackdropIn .18s linear both;
 }
 
 .activity-drawer-panel {
@@ -700,26 +700,7 @@
 }
 
 .activity-drawer.is-open .activity-drawer-panel {
-    animation: drawerPanelIn .24s cubic-bezier(.22, 1, .36, 1) both;
-}
-
-.activity-drawer.is-open .activity-drawer-header,
-.activity-drawer.is-open .activity-drawer-illustration,
-.activity-drawer.is-open .activity-drawer-section,
-.activity-drawer.is-open .activity-drawer-buttons {
-    animation: drawerContentIn .24s ease-out both;
-}
-
-.activity-drawer.is-open .activity-drawer-illustration {
-    animation-delay: .04s;
-}
-
-.activity-drawer.is-open .activity-drawer-section {
-    animation-delay: .07s;
-}
-
-.activity-drawer.is-open .activity-drawer-buttons {
-    animation-delay: .1s;
+    animation: drawerPanelIn .28s cubic-bezier(0, 0, .2, 1) both;
 }
 
 .close-drawer {
@@ -979,18 +960,18 @@
 @keyframes filterMenuIn {
     from {
         opacity: 0;
-        transform: translate3d(0, -6px, 0) scale(.98);
+        transform: translate3d(0, -4px, 0);
     }
     to {
         opacity: 1;
-        transform: translate3d(0, 0, 0) scale(1);
+        transform: translate3d(0, 0, 0);
     }
 }
 
 @keyframes modalDialogIn {
     from {
         opacity: 0;
-        transform: translate3d(0, 8px, 0) scale(.98);
+        transform: translate3d(0, 6px, 0) scale(.985);
     }
     to {
         opacity: 1;
@@ -1009,22 +990,9 @@
 
 @keyframes drawerPanelIn {
     from {
-        opacity: .96;
-        transform: translate3d(24px, 0, 0);
+        transform: translate3d(100%, 0, 0);
     }
     to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-    }
-}
-
-@keyframes drawerContentIn {
-    from {
-        opacity: 0;
-        transform: translate3d(0, 8px, 0);
-    }
-    to {
-        opacity: 1;
         transform: translate3d(0, 0, 0);
     }
 }
@@ -1033,11 +1001,7 @@
     #deal-filter-menu.is-open,
     #eventDetailsModal.in .modal-dialog,
     .activity-drawer.is-open,
-    .activity-drawer.is-open .activity-drawer-panel,
-    .activity-drawer.is-open .activity-drawer-header,
-    .activity-drawer.is-open .activity-drawer-illustration,
-    .activity-drawer.is-open .activity-drawer-section,
-    .activity-drawer.is-open .activity-drawer-buttons {
+    .activity-drawer.is-open .activity-drawer-panel {
         animation: none;
     }
 }
