@@ -452,8 +452,8 @@
 
 .activity-service-icon.service-locked img {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
 .activity-badge.service-crm { background: #20BEE0; }
