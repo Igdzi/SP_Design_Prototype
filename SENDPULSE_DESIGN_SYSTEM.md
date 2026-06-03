@@ -53,6 +53,10 @@ Use existing prototype folders as references for shell structure, spacing, contr
 
 Do not put multiple unrelated flows into the same `index.html`.
 
+The repository root `index.html` is only a GitHub Pages catalog. Do not build product flows there.
+
+When adding a new prototype folder, also add its link to the root `index.html` catalog so it can be opened from GitHub Pages.
+
 ## Base HTML Shell
 
 Use the existing project shell in a prototype folder's `index.html` as the base:

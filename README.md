@@ -20,6 +20,18 @@ Current prototypes:
 
 - `CRM_History-Event-Page` - CRM / Analytics / Event history page prototype.
 
+## GitHub Pages
+
+Publish the repository from `main` / `/ (root)`.
+
+The root `index.html` is a prototype catalog. Each prototype folder is available as its own URL:
+
+```text
+https://igdzi.github.io/SP_Design_Prototype/CRM_History-Event-Page/
+```
+
+For every new prototype, add a new folder with its own `index.html`, then add a link to the root `index.html` catalog.
+
 ## Shared Rules
 
 - Use the official SendPulse CSS stack first.
