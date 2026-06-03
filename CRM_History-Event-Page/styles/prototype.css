@@ -94,6 +94,7 @@
 
 #deal-filter-menu.is-open {
     display: flex;
+    animation: filterMenuIn .18s ease-out both;
 }
 
 .filter-fixed-top {
@@ -621,6 +622,10 @@
     box-shadow: 0 6px 24px #00000059;
 }
 
+#eventDetailsModal.in .modal-dialog {
+    animation: modalDialogIn .2s ease-out both;
+}
+
 #eventDetailsModal .crm-modal-page__section.top {
     padding: 20px 24px 0;
 }
@@ -679,6 +684,7 @@
 
 .activity-drawer.is-open {
     display: block;
+    animation: drawerBackdropIn .18s ease-out both;
 }
 
 .activity-drawer-panel {
@@ -691,6 +697,29 @@
     height: 100vh;
     background: #fff;
     box-shadow: -8px 0 24px rgba(44, 62, 80, .18);
+}
+
+.activity-drawer.is-open .activity-drawer-panel {
+    animation: drawerPanelIn .24s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.activity-drawer.is-open .activity-drawer-header,
+.activity-drawer.is-open .activity-drawer-illustration,
+.activity-drawer.is-open .activity-drawer-section,
+.activity-drawer.is-open .activity-drawer-buttons {
+    animation: drawerContentIn .24s ease-out both;
+}
+
+.activity-drawer.is-open .activity-drawer-illustration {
+    animation-delay: .04s;
+}
+
+.activity-drawer.is-open .activity-drawer-section {
+    animation-delay: .07s;
+}
+
+.activity-drawer.is-open .activity-drawer-buttons {
+    animation-delay: .1s;
 }
 
 .close-drawer {
@@ -945,6 +974,72 @@
     color: #f3ff6d;
     margin-right: 8px;
     line-height: 1;
+}
+
+@keyframes filterMenuIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -6px, 0) scale(.98);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes modalDialogIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 8px, 0) scale(.98);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes drawerBackdropIn {
+    from {
+        background: rgba(44, 62, 80, 0);
+    }
+    to {
+        background: rgba(44, 62, 80, .35);
+    }
+}
+
+@keyframes drawerPanelIn {
+    from {
+        opacity: .96;
+        transform: translate3d(24px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes drawerContentIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 8px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #deal-filter-menu.is-open,
+    #eventDetailsModal.in .modal-dialog,
+    .activity-drawer.is-open,
+    .activity-drawer.is-open .activity-drawer-panel,
+    .activity-drawer.is-open .activity-drawer-header,
+    .activity-drawer.is-open .activity-drawer-illustration,
+    .activity-drawer.is-open .activity-drawer-section,
+    .activity-drawer.is-open .activity-drawer-buttons {
+        animation: none;
+    }
 }
 
 @media (max-width: 900px) {
