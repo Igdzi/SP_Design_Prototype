@@ -178,12 +178,12 @@
         var service = services[event.service];
         var icon = '<span class="activity-service-icon ' + service.className + '">' + (service.icon ? '<img src="' + service.icon + '" alt="">' : service.code) + '</span>';
         if (locked) {
-            icon = '<span class="activity-service-icon service-locked"><span class="sp-icon icon-lock"></span></span>';
+            icon = '<span class="activity-service-icon ' + service.className + ' service-locked"><span class="sp-icon icon-lock"></span></span>';
             return '<article class="activity-event is-locked" data-open-drawer>' +
                 icon +
                 '<div class="activity-event-main">' +
                 '<div class="activity-event-text"><span class="activity-skeleton is-mid"></span></div>' +
-                '<div class="activity-event-meta"><span class="activity-details"><strong>Деталі:</strong> <span class="activity-skeleton is-mid"></span></span></div>' +
+                '<div class="activity-event-meta"><span class="activity-badge ' + service.className + '">' + service.label + '</span><span class="activity-details"><strong>Деталі:</strong> <span class="activity-skeleton is-mid"></span></span></div>' +
                 '</div><time class="activity-time">' + event.time + '</time></article>';
         }
         return '<article class="activity-event" data-event-id="' + events.indexOf(event) + '">' +
