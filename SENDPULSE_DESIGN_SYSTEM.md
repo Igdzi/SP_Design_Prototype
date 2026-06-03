@@ -18,7 +18,7 @@ Always connect the official SendPulse CSS first:
 <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
 ```
 
-Then connect only the prototype-specific CSS:
+Then connect only the prototype-specific CSS inside the prototype folder:
 
 ```html
 <link href="styles/prototype.css" rel="stylesheet" media="screen">
@@ -37,9 +37,25 @@ Before creating custom markup or CSS, check whether the UI can be built with:
 
 Custom CSS should only handle flow-specific layout, spacing, responsive behavior, and prototype-only states.
 
+## Repository Structure
+
+Each new UX flow should be created in its own folder at the repository root:
+
+```text
+Flow_Name/
+  index.html
+  styles/prototype.css
+  scripts/prototype.js
+  assets/
+```
+
+Use existing prototype folders as references for shell structure, spacing, controls, filters, empty states, and interaction patterns.
+
+Do not put multiple unrelated flows into the same `index.html`.
+
 ## Base HTML Shell
 
-Use the existing project shell in `index.html` as the base:
+Use the existing project shell in a prototype folder's `index.html` as the base:
 
 - `<html class="ma-light" lang="uk">`
 - `<body class="sp">`
@@ -85,11 +101,11 @@ For every UX Flow:
 8. Use example text only where real data is unknown.
 9. Keep the prototype ready for developer handoff.
 
-## Current Prototype Files
+## Current Prototype Folders
 
-- `index.html` - page structure and SendPulse shell
-- `styles/prototype.css` - scoped styles for the current prototype
-- `scripts/prototype.js` - prototype interactions and mock data
+- `CRM_History-Event-Page/index.html` - page structure and SendPulse shell
+- `CRM_History-Event-Page/styles/prototype.css` - scoped styles for the current prototype
+- `CRM_History-Event-Page/scripts/prototype.js` - prototype interactions and mock data
 
 ## Current CRM Activity Feed Notes
 

@@ -1,33 +1,29 @@
-# CRM_History-Event-Page
+# SendPulse Design Prototypes
 
-SendPulse CRM event history UX flow HTML prototype.
-
-This workspace is prepared for SendPulse design-system-based HTML prototypes.
+Repository for SendPulse design-system-based HTML UX prototypes.
 
 Before starting any new prototype task, read `SENDPULSE_DESIGN_SYSTEM.md`.
 
-## Design System Sources
+## Prototype Structure
 
-- CSS and typography: https://login.sendpulse.com/dist/ui-library/index.html
-- Components: https://login.sendpulse.com/dist/ui-library/components.html
-- JavaScript components: https://login.sendpulse.com/dist/ui-library/javascript.html
-- Knowledge base: https://sendpulse.com/ru/knowledge-base
+Each prototype lives in its own folder:
 
-## Working Rules
+```text
+Prototype_Name/
+  index.html
+  styles/
+  scripts/
+  assets/
+```
 
-- Use the official SendPulse CSS stack first:
-  - `https://login.sendpulse.com/dist/css/bootstrap.min.css`
-  - `https://login.sendpulse.com/dist/css/template.min.css`
-- Prefer Bootstrap v3.4 and SendPulse classes before adding custom CSS.
-- Keep custom CSS scoped to the current prototype flow.
-- Add each new UX Flow inside `#flow-slot`.
+Current prototypes:
 
-## Input Needed for Each Flow
+- `CRM_History-Event-Page` - CRM / Analytics / Event history page prototype.
 
-- User goal
-- Entry point
-- Steps and screens
-- Required fields and text
-- Empty, loading, validation, success, and error states
-- Desktop/mobile expectations
-- Business constraints and edge cases
+## Shared Rules
+
+- Use the official SendPulse CSS stack first.
+- Prefer Bootstrap v3.4 and SendPulse classes before custom CSS.
+- Keep custom CSS scoped to the current prototype folder.
+- Reuse the same product shell and interaction patterns across tasks.
+- Keep each prototype ready for developer handoff.
