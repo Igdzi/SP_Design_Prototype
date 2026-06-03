@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20260603-locked-15" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260603-upsell-drawer" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
     <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
@@ -294,15 +294,84 @@
 </div>
 
 <aside id="upsellDrawer" class="activity-drawer" aria-hidden="true">
-    <div class="activity-drawer-panel">
-        <button class="close activity-drawer-close" type="button" aria-label="Close">&times;</button>
-        <div class="activity-drawer-icon"><span class="sp-icon icon-lock"></span></div>
-        <h3>Більше історії доступно на платному тарифі</h3>
-        <p>Відкрийте повну хронологію подій, фільтри за менеджером, типами подій і періодами для цього сервісу.</p>
-        <button class="btn btn-primary" type="button">Перейти до тарифів</button>
+    <div class="activity-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="upsellDrawerTitle">
+        <button class="close-drawer activity-drawer-close" type="button" aria-label="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.84082 7L0.579591 1.73877L0 1.15918L1.15918 0L1.73877 0.579591L7 5.84082L12.2612 0.579591L12.8408 0L14 1.15918L13.4204 1.73877L8.15918 7L13.4204 12.2612L14 12.8408L12.8408 14L12.2612 13.4204L7 8.15918L1.73877 13.4204L1.15918 14L0 12.8408L0.579592 12.2612L5.84082 7Z" fill="#999999"></path>
+            </svg>
+        </button>
+
+        <div class="activity-drawer-scroll">
+            <div class="activity-drawer-top-bg" aria-hidden="true"></div>
+            <div class="activity-drawer-content">
+                <div class="activity-drawer-header">
+                    <h2 id="upsellDrawerTitle">Повна історія подій CRM</h2>
+                    <p>Переглядайте всі події без обмежень, швидко знаходьте потрібні зміни та контролюйте роботу команди в одному журналі.</p>
+                </div>
+
+                <div class="activity-drawer-illustration" aria-hidden="true">
+                    <div class="drawer-card drawer-card-main">
+                        <div class="drawer-card-image"></div>
+                        <div class="drawer-card-label">Подія</div>
+                        <div class="drawer-card-input">Закрита угода</div>
+                    </div>
+                    <div class="drawer-card drawer-card-small drawer-card-top">
+                        <span class="drawer-card-dot"></span>
+                        <span>CRM • Угода</span>
+                    </div>
+                    <div class="drawer-plus">+</div>
+                    <div class="drawer-card drawer-card-small drawer-card-bottom">
+                        <span class="drawer-card-avatar"></span>
+                        <span>Менеджер: Анна</span>
+                        <strong>18:24</strong>
+                    </div>
+                </div>
+
+                <section class="activity-drawer-section activity-drawer-benefits">
+                    <h3>На платному тарифі ви зможете:</h3>
+                    <ul>
+                        <li>
+                            <span class="activity-benefit-icon"><span class="sp-icon icon-list"></span></span>
+                            <span>Переглядати повну історію подій без обмеження після 10 записів</span>
+                        </li>
+                        <li>
+                            <span class="activity-benefit-icon"><span class="sp-icon icon-filter"></span></span>
+                            <span>Швидко знаходити потрібні дії за пошуком, сервісом, менеджером і типом події</span>
+                        </li>
+                        <li>
+                            <span class="activity-benefit-icon"><span class="sp-icon icon-users"></span></span>
+                            <span>Відстежувати активність команди в CRM, розсилках, чат-ботах та інших сервісах</span>
+                        </li>
+                        <li>
+                            <span class="activity-benefit-icon"><span class="sp-icon icon-info-bold"></span></span>
+                            <span>Відкривати деталі події та бачити контекст змін без втрати важливих даних</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="activity-drawer-section">
+                    <h3>Доступно на платних тарифах CRM:</h3>
+                    <div class="activity-tariffs-labels">
+                        <span class="activity-tariff-label is-lite">Lite</span>
+                        <span class="activity-tariff-label is-basic">Basic</span>
+                        <span class="activity-tariff-label is-standard">Standard</span>
+                        <span class="activity-tariff-label is-pro">Pro</span>
+                        <span class="activity-tariff-label is-enterprise">Enterprise</span>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="activity-drawer-buttons">
+            <a class="btn btn-paid" href="/crm/plans" target="_blank" rel="noreferrer">
+                <span class="sp-icon icon-star-fill"></span>
+                Вибрати тариф
+            </a>
+            <a class="btn btn-default" href="/trial/buy/?service=crm" target="_blank" rel="noreferrer">Спробувати безплатно</a>
+        </div>
     </div>
 </aside>
 
-<script src="scripts/prototype.js?v=20260603-locked-svg"></script>
+<script src="scripts/prototype.js?v=20260603-upsell-drawer"></script>
 </body>
 </html>
