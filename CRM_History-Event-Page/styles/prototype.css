@@ -758,32 +758,7 @@
     right: 0;
     height: 306px;
     overflow: hidden;
-    background: radial-gradient(100% 342.94% at 0 0, #915bf7 0%, #915bf7 100%);
-}
-
-.activity-drawer-top-bg::before,
-.activity-drawer-top-bg::after {
-    content: "";
-    position: absolute;
-    display: block;
-    border-radius: 45% 55% 60% 40%;
-    border: 28px solid rgba(255, 255, 255, .14);
-}
-
-.activity-drawer-top-bg::before {
-    width: 120px;
-    height: 108px;
-    left: -48px;
-    bottom: -32px;
-    transform: rotate(80deg);
-}
-
-.activity-drawer-top-bg::after {
-    width: 190px;
-    height: 190px;
-    right: -118px;
-    top: -104px;
-    transform: rotate(-25deg);
+    background: #915bf7 url("../assets/images/background__main.png") center top / cover no-repeat;
 }
 
 .activity-drawer-content {
@@ -799,6 +774,7 @@
 
 .activity-drawer-header h2 {
     margin: 0 0 10px;
+    color: #fff;
     font-size: 24px;
     line-height: 1.4;
     font-weight: 700;
@@ -1009,7 +985,7 @@
     display: inline-flex;
     align-items: center;
     min-height: 25px;
-    padding: 4px 10px;
+    padding: 4px 10px 4px 8px;
     border-radius: 20px;
     font-size: 14px;
     line-height: 1.4;
@@ -1067,8 +1043,11 @@
     align-items: center;
     justify-content: center;
     min-height: 41px;
+    padding-top: 9px;
+    padding-bottom: 9px;
     border-radius: 8px;
     font-size: 16px;
+    line-height: 1.4;
     font-weight: 700;
 }
 
@@ -1085,8 +1064,12 @@
 }
 
 .activity-drawer-buttons .btn-paid .sp-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: #f3ff6d;
     margin-right: 8px;
+    line-height: 1;
 }
 
 @media (max-width: 900px) {
