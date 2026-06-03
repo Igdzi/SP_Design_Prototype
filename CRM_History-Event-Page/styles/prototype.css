@@ -445,6 +445,11 @@
 .activity-service-icon.service-edu { background: rgba(254, 116, 116, .12); }
 .activity-service-icon.service-push { background: rgba(162, 68, 250, .12); }
 .activity-service-icon.service-smtp { background: rgba(173, 19, 193, .12); }
+.activity-service-icon.service-locked {
+    background: transparent;
+    color: #000;
+    font-size: 18px;
+}
 
 .activity-badge.service-crm { background: #20BEE0; }
 .activity-badge.service-email { background: #F9BD22; }
@@ -510,11 +515,6 @@
 
 .activity-event.is-locked {
     background: #fbfcfd;
-}
-
-.activity-event.is-locked .activity-event-text,
-.activity-event.is-locked .activity-time {
-    color: transparent;
 }
 
 .activity-skeleton {

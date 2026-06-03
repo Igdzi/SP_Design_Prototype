@@ -141,9 +141,8 @@
     }
 
     function isLocked(event, index) {
-        if (services[event.service].paid) return false;
-        if (state.service === event.service) return index >= 10;
-        return state.service === 'all' && index >= 10;
+        if (state.service === 'all') return index >= 10;
+        return false;
     }
 
     function filteredEvents() {
@@ -179,12 +178,13 @@
         var service = services[event.service];
         var icon = '<span class="activity-service-icon ' + service.className + '">' + (service.icon ? '<img src="' + service.icon + '" alt="">' : service.code) + '</span>';
         if (locked) {
+            icon = '<span class="activity-service-icon service-locked"><span class="sp-icon icon-lock"></span></span>';
             return '<article class="activity-event is-locked" data-open-drawer>' +
                 icon +
                 '<div class="activity-event-main">' +
-                '<div class="activity-event-text"><span class="activity-skeleton is-long"></span></div>' +
-                '<div class="activity-event-meta"><span class="activity-badge ' + service.className + '">' + service.label + '</span><span class="activity-details"><strong>Деталі:</strong> <span class="activity-skeleton is-mid"></span></span></div>' +
-                '</div><time class="activity-time"><span class="activity-skeleton is-short"></span></time></article>';
+                '<div class="activity-event-text"><span class="activity-skeleton is-mid"></span></div>' +
+                '<div class="activity-event-meta"><span class="activity-details"><strong>Деталі:</strong> <span class="activity-skeleton is-mid"></span></span></div>' +
+                '</div><time class="activity-time">' + event.time + '</time></article>';
         }
         return '<article class="activity-event" data-event-id="' + events.indexOf(event) + '">' +
             icon +
@@ -213,9 +213,9 @@
         activitySearchSummary.innerHTML = state.search ? 'Знайдено результатів: <strong>' + list.length + '</strong>' : '';
         activitySearchSummary.classList.toggle('is-visible', !!state.search);
 
-        var freeSpecific = state.service !== 'all' && services[state.service] && !services[state.service].paid;
-        var totalHidden = freeSpecific ? Math.max(list.length - 10, 0) : hiddenFreeCount;
-        banner.classList.toggle('is-visible', freeSpecific && totalHidden > 0);
+        var lockLimitReached = list.length > 10;
+        var totalHidden = Math.max(list.length - 10, hiddenFreeCount);
+        banner.classList.toggle('is-visible', state.service !== 'all' && lockLimitReached);
         hiddenCountText.textContent = 'Приховано ' + totalHidden + ' подій.';
         loader.classList.toggle('is-visible', state.visible < list.length);
         renderTabs();
