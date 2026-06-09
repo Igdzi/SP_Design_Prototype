@@ -351,8 +351,8 @@
         return rows;
     }
 
-    function currentUpsellContent() {
-        var content = upsellContent[state.service] || upsellContent.all;
+    function currentUpsellContent(serviceKey) {
+        var content = upsellContent[serviceKey || state.service] || upsellContent.all;
         return {
             title: content.title,
             subtitle: content.subtitle,
@@ -363,8 +363,8 @@
         };
     }
 
-    function syncDrawerContent() {
-        var content = currentUpsellContent();
+    function syncDrawerContent(serviceKey) {
+        var content = currentUpsellContent(serviceKey);
         drawerTitle.textContent = content.title;
         drawerSubtitle.textContent = content.subtitle;
         drawerImage.setAttribute('src', content.image);
@@ -401,8 +401,8 @@
         modal.classList.add('in');
     }
 
-    function openDrawer() {
-        syncDrawerContent();
+    function openDrawer(serviceKey) {
+        syncDrawerContent(serviceKey);
         document.getElementById('upsellDrawer').classList.add('is-open');
         document.getElementById('upsellDrawer').setAttribute('aria-hidden', 'false');
     }
@@ -480,7 +480,7 @@
         if (locked) {
             icon = '<span class="activity-service-icon ' + service.className + ' service-locked" aria-hidden="true">' +
                 '<img src="assets/icons/locked.svg?v=20260603-locked-svg" alt=""></span>';
-            return '<article class="activity-event is-locked" data-open-drawer>' +
+            return '<article class="activity-event is-locked" data-open-drawer data-drawer-service="' + event.service + '">' +
                 icon +
                 '<div class="activity-event-main">' +
                 '<div class="activity-event-text"><span class="activity-skeleton is-mid"></span></div>' +
@@ -635,7 +635,7 @@
         }
         if (drawerTrigger) {
             event.preventDefault();
-            openDrawer();
+            openDrawer(drawerTrigger.getAttribute('data-drawer-service'));
             return;
         }
         if (drawerClose || event.target.id === 'upsellDrawer') {
