@@ -414,7 +414,7 @@
     }
 
     function isLocked(event, index) {
-        return index === 10;
+        return index >= 10;
     }
 
     function filteredEvents() {
