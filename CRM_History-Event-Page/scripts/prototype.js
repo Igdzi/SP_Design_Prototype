@@ -121,7 +121,7 @@
         popups: {
             title: 'Повна історія подій попапів',
             subtitle: 'Контролюйте зміни правил показу, сегментів і форм, щоб попапи працювали за потрібним сценарієм.',
-            image: 'assets/images/il-product-popups.png?v=20260609-updated-illustrations',
+            image: 'assets/images/il-product-popups.png?v=20260609-popups-illustration',
             benefits: [
                 'Переглядати всі події попапів без обмеження після 10 записів',
                 'Знаходити оновлення правил показу, сегментів і форм',
@@ -309,7 +309,7 @@
     function createServiceEvent(serviceKey, sample, index) {
         var maleAuthors = ['Юрій Коваленко', 'Ігор Мельник'];
         var femaleAuthors = ['Марина Савченко', 'Олена Петренко'];
-        var dateLabels = ['Сьогодні', 'Вчора', '11 Травня', '10 Травня'];
+        var dateLabel = index < 4 ? 'Сьогодні' : index < 8 ? 'Вчора' : index < 10 ? '11 Травня' : '10 Травня';
         var firstActionWord = sample[0].split(' ')[0];
         var authors = firstActionWord.slice(-2) === 'ла' ? femaleAuthors : maleAuthors;
         var hour = 17 - (index % 8);
@@ -321,7 +321,7 @@
             sample[1],
             sample[2],
             sample[3],
-            dateLabels[index % dateLabels.length],
+            dateLabel,
             String(hour).padStart(2, '0') + ':' + minutes,
             '2026-05-' + String(28 - (index % 18)).padStart(2, '0') + ' ' + String(hour).padStart(2, '0') + ':' + minutes
         );
