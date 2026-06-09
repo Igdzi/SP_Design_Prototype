@@ -365,6 +365,10 @@
     cursor: pointer;
 }
 
+.activity-event * {
+    cursor: pointer;
+}
+
 .activity-event:hover {
     background-color: #FAFCFD;
 }
