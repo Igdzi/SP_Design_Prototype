@@ -200,19 +200,13 @@
                     </div>
                     <label class="activity-search-control" for="activitySearch">
                         <span class="sp-icon icon-ap-search"></span>
-                        <input id="activitySearch" class="form-control" type="search" placeholder="Пошук по події або менеджеру..." autocomplete="off">
+                        <input id="activitySearch" class="form-control" type="search" placeholder="Пошук" autocomplete="off">
                     </label>
                 </div>
 
                 <div class="deals-filter-wrap">
                     <div id="deal-filter-menu" class="dropdown-menu filter-wrap deals-filter" role="menu" aria-labelledby="button-basic">
                         <div id="filterFixedTop" class="filter-fixed-top">
-                            <div class="top-buttons btn-group btn-group-justified top-buttons-wrap">
-                                <a class="btn btn-action btn-default active">Загальні фільтри</a>
-                                <div class="popover-container">
-                                    <a class="btn btn-action btn-default">Збережені фільтри</a>
-                                </div>
-                            </div>
                             <div class="filter-change-fields"><span>+Додати нову умову</span></div>
                             <div id="lockedFilterNotice" class="alert alert-warning activity-filter-warning">
                                 Фільтри недоступні для сервісу на безплатному тарифі. Оновіть тариф, щоб фільтрувати історію.
@@ -306,16 +300,16 @@
             <div class="activity-drawer-content">
                 <div class="activity-drawer-header">
                     <h2 id="upsellDrawerTitle">Повна історія подій SendPulse в одному місці</h2>
-                    <p>Переглядайте всі події без обмежень, швидко знаходьте потрібні зміни та контролюйте роботу команди в одному журналі.</p>
+                    <p id="upsellDrawerSubtitle">Переглядайте всі події без обмежень, швидко знаходьте потрібні зміни та контролюйте роботу команди в одному журналі.</p>
                 </div>
 
                 <div class="activity-drawer-illustration" aria-hidden="true">
-                    <img src="assets/images/il-product-ukr.png?v=20260603-3" alt="">
+                    <img id="upsellDrawerImage" src="assets/images/il-product-ukr.png?v=20260603-3" alt="">
                 </div>
 
                 <section class="activity-drawer-section activity-drawer-benefits">
                     <h3>На платному тарифі ви зможете:</h3>
-                    <ul>
+                    <ul id="upsellDrawerBenefits">
                         <li>
                             <span class="activity-benefit-icon"><span class="sp-icon icon-list"></span></span>
                             <span>Переглядати повну історію подій без обмеження після 10 записів</span>

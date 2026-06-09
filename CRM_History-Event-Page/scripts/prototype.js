@@ -11,7 +11,7 @@
         popups: { label: 'Попапи', paid: true, className: 'service-popups', icon: 'assets/icons/i-pop-ups.svg' },
         push: { label: 'Push', paid: true, className: 'service-push', icon: 'assets/icons/i-push.svg' },
         smtp: { label: 'SMTP', paid: true, className: 'service-smtp', icon: 'assets/icons/i-smtp.svg' },
-        edu: { label: 'Курси', paid: false, className: 'service-edu', icon: 'assets/icons/i-courses.svg' }
+        edu: { label: 'Курси', paid: true, className: 'service-edu', icon: 'assets/icons/i-courses.svg' }
     };
 
     var eventTypes = {
@@ -51,9 +51,113 @@
         item('edu', 'Марина Савченко', 'перевірила домашнє завдання', 'Складання follow-up листа', 'Домашнє завдання', 'Студент: Ліза Павленко, оцінка: прийнято', '5 Травня', '17:18', '2026-05-05 17:18')
     ];
 
+    var upsellContent = {
+        all: {
+            title: 'Повна історія подій SendPulse в одному місці',
+            subtitle: 'Переглядайте всі події без обмежень, швидко знаходьте потрібні зміни та контролюйте роботу команди в одному журналі.',
+            image: 'assets/images/il-product-ukr.png?v=20260603-3',
+            benefits: [
+                'Переглядати повну історію подій без обмеження після 10 записів',
+                'Швидко знаходити потрібні дії за пошуком, сервісом, менеджером і типом події',
+                'Відстежувати активність команди в CRM, розсилках, чат-ботах та інших сервісах',
+                'Аналізувати дані подій в усьому сервісі'
+            ]
+        },
+        crm: {
+            title: 'Повна історія подій CRM без обмежень',
+            subtitle: 'Контролюйте зміни в угодах, контактах і задачах, щоб команда бачила весь контекст роботи з клієнтами.',
+            benefits: [
+                'Переглядати всі зміни в угодах, контактах і задачах після 10 останніх записів',
+                'Швидко знаходити дії менеджерів за пошуком, відповідальним і типом CRM-події',
+                'Відстежувати рух угод між етапами та завершення задач у команді',
+                'Аналізувати активність менеджерів у CRM без ручного збору даних'
+            ]
+        },
+        email: {
+            title: 'Повна історія подій у розсилках',
+            subtitle: 'Бачте всі запуски кампаній, зміни списків і шаблонів, щоб швидко перевіряти роботу email-маркетингу.',
+            benefits: [
+                'Переглядати всі події розсилок без обмеження останніми 10 записами',
+                'Знаходити потрібні кампанії, шаблони та списки за пошуком і фільтрами',
+                'Контролювати, хто запускав кампанії та оновлював аудиторії',
+                'Швидше розбиратися в змінах перед аналізом результатів розсилок'
+            ]
+        },
+        automation: {
+            title: 'Повна історія подій Automation',
+            subtitle: 'Відстежуйте запуски сценаріїв, зміни тригерів і шаблонів, щоб автоматизації працювали прозоро для всієї команди.',
+            benefits: [
+                'Переглядати всі події сценаріїв після перших 10 записів',
+                'Шукати зміни в автоматизаціях за менеджером, типом події та деталями',
+                'Контролювати запуск, редагування та оновлення ланцюжків',
+                'Швидко знаходити причину змін у сценаріях продажів і маркетингу'
+            ]
+        },
+        chatbots: {
+            title: 'Повна історія подій чат-ботів',
+            subtitle: 'Зберігайте повний журнал змін у ботах, тегах і ланцюжках для швидкої перевірки діалогів і командної роботи.',
+            benefits: [
+                'Переглядати всі події чат-ботів без обмеження 10 записами',
+                'Знаходити зміни в ланцюжках, тегах і відповідях за пошуком',
+                'Бачити, хто оновлював бота та які дії впливали на контакти',
+                'Контролювати активність у Telegram, Instagram та інших каналах'
+            ]
+        },
+        sites: {
+            title: 'Повна історія подій сайтів',
+            subtitle: 'Відстежуйте публікації сторінок, зміни доменів і налаштувань, щоб команда бачила актуальний стан сайтів.',
+            benefits: [
+                'Переглядати всі події сайтів, а не тільки останні 10 записів',
+                'Швидко знаходити публікації сторінок, зміни доменів і налаштувань',
+                'Контролювати, хто оновлював лендінги та важливі сторінки',
+                'Аналізувати зміни перед запуском кампаній і промо-акцій'
+            ]
+        },
+        popups: {
+            title: 'Повна історія подій попапів',
+            subtitle: 'Контролюйте зміни правил показу, сегментів і форм, щоб попапи працювали за потрібним сценарієм.',
+            benefits: [
+                'Переглядати всі події попапів без обмеження після 10 записів',
+                'Знаходити оновлення правил показу, сегментів і форм',
+                'Бачити, хто змінював умови показу та налаштування попапів',
+                'Швидко перевіряти історію змін перед запуском нових пропозицій'
+            ]
+        },
+        push: {
+            title: 'Повна історія подій Push',
+            subtitle: 'Відстежуйте створення кампаній, зміни аудиторій і налаштувань браузерних сповіщень в одному журналі.',
+            benefits: [
+                'Переглядати всі події push-кампаній після 10 останніх записів',
+                'Шукати кампанії, браузери та сегменти за деталями події',
+                'Контролювати, хто створював і редагував push-розсилки',
+                'Швидше перевіряти зміни перед повторними запусками кампаній'
+            ]
+        },
+        smtp: {
+            title: 'Повна історія подій SMTP',
+            subtitle: 'Бачте всі зміни доменів, налаштувань і відправлень, щоб технічна історія SMTP була прозорою.',
+            benefits: [
+                'Переглядати всі SMTP-події без обмеження останніми 10 записами',
+                'Знаходити підтвердження доменів, зміни SPF, DKIM і налаштувань',
+                'Контролювати, хто вносив технічні зміни в SMTP',
+                'Швидко перевіряти історію перед діагностикою доставлення'
+            ]
+        },
+        edu: {
+            title: 'Повна історія подій курсів',
+            subtitle: 'Контролюйте публікації уроків, домашні завдання та завершення курсів у повній історії навчального процесу.',
+            benefits: [
+                'Переглядати всі події курсів без обмеження після 10 записів',
+                'Знаходити уроки, домашні завдання та студентські дії за пошуком',
+                'Бачити, хто оновлював навчальні матеріали та перевіряв завдання',
+                'Аналізувати активність студентів і команди в одному журналі'
+            ]
+        }
+    };
+
     var state = {
         service: 'all',
-        visible: 10,
+        visible: 11,
         loading: false,
         search: '',
         filtersApplied: false,
@@ -74,9 +178,68 @@
     var activitySearchSummary = document.getElementById('activitySearchSummary');
     var banner = document.getElementById('freeServiceBanner');
     var hiddenCountText = document.getElementById('hiddenCountText');
+    var drawerTitle = document.getElementById('upsellDrawerTitle');
+    var drawerSubtitle = document.getElementById('upsellDrawerSubtitle');
+    var drawerImage = document.getElementById('upsellDrawerImage');
+    var drawerBenefits = document.getElementById('upsellDrawerBenefits');
 
     function item(service, author, action, entity, type, details, dateLabel, time, fullDate) {
         return { service: service, author: author, action: action, entity: entity, type: type, details: details, dateLabel: dateLabel, time: time, fullDate: fullDate };
+    }
+
+    function clonePrototypeEvent(event, index) {
+        var authors = ['Юрій Коваленко', 'Марина Савченко', 'Олена Петренко', 'Ігор Мельник'];
+        var dateLabels = ['Сьогодні', 'Вчора', '11 Травня', '10 Травня'];
+        var hour = 17 - (index % 8);
+        var minutes = String((index * 7) % 60).padStart(2, '0');
+        var cloned = item(
+            event.service,
+            authors[index % authors.length],
+            event.action,
+            event.entity,
+            event.type,
+            event.details,
+            dateLabels[index % dateLabels.length],
+            String(hour).padStart(2, '0') + ':' + minutes,
+            '2026-05-' + String(28 - (index % 18)).padStart(2, '0') + ' ' + String(hour).padStart(2, '0') + ':' + minutes
+        );
+        cloned.sourceId = events.indexOf(event);
+        return cloned;
+    }
+
+    function ensurePrototypeRows(list) {
+        var serviceList = list.slice();
+        var shouldFill = state.service !== 'all' && !state.search && !state.filtersApplied;
+        var source = serviceList.length ? serviceList : events.filter(function (event) { return event.service === state.service; });
+
+        if (!shouldFill || serviceList.length >= 11 || !source.length) return serviceList;
+
+        while (serviceList.length < 11) {
+            serviceList.push(clonePrototypeEvent(source[serviceList.length % source.length], serviceList.length));
+        }
+
+        return serviceList;
+    }
+
+    function currentUpsellContent() {
+        var content = upsellContent[state.service] || upsellContent.all;
+        return {
+            title: content.title,
+            subtitle: content.subtitle,
+            image: content.image || upsellContent.all.image,
+            benefits: content.benefits || upsellContent.all.benefits
+        };
+    }
+
+    function syncDrawerContent() {
+        var content = currentUpsellContent();
+        drawerTitle.textContent = content.title;
+        drawerSubtitle.textContent = content.subtitle;
+        drawerImage.setAttribute('src', content.image);
+        drawerBenefits.innerHTML = content.benefits.map(function (benefit, index) {
+            var icons = ['icon-list', 'icon-filter', 'icon-users', 'icon-dashboard'];
+            return '<li><span class="activity-benefit-icon"><span class="sp-icon ' + icons[index % icons.length] + '"></span></span><span>' + escapeHtml(benefit) + '</span></li>';
+        }).join('');
     }
 
     function closeModals() {
@@ -105,6 +268,7 @@
     }
 
     function openDrawer() {
+        syncDrawerContent();
         document.getElementById('upsellDrawer').classList.add('is-open');
         document.getElementById('upsellDrawer').setAttribute('aria-hidden', 'false');
     }
@@ -117,7 +281,7 @@
     function renderTabs() {
         var order = ['all', 'crm', 'email', 'automation', 'chatbots', 'sites', 'popups', 'push', 'smtp', 'edu'];
         tabs.innerHTML = order.map(function (key) {
-            var count = key === 'all' ? events.length : events.filter(function (event) { return event.service === key; }).length;
+            var count = 11;
             var active = state.service === key ? ' class="active"' : '';
             return '<li' + active + '><a data-service="' + key + '"><span class="activity-tab-label">' + services[key].label + '</span><span class="activity-tab-count">' + count + '</span></a></li>';
         }).join('');
@@ -141,12 +305,11 @@
     }
 
     function isLocked(event, index) {
-        if (state.service === 'all') return index >= 10;
-        return false;
+        return index === 10;
     }
 
     function filteredEvents() {
-        return events.filter(function (event) {
+        return ensurePrototypeRows(events.filter(function (event) {
             var inService = state.service === 'all' || event.service === state.service;
             var inManager = !state.filters.manager || event.author === state.filters.manager;
             var inType = !state.filters.types.length || state.filters.types.some(function (selected) {
@@ -157,7 +320,7 @@
                 return value.toLocaleLowerCase().indexOf(query) > -1;
             });
             return inService && inManager && inType && inSearch;
-        });
+        }));
     }
 
     function escapeHtml(value) {
@@ -187,7 +350,7 @@
                 '<div class="activity-event-meta"><span class="activity-badge ' + service.className + '">' + service.label + '</span><span class="activity-details"><strong>Деталі:</strong> <span class="activity-skeleton is-mid"></span></span></div>' +
                 '</div><time class="activity-time">' + event.time + '</time></article>';
         }
-        return '<article class="activity-event" data-event-id="' + events.indexOf(event) + '">' +
+        return '<article class="activity-event" data-event-id="' + (events.indexOf(event) > -1 ? events.indexOf(event) : event.sourceId) + '">' +
             icon +
             '<div class="activity-event-main">' +
             '<div class="activity-event-text"><span class="activity-event-author">' + highlightSearch(event.author) + '</span> ' + highlightSearch(event.action) + ' <strong>' + highlightSearch(event.entity) + '</strong></div>' +
@@ -214,9 +377,8 @@
         activitySearchSummary.innerHTML = state.search ? 'Знайдено результатів: <strong>' + list.length + '</strong>' : '';
         activitySearchSummary.classList.toggle('is-visible', !!state.search);
 
-        var lockLimitReached = list.length > 10;
         var totalHidden = Math.max(list.length - 10, hiddenFreeCount);
-        banner.classList.toggle('is-visible', state.service !== 'all' && lockLimitReached);
+        banner.classList.toggle('is-visible', state.service !== 'all' && list.length > 10);
         hiddenCountText.textContent = 'Приховано ' + totalHidden + ' подій.';
         loader.classList.toggle('is-visible', state.visible < list.length);
         renderTabs();
@@ -254,9 +416,10 @@
     }
 
     function resetAndRender() {
-        state.visible = 10;
+        state.visible = 11;
         state.loading = false;
         renderTypeGroups();
+        syncDrawerContent();
         renderFeed();
     }
 
