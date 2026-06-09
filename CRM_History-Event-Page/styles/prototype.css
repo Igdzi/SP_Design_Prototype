@@ -297,19 +297,6 @@
     color: #00b573;
 }
 
-.activity-plan-banner {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    width: 100%;
-    max-width: 1170px;
-}
-
-.activity-plan-banner.is-visible {
-    display: flex;
-}
-
 .activity-feed {
     width: 100%;
     max-width: 1170px;
@@ -986,8 +973,7 @@
         padding-right: 44px;
     }
 
-    .activity-page-header,
-    .activity-plan-banner {
+    .activity-page-header {
         display: block;
     }
 
