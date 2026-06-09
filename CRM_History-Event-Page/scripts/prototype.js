@@ -55,7 +55,7 @@
         all: {
             title: 'Повна історія подій SendPulse в одному місці',
             subtitle: 'Переглядайте всі події без обмежень, швидко знаходьте потрібні зміни та контролюйте роботу команди в одному журналі.',
-            image: 'assets/images/il-product-ukr.png?v=20260603-3',
+            image: 'assets/images/il-all-events.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати повну історію подій без обмеження після 10 записів',
                 'Швидко знаходити потрібні дії за пошуком, сервісом, менеджером і типом події',
@@ -66,7 +66,7 @@
         crm: {
             title: 'Повна історія подій CRM без обмежень',
             subtitle: 'Контролюйте зміни в угодах, контактах і задачах, щоб команда бачила весь контекст роботи з клієнтами.',
-            image: 'assets/images/il-product-crm.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-crm.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі зміни в угодах, контактах і задачах після 10 останніх записів',
                 'Швидко знаходити дії менеджерів за пошуком, відповідальним і типом CRM-події',
@@ -77,7 +77,7 @@
         email: {
             title: 'Повна історія подій у розсилках',
             subtitle: 'Бачте всі запуски кампаній, зміни списків і шаблонів, щоб швидко перевіряти роботу email-маркетингу.',
-            image: 'assets/images/il-product-email.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-email.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі події розсилок без обмеження останніми 10 записами',
                 'Знаходити потрібні кампанії, шаблони та списки за пошуком і фільтрами',
@@ -88,7 +88,7 @@
         automation: {
             title: 'Повна історія подій Automation',
             subtitle: 'Відстежуйте запуски сценаріїв, зміни тригерів і шаблонів, щоб автоматизації працювали прозоро для всієї команди.',
-            image: 'assets/images/il-product-automation.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-automation.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі події сценаріїв після перших 10 записів',
                 'Шукати зміни в автоматизаціях за менеджером, типом події та деталями',
@@ -99,7 +99,7 @@
         chatbots: {
             title: 'Повна історія подій чат-ботів',
             subtitle: 'Зберігайте повний журнал змін у ботах, тегах і ланцюжках для швидкої перевірки діалогів і командної роботи.',
-            image: 'assets/images/il-product-chatbots.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-chatbots.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі події чат-ботів без обмеження 10 записами',
                 'Знаходити зміни в ланцюжках, тегах і відповідях за пошуком',
@@ -110,7 +110,7 @@
         sites: {
             title: 'Повна історія подій сайтів',
             subtitle: 'Відстежуйте публікації сторінок, зміни доменів і налаштувань, щоб команда бачила актуальний стан сайтів.',
-            image: 'assets/images/il-product-websites.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-websites.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі події сайтів, а не тільки останні 10 записів',
                 'Швидко знаходити публікації сторінок, зміни доменів і налаштувань',
@@ -121,7 +121,7 @@
         popups: {
             title: 'Повна історія подій попапів',
             subtitle: 'Контролюйте зміни правил показу, сегментів і форм, щоб попапи працювали за потрібним сценарієм.',
-            image: 'assets/images/il-product-popups.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-popups.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі події попапів без обмеження після 10 записів',
                 'Знаходити оновлення правил показу, сегментів і форм',
@@ -132,7 +132,7 @@
         push: {
             title: 'Повна історія подій Push',
             subtitle: 'Відстежуйте створення кампаній, зміни аудиторій і налаштувань браузерних сповіщень в одному журналі.',
-            image: 'assets/images/il-product-push.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-push.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі події push-кампаній після 10 останніх записів',
                 'Шукати кампанії, браузери та сегменти за деталями події',
@@ -143,7 +143,7 @@
         smtp: {
             title: 'Повна історія подій SMTP',
             subtitle: 'Бачте всі зміни доменів, налаштувань і відправлень, щоб технічна історія SMTP була прозорою.',
-            image: 'assets/images/il-product-smtp.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-smtp.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі SMTP-події без обмеження останніми 10 записами',
                 'Знаходити підтвердження доменів, зміни SPF, DKIM і налаштувань',
@@ -154,7 +154,7 @@
         edu: {
             title: 'Повна історія подій курсів',
             subtitle: 'Контролюйте публікації уроків, домашні завдання та завершення курсів у повній історії навчального процесу.',
-            image: 'assets/images/il-product-courses.png?v=20260609-service-illustrations',
+            image: 'assets/images/il-product-courses.png?v=20260609-updated-illustrations',
             benefits: [
                 'Переглядати всі події курсів без обмеження після 10 записів',
                 'Знаходити уроки, домашні завдання та студентські дії за пошуком',
