@@ -56,6 +56,7 @@
             title: 'Повна історія подій SendPulse в одному місці',
             subtitle: 'Переглядайте всі події без обмежень, швидко знаходьте потрібні зміни та контролюйте роботу команди в одному журналі.',
             image: 'assets/images/il-all-events.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах SendPulse',
             benefits: [
                 'Переглядати повну історію подій без обмеження після 10 записів',
                 'Швидко знаходити потрібні дії за пошуком, сервісом, менеджером і типом події',
@@ -67,6 +68,8 @@
             title: 'Повна історія подій CRM без обмежень',
             subtitle: 'Контролюйте зміни в угодах, контактах і задачах, щоб команда бачила весь контекст роботи з клієнтами.',
             image: 'assets/images/il-product-crm.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах CRM:',
+            showTariffLabels: true,
             benefits: [
                 'Переглядати всі зміни в угодах, контактах і задачах після 10 останніх записів',
                 'Швидко знаходити дії менеджерів за пошуком, відповідальним і типом CRM-події',
@@ -78,6 +81,7 @@
             title: 'Повна історія подій у розсилках',
             subtitle: 'Бачте всі запуски кампаній, зміни списків і шаблонів, щоб швидко перевіряти роботу email-маркетингу.',
             image: 'assets/images/il-product-email.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах Розсилки',
             benefits: [
                 'Переглядати всі події розсилок без обмеження останніми 10 записами',
                 'Знаходити потрібні кампанії, шаблони та списки за пошуком і фільтрами',
@@ -89,6 +93,7 @@
             title: 'Повна історія подій Automation',
             subtitle: 'Відстежуйте запуски сценаріїв, зміни тригерів і шаблонів, щоб автоматизації працювали прозоро для всієї команди.',
             image: 'assets/images/il-product-automation.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах Automation',
             benefits: [
                 'Переглядати всі події сценаріїв після перших 10 записів',
                 'Шукати зміни в автоматизаціях за менеджером, типом події та деталями',
@@ -100,6 +105,7 @@
             title: 'Повна історія подій чат-ботів',
             subtitle: 'Зберігайте повний журнал змін у ботах, тегах і ланцюжках для швидкої перевірки діалогів і командної роботи.',
             image: 'assets/images/il-product-chatbots.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах Чат-боти',
             benefits: [
                 'Переглядати всі події чат-ботів без обмеження 10 записами',
                 'Знаходити зміни в ланцюжках, тегах і відповідях за пошуком',
@@ -111,6 +117,7 @@
             title: 'Повна історія подій сайтів',
             subtitle: 'Відстежуйте публікації сторінок, зміни доменів і налаштувань, щоб команда бачила актуальний стан сайтів.',
             image: 'assets/images/il-product-websites.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах Сайти',
             benefits: [
                 'Переглядати всі події сайтів, а не тільки останні 10 записів',
                 'Швидко знаходити публікації сторінок, зміни доменів і налаштувань',
@@ -122,6 +129,7 @@
             title: 'Повна історія подій попапів',
             subtitle: 'Контролюйте зміни правил показу, сегментів і форм, щоб попапи працювали за потрібним сценарієм.',
             image: 'assets/images/il-product-popups.png?v=20260609-popups-illustration',
+            tariffTitle: 'Доступно на платних тарифах Попапи',
             benefits: [
                 'Переглядати всі події попапів без обмеження після 10 записів',
                 'Знаходити оновлення правил показу, сегментів і форм',
@@ -133,6 +141,7 @@
             title: 'Повна історія подій Push',
             subtitle: 'Відстежуйте створення кампаній, зміни аудиторій і налаштувань браузерних сповіщень в одному журналі.',
             image: 'assets/images/il-product-push.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах Push',
             benefits: [
                 'Переглядати всі події push-кампаній після 10 останніх записів',
                 'Шукати кампанії, браузери та сегменти за деталями події',
@@ -144,6 +153,7 @@
             title: 'Повна історія подій SMTP',
             subtitle: 'Бачте всі зміни доменів, налаштувань і відправлень, щоб технічна історія SMTP була прозорою.',
             image: 'assets/images/il-product-smtp.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах SMTP',
             benefits: [
                 'Переглядати всі SMTP-події без обмеження останніми 10 записами',
                 'Знаходити підтвердження доменів, зміни SPF, DKIM і налаштувань',
@@ -155,6 +165,7 @@
             title: 'Повна історія подій курсів',
             subtitle: 'Контролюйте публікації уроків, домашні завдання та завершення курсів у повній історії навчального процесу.',
             image: 'assets/images/il-product-courses.png?v=20260609-updated-illustrations',
+            tariffTitle: 'Доступно на платних тарифах Курси',
             benefits: [
                 'Переглядати всі події курсів без обмеження після 10 записів',
                 'Знаходити уроки, домашні завдання та студентські дії за пошуком',
@@ -300,6 +311,8 @@
     var drawerSubtitle = document.getElementById('upsellDrawerSubtitle');
     var drawerImage = document.getElementById('upsellDrawerImage');
     var drawerBenefits = document.getElementById('upsellDrawerBenefits');
+    var drawerTariffTitle = document.getElementById('upsellDrawerTariffTitle');
+    var drawerTariffLabels = document.getElementById('upsellDrawerTariffLabels');
     var renderedEvents = [];
 
     function item(service, author, action, entity, type, details, dateLabel, time, fullDate) {
@@ -344,7 +357,9 @@
             title: content.title,
             subtitle: content.subtitle,
             image: content.image || upsellContent.all.image,
-            benefits: content.benefits || upsellContent.all.benefits
+            benefits: content.benefits || upsellContent.all.benefits,
+            tariffTitle: content.tariffTitle || upsellContent.all.tariffTitle,
+            showTariffLabels: !!content.showTariffLabels
         };
     }
 
@@ -353,6 +368,8 @@
         drawerTitle.textContent = content.title;
         drawerSubtitle.textContent = content.subtitle;
         drawerImage.setAttribute('src', content.image);
+        drawerTariffTitle.textContent = content.tariffTitle;
+        drawerTariffLabels.classList.toggle('hide', !content.showTariffLabels);
         drawerBenefits.innerHTML = content.benefits.map(function (benefit, index) {
             var icons = ['icon-list', 'icon-filter', 'icon-users', 'icon-dashboard'];
             return '<li><span class="activity-benefit-icon"><span class="sp-icon ' + icons[index % icons.length] + '"></span></span><span>' + escapeHtml(benefit) + '</span></li>';
