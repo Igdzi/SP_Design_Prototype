@@ -291,44 +291,42 @@
     var drawerSubtitle = document.getElementById('upsellDrawerSubtitle');
     var drawerImage = document.getElementById('upsellDrawerImage');
     var drawerBenefits = document.getElementById('upsellDrawerBenefits');
+    var renderedEvents = [];
 
     function item(service, author, action, entity, type, details, dateLabel, time, fullDate) {
         return { service: service, author: author, action: action, entity: entity, type: type, details: details, dateLabel: dateLabel, time: time, fullDate: fullDate };
     }
 
-    function clonePrototypeEvent(event, index) {
-        var authors = ['Юрій Коваленко', 'Марина Савченко', 'Олена Петренко', 'Ігор Мельник'];
+    function createServiceEvent(serviceKey, sample, index) {
+        var maleAuthors = ['Юрій Коваленко', 'Ігор Мельник'];
+        var femaleAuthors = ['Марина Савченко', 'Олена Петренко'];
         var dateLabels = ['Сьогодні', 'Вчора', '11 Травня', '10 Травня'];
-        var sample = serviceEventSamples[event.service] && serviceEventSamples[event.service][index % serviceEventSamples[event.service].length];
+        var firstActionWord = sample[0].split(' ')[0];
+        var authors = firstActionWord.slice(-2) === 'ла' ? femaleAuthors : maleAuthors;
         var hour = 17 - (index % 8);
         var minutes = String((index * 7) % 60).padStart(2, '0');
-        var cloned = item(
-            event.service,
+        return item(
+            serviceKey,
             authors[index % authors.length],
-            sample ? sample[0] : event.action,
-            sample ? sample[1] : event.entity,
-            sample ? sample[2] : event.type,
-            sample ? sample[3] : event.details,
+            sample[0],
+            sample[1],
+            sample[2],
+            sample[3],
             dateLabels[index % dateLabels.length],
             String(hour).padStart(2, '0') + ':' + minutes,
             '2026-05-' + String(28 - (index % 18)).padStart(2, '0') + ' ' + String(hour).padStart(2, '0') + ':' + minutes
         );
-        cloned.sourceId = events.indexOf(event);
-        return cloned;
     }
 
-    function ensurePrototypeRows(list) {
-        var serviceList = list.slice();
-        var shouldFill = state.service !== 'all' && !state.search && !state.filtersApplied;
-        var source = serviceList.length ? serviceList : events.filter(function (event) { return event.service === state.service; });
+    function serviceEvents(serviceKey) {
+        var samples = serviceEventSamples[serviceKey] || [];
+        var rows = samples.map(function (sample, index) {
+            return createServiceEvent(serviceKey, sample, index);
+        });
 
-        if (!shouldFill || serviceList.length >= 11 || !source.length) return serviceList;
+        if (rows.length) rows.push(createServiceEvent(serviceKey, samples[0], rows.length));
 
-        while (serviceList.length < 11) {
-            serviceList.push(clonePrototypeEvent(source[serviceList.length % source.length], serviceList.length));
-        }
-
-        return serviceList;
+        return rows;
     }
 
     function currentUpsellContent() {
@@ -393,7 +391,8 @@
         tabs.innerHTML = order.map(function (key) {
             var count = 11;
             var active = state.service === key ? ' class="active"' : '';
-            return '<li' + active + '><a data-service="' + key + '"><span class="activity-tab-label">' + services[key].label + '</span><span class="activity-tab-count">' + count + '</span></a></li>';
+            var selected = state.service === key ? 'true' : 'false';
+            return '<li' + active + '><a href="#" role="tab" aria-selected="' + selected + '" data-service="' + key + '"><span class="activity-tab-label">' + services[key].label + '</span><span class="activity-tab-count">' + count + '</span></a></li>';
         }).join('');
     }
 
@@ -419,7 +418,9 @@
     }
 
     function filteredEvents() {
-        return ensurePrototypeRows(events.filter(function (event) {
+        var sourceEvents = state.service === 'all' ? events : serviceEvents(state.service);
+
+        return sourceEvents.filter(function (event) {
             var inService = state.service === 'all' || event.service === state.service;
             var inManager = !state.filters.manager || event.author === state.filters.manager;
             var inType = !state.filters.types.length || state.filters.types.some(function (selected) {
@@ -430,7 +431,7 @@
                 return value.toLocaleLowerCase().indexOf(query) > -1;
             });
             return inService && inManager && inType && inSearch;
-        }));
+        });
     }
 
     function escapeHtml(value) {
@@ -460,7 +461,7 @@
                 '<div class="activity-event-meta"><span class="activity-badge ' + service.className + '">' + service.label + '</span><span class="activity-details"><strong>Деталі:</strong> <span class="activity-skeleton is-mid"></span></span></div>' +
                 '</div><time class="activity-time">' + event.time + '</time></article>';
         }
-        return '<article class="activity-event" data-event-id="' + (events.indexOf(event) > -1 ? events.indexOf(event) : event.sourceId) + '">' +
+        return '<article class="activity-event" data-event-id="' + renderedEvents.indexOf(event) + '">' +
             icon +
             '<div class="activity-event-main">' +
             '<div class="activity-event-text"><span class="activity-event-author">' + highlightSearch(event.author) + '</span> ' + highlightSearch(event.action) + ' <strong>' + highlightSearch(event.entity) + '</strong></div>' +
@@ -472,6 +473,7 @@
         var list = filteredEvents();
         var visibleList = list.slice(0, state.visible);
         var grouped = {};
+        renderedEvents = visibleList;
 
         visibleList.forEach(function (event, index) {
             if (!grouped[event.dateLabel]) grouped[event.dateLabel] = [];
@@ -546,7 +548,8 @@
     }
 
     function showDetails(id) {
-        var event = events[id];
+        var event = renderedEvents[id];
+        if (!event) return;
         var service = services[event.service];
         var icon = '<span class="activity-service-icon ' + service.className + '"><img src="' + service.icon + '" alt=""></span>';
         var dateParts = event.fullDate.split(' ');
