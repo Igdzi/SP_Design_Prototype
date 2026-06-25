@@ -31,7 +31,9 @@
     const nextButton = carousel.querySelector('[data-scroll-next]');
     const addedScrollButton = document.querySelector('[data-switcher-option="added-scroll"]');
     const addedNoScrollButton = document.querySelector('[data-switcher-option="added-no-scroll"]');
+    const dragSelectThreshold = 8;
     let scrollAnimationId = null;
+    let suppressClickUntil = 0;
 
     function renderStatuses() {
         const fragment = document.createDocumentFragment();
@@ -253,7 +255,7 @@
             }
 
             const distance = event.clientX - startX;
-            if (Math.abs(distance) > 3) {
+            if (Math.abs(distance) > dragSelectThreshold) {
                 moved = true;
             }
 
@@ -268,8 +270,11 @@
             viewport.classList.remove('is-dragging');
             viewport.releasePointerCapture(pointerId);
 
-            if (!moved && pressedPill) {
+            const scrollMoved = Math.abs(viewport.scrollLeft - startScrollLeft) > dragSelectThreshold;
+            if (!moved && !scrollMoved && pressedPill) {
                 activateStatus(pressedPill);
+            } else if (moved || scrollMoved) {
+                suppressClickUntil = window.performance.now() + 250;
             }
 
             pointerId = null;
@@ -283,9 +288,9 @@
         viewport.addEventListener('pointercancel', endDrag);
 
         track.addEventListener('click', (event) => {
-            if (moved) {
+            if (moved || window.performance.now() < suppressClickUntil) {
                 event.preventDefault();
-                event.stopPropagation();
+                event.stopImmediatePropagation();
             }
         });
     }
@@ -395,6 +400,11 @@
     });
 
     track.addEventListener('click', (event) => {
+        if (window.performance.now() < suppressClickUntil) {
+            event.preventDefault();
+            return;
+        }
+
         const item = event.target.closest('.status-pill');
         if (!item) {
             return;
