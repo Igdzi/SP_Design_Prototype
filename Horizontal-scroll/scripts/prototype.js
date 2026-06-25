@@ -3,12 +3,6 @@
         { name: 'Нові', color: '#d5c1ff', width: 82, active: true },
         { name: 'Підтвердження', color: '#f5e8c4', width: 147 },
         { name: 'В роботі', color: '#fad0fa', width: 102 },
-        {
-            name: 'Для передачі на бухгалтера та фінансиста',
-            color: '#f29f8a',
-            width: 250,
-            truncateWidth: 204
-        },
         { name: 'Завершено', color: '#9fdcfe', width: 122 },
         { name: 'Виконано', color: '#f5e8c4', width: 111 },
         { name: 'Готово до наступного кроку', color: '#ffcccc', width: 236 },
