@@ -1,9 +1,15 @@
 (function () {
     const statuses = [
-        { name: 'Нові', color: '#d5c1ff', width: 73, active: true },
+        { name: 'Нові', color: '#d5c1ff', width: 82, active: true },
         { name: 'Підтвердження', color: '#f5e8c4', width: 147 },
         { name: 'В роботі', color: '#fad0fa', width: 102 },
-        { name: 'Для передачі на бухгалтера та', color: '#f29f8a', width: 250 },
+        {
+            name: 'Для передачі на бухгалтера та фінансиста',
+            color: '#f29f8a',
+            width: 250,
+            hoverWidth: 326,
+            truncateWidth: 204
+        },
         { name: 'Завершено', color: '#9fdcfe', width: 122 },
         { name: 'Виконано', color: '#f5e8c4', width: 111 },
         { name: 'Готово до наступного кроку', color: '#ffcccc', width: 236 },
@@ -11,7 +17,14 @@
         { name: 'В процесі апрува', color: '#c2eef7', width: 162 },
         { name: 'Відкладено', color: '#f5d19f', width: 123 },
         { name: 'Потребує уваги', color: '#c3d1e3', width: 153 },
-        { name: 'Завершено успішно', color: '#c8f0dd', width: 180 }
+        { name: 'Завершено успішно', color: '#c8f0dd', width: 180 },
+        { name: 'Перевірка документів', color: '#b7e3ff', width: 182 },
+        { name: 'Очікує оплату', color: '#ffe1a8', width: 138 },
+        { name: 'Погодження умов', color: '#ddc7ff', width: 156 },
+        { name: 'Уточнення деталей', color: '#ffd4c8', width: 158 },
+        { name: 'Підготовка рахунку', color: '#d6f6c6', width: 174 },
+        { name: 'Фінальна перевірка', color: '#d8e0f0', width: 166 },
+        { name: 'Архівовано', color: '#d9d9d9', width: 120 }
     ];
 
     const carousel = document.querySelector('[data-status-carousel]');
@@ -23,16 +36,19 @@
     const track = carousel.querySelector('[data-status-track]');
     const prevButton = carousel.querySelector('[data-scroll-prev]');
     const nextButton = carousel.querySelector('[data-scroll-next]');
+    let scrollAnimationId = null;
 
     function renderStatuses() {
         const fragment = document.createDocumentFragment();
 
-        statuses.forEach((status) => {
+        statuses.forEach((status, index) => {
             const item = document.createElement('button');
             item.className = status.active ? 'step status-pill active' : 'step status-pill';
             item.type = 'button';
             item.title = status.name;
+            item.dataset.statusIndex = String(index);
             item.style.setProperty('--status-color', status.color);
+            item.style.setProperty('--status-hover-width', `${status.hoverWidth || status.width}px`);
             item.style.width = `${status.width}px`;
             item.setAttribute('aria-pressed', status.active ? 'true' : 'false');
 
@@ -42,6 +58,10 @@
 
             const name = document.createElement('span');
             name.className = 'status-name';
+            if (status.truncateWidth) {
+                name.style.maxWidth = `${status.truncateWidth}px`;
+            }
+
             name.textContent = status.name;
 
             item.append(dot, name);
@@ -63,21 +83,38 @@
         return item.offsetLeft - track.offsetLeft;
     }
 
+    function easeInOutCubic(progress) {
+        return progress < .5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+    }
+
     function scrollToLeft(left) {
         const targetLeft = clampScroll(left);
+        const startLeft = viewport.scrollLeft;
+        const distance = targetLeft - startLeft;
+        const duration = Math.min(900, Math.max(420, Math.abs(distance) * .72));
+        const startTime = window.performance.now();
 
-        viewport.scrollTo({
-            left: targetLeft,
-            behavior: 'smooth'
-        });
+        if (scrollAnimationId) {
+            window.cancelAnimationFrame(scrollAnimationId);
+        }
 
-        window.setTimeout(() => {
-            if (Math.abs(viewport.scrollLeft - targetLeft) > 2) {
-                viewport.scrollLeft = targetLeft;
+        function animate(now) {
+            const progress = Math.min(1, (now - startTime) / duration);
+            viewport.scrollLeft = clampScroll(startLeft + distance * easeInOutCubic(progress));
+
+            if (progress < 1) {
+                scrollAnimationId = window.requestAnimationFrame(animate);
+                return;
             }
 
+            viewport.scrollLeft = targetLeft;
+            scrollAnimationId = null;
             updateArrowState();
-        }, 120);
+        }
+
+        scrollAnimationId = window.requestAnimationFrame(animate);
     }
 
     function updateArrowState() {
@@ -137,6 +174,11 @@
         }
 
         event.preventDefault();
+        if (scrollAnimationId) {
+            window.cancelAnimationFrame(scrollAnimationId);
+            scrollAnimationId = null;
+        }
+
         viewport.scrollLeft = clampScroll(viewport.scrollLeft + delta);
     }
 
@@ -155,6 +197,11 @@
             startX = event.clientX;
             startScrollLeft = viewport.scrollLeft;
             moved = false;
+            if (scrollAnimationId) {
+                window.cancelAnimationFrame(scrollAnimationId);
+                scrollAnimationId = null;
+            }
+
             viewport.classList.add('is-dragging');
             viewport.setPointerCapture(pointerId);
         });
@@ -196,7 +243,43 @@
         });
     }
 
+    function activateStatus(item) {
+        if (!item) {
+            return;
+        }
+
+        const items = Array.from(track.querySelectorAll('.status-pill'));
+        const status = statuses[Number(item.dataset.statusIndex)];
+        if (!status) {
+            return;
+        }
+
+        items.forEach((statusItem) => {
+            const isActive = statusItem === item;
+            const statusItemData = statuses[Number(statusItem.dataset.statusIndex)];
+            const dot = statusItem.querySelector('.status-dot');
+            statusItem.classList.toggle('active', isActive);
+            statusItem.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+            if (isActive) {
+                statusItem.style.backgroundColor = statusItemData.color;
+                statusItem.style.color = '#023346';
+                statusItem.style.fontWeight = '700';
+                dot.style.backgroundColor = '#fff';
+                dot.style.borderColor = statusItemData.color;
+                return;
+            }
+
+            statusItem.style.backgroundColor = '';
+            statusItem.style.color = '';
+            statusItem.style.fontWeight = '';
+            dot.style.backgroundColor = '';
+            dot.style.borderColor = '';
+        });
+    }
+
     renderStatuses();
+    activateStatus(track.querySelector('.status-pill.active'));
     bindDragScroll();
 
     carousel.addEventListener('click', (event) => {
@@ -206,6 +289,15 @@
         }
 
         scrollBySection(button === prevButton ? -1 : 1);
+    });
+
+    track.addEventListener('click', (event) => {
+        const item = event.target.closest('.status-pill');
+        if (!item) {
+            return;
+        }
+
+        activateStatus(item);
     });
 
     viewport.addEventListener('wheel', handleWheel, { passive: false });

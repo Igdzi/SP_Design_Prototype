@@ -249,7 +249,7 @@
     width: 200px;
     height: 36px;
     padding: 6px 10px;
-    border: 1px solid #cdd4d4;
+    border: 0;
     border-radius: 8px;
     background: #fff;
     color: #023346;
@@ -280,7 +280,7 @@
 
 .status-carousel {
     display: grid;
-    grid-template-columns: 32px minmax(0, 1fr) 32px;
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
     align-items: center;
     gap: 8px;
     min-width: 0;
@@ -290,7 +290,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
+    width: 36px;
     height: 36px;
     padding: 0;
     border: 0;
@@ -298,6 +298,13 @@
     background: #e1e8e8;
     color: #023346;
     transition: background-color .15s ease, opacity .15s ease;
+}
+
+.status-arrow .sp-icon {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 14px;
 }
 
 .status-arrow:hover:not(:disabled) {
@@ -355,15 +362,22 @@
     line-height: 1.4;
     text-align: center;
     white-space: nowrap;
+    transition: width .22s ease, background-color .16s ease, font-weight .16s ease;
 }
 
 .step.status-pill:hover {
     background: #f8fbfb;
 }
 
-.step.status-pill.active {
-    background: #d5c1ff;
-    font-weight: 700;
+.step.status-pill:hover,
+.step.status-pill:focus {
+    width: var(--status-hover-width) !important;
+}
+
+.horizontal-scroll-prototype .step.status-pill.active {
+    background: var(--status-color) !important;
+    color: #023346 !important;
+    font-weight: 700 !important;
 }
 
 .status-dot {
@@ -374,15 +388,21 @@
     background: var(--status-color);
 }
 
-.step.status-pill.active .status-dot {
-    border: 1px solid #d5c1ff;
-    background: #fff;
+.horizontal-scroll-prototype .step.status-pill.active .status-dot {
+    border: 1px solid var(--status-color);
+    background: #fff !important;
 }
 
 .status-name {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: max-width .22s ease;
+}
+
+.step.status-pill:hover .status-name,
+.step.status-pill:focus .status-name {
+    max-width: none !important;
 }
 
 .drawer-tabs {
@@ -742,12 +762,8 @@
     }
 
     .status-carousel {
-        grid-template-columns: 28px minmax(0, 1fr) 28px;
+        grid-template-columns: 36px minmax(0, 1fr) 36px;
         gap: 6px;
-    }
-
-    .status-arrow {
-        width: 28px;
     }
 
     .deal-field-row {
