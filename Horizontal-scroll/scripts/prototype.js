@@ -36,6 +36,8 @@
     const track = carousel.querySelector('[data-status-track]');
     const prevButton = carousel.querySelector('[data-scroll-prev]');
     const nextButton = carousel.querySelector('[data-scroll-next]');
+    const addedScrollButton = document.querySelector('[data-switcher-option="added-scroll"]');
+    const addedNoScrollButton = document.querySelector('[data-switcher-option="added-no-scroll"]');
     let scrollAnimationId = null;
 
     function renderStatuses() {
@@ -44,12 +46,18 @@
         statuses.forEach((status, index) => {
             const item = document.createElement('button');
             item.className = status.active ? 'step status-pill active' : 'step status-pill';
+            item.classList.toggle('is-truncated', Boolean(status.truncateWidth));
             item.type = 'button';
             item.title = status.name;
             item.dataset.statusIndex = String(index);
             item.style.setProperty('--status-color', status.color);
             item.style.setProperty('--status-hover-width', `${status.hoverWidth || status.width}px`);
-            item.style.width = `${status.width}px`;
+            if (status.truncateWidth) {
+                item.style.width = `${status.width}px`;
+            } else {
+                item.style.minWidth = `${status.width}px`;
+            }
+
             item.setAttribute('aria-pressed', status.active ? 'true' : 'false');
 
             const dot = document.createElement('span');
@@ -72,6 +80,10 @@
     }
 
     function getMaxScroll() {
+        if (carousel.classList.contains('is-no-scroll')) {
+            return 0;
+        }
+
         return Math.max(0, viewport.scrollWidth - viewport.clientWidth);
     }
 
@@ -258,24 +270,54 @@
             const isActive = statusItem === item;
             const statusItemData = statuses[Number(statusItem.dataset.statusIndex)];
             const dot = statusItem.querySelector('.status-dot');
+            const name = statusItem.querySelector('.status-name');
             statusItem.classList.toggle('active', isActive);
             statusItem.setAttribute('aria-pressed', isActive ? 'true' : 'false');
 
             if (isActive) {
-                statusItem.style.backgroundColor = statusItemData.color;
-                statusItem.style.color = '#023346';
-                statusItem.style.fontWeight = '700';
-                dot.style.backgroundColor = '#fff';
+                statusItem.style.setProperty('background', statusItemData.color, 'important');
+                statusItem.style.setProperty('background-color', statusItemData.color, 'important');
+                statusItem.style.setProperty('box-shadow', `inset 0 0 0 999px ${statusItemData.color}`, 'important');
+                statusItem.style.setProperty('color', '#023346', 'important');
+                statusItem.style.setProperty('font-weight', '700', 'important');
+                name.style.setProperty('color', '#023346', 'important');
+                name.style.setProperty('font-weight', '700', 'important');
+                dot.style.setProperty('background', '#fff', 'important');
+                dot.style.setProperty('background-color', '#fff', 'important');
                 dot.style.borderColor = statusItemData.color;
                 return;
             }
 
-            statusItem.style.backgroundColor = '';
-            statusItem.style.color = '';
-            statusItem.style.fontWeight = '';
-            dot.style.backgroundColor = '';
+            statusItem.style.removeProperty('background');
+            statusItem.style.removeProperty('background-color');
+            statusItem.style.removeProperty('box-shadow');
+            statusItem.style.removeProperty('color');
+            statusItem.style.removeProperty('font-weight');
+            name.style.removeProperty('color');
+            name.style.removeProperty('font-weight');
+            dot.style.removeProperty('background');
+            dot.style.removeProperty('background-color');
             dot.style.borderColor = '';
         });
+    }
+
+    function setAddedDrawerScrollMode(hasScroll) {
+        carousel.classList.toggle('is-no-scroll', !hasScroll);
+        viewport.scrollLeft = 0;
+
+        if (scrollAnimationId) {
+            window.cancelAnimationFrame(scrollAnimationId);
+            scrollAnimationId = null;
+        }
+
+        if (addedScrollButton && addedNoScrollButton) {
+            addedScrollButton.classList.toggle('btn-primary', hasScroll);
+            addedScrollButton.classList.toggle('btn-default', !hasScroll);
+            addedNoScrollButton.classList.toggle('btn-primary', !hasScroll);
+            addedNoScrollButton.classList.toggle('btn-default', hasScroll);
+        }
+
+        updateArrowState();
     }
 
     renderStatuses();
@@ -299,6 +341,9 @@
 
         activateStatus(item);
     });
+
+    addedScrollButton?.addEventListener('click', () => setAddedDrawerScrollMode(true));
+    addedNoScrollButton?.addEventListener('click', () => setAddedDrawerScrollMode(false));
 
     viewport.addEventListener('wheel', handleWheel, { passive: false });
     viewport.addEventListener('scroll', updateArrowState, { passive: true });

@@ -317,6 +317,14 @@
     opacity: .4;
 }
 
+.status-carousel.is-no-scroll {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.status-carousel.is-no-scroll .status-arrow {
+    display: none;
+}
+
 .status-viewport {
     min-width: 0;
     height: 36px;
@@ -325,6 +333,13 @@
     cursor: grab;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+}
+
+.status-carousel.is-no-scroll .status-viewport {
+    width: max-content;
+    max-width: 100%;
+    overflow: hidden;
+    cursor: default;
 }
 
 .status-viewport::-webkit-scrollbar {
@@ -343,6 +358,15 @@
     width: max-content;
     min-width: 100%;
     height: 36px;
+}
+
+.status-carousel.is-no-scroll .status-track {
+    width: max-content;
+    min-width: 0;
+}
+
+.status-carousel.is-no-scroll .status-pill:nth-child(n+4) {
+    display: none;
 }
 
 .step.status-pill {
@@ -369,8 +393,8 @@
     background: #f8fbfb;
 }
 
-.step.status-pill:hover,
-.step.status-pill:focus {
+.step.status-pill.is-truncated:hover,
+.step.status-pill.is-truncated:focus {
     width: var(--status-hover-width) !important;
 }
 
@@ -397,11 +421,12 @@
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
     transition: max-width .22s ease;
 }
 
-.step.status-pill:hover .status-name,
-.step.status-pill:focus .status-name {
+.step.status-pill.is-truncated:hover .status-name,
+.step.status-pill.is-truncated:focus .status-name {
     max-width: none !important;
 }
 
