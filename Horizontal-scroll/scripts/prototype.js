@@ -180,6 +180,27 @@
         scrollToLeft(target);
     }
 
+    function scrollSelectedIntoView(item) {
+        if (carousel.classList.contains('is-no-scroll') || getMaxScroll() <= 1) {
+            return;
+        }
+
+        const itemLeft = getItemLeft(item);
+        const itemRight = itemLeft + item.offsetWidth;
+        const viewportLeft = viewport.scrollLeft;
+        const viewportRight = viewportLeft + viewport.clientWidth;
+        const edgePadding = 8;
+
+        if (itemLeft < viewportLeft + edgePadding) {
+            scrollToLeft(itemLeft - edgePadding);
+            return;
+        }
+
+        if (itemRight > viewportRight - edgePadding) {
+            scrollToLeft(itemRight - viewport.clientWidth + edgePadding);
+        }
+    }
+
     function handleWheel(event) {
         const maxScroll = getMaxScroll();
         if (maxScroll <= 1) {
@@ -313,6 +334,8 @@
             dot.style.removeProperty('background-color');
             dot.style.borderColor = '';
         });
+
+        scrollSelectedIntoView(item);
     }
 
     function expandTruncatedItem(item) {
