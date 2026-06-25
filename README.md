@@ -19,6 +19,7 @@ Prototype_Name/
 Current prototypes:
 
 - `CRM_History-Event-Page` - CRM / Analytics / Event history page prototype.
+- `Horizontal-scroll` - CRM drawer prototype with horizontal status bubble scrolling.
 
 ## GitHub Pages
 
@@ -28,6 +29,7 @@ The root `index.html` is a prototype catalog. Each prototype folder is available
 
 ```text
 https://igdzi.github.io/SP_Design_Prototype/CRM_History-Event-Page/
+https://igdzi.github.io/SP_Design_Prototype/Horizontal-scroll/
 ```
 
 For every new prototype, add a new folder with its own `index.html`, then add a link to the root `index.html` catalog.
