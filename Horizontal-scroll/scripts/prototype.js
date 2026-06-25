@@ -7,7 +7,6 @@
             name: 'Для передачі на бухгалтера та фінансиста',
             color: '#f29f8a',
             width: 250,
-            hoverWidth: 326,
             truncateWidth: 204
         },
         { name: 'Завершено', color: '#9fdcfe', width: 122 },
@@ -51,7 +50,7 @@
             item.title = status.name;
             item.dataset.statusIndex = String(index);
             item.style.setProperty('--status-color', status.color);
-            item.style.setProperty('--status-hover-width', `${status.hoverWidth || status.width}px`);
+            item.style.setProperty('--status-hover-width', `${status.width}px`);
             if (status.truncateWidth) {
                 item.style.width = `${status.width}px`;
             } else {
@@ -77,6 +76,19 @@
         });
 
         track.append(fragment);
+    }
+
+    function updateTruncatedHoverWidths() {
+        track.querySelectorAll('.status-pill.is-truncated').forEach((item) => {
+            const name = item.querySelector('.status-name');
+            const dot = item.querySelector('.status-dot');
+            const styles = window.getComputedStyle(item);
+            const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+            const padding = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+            const fullWidth = Math.ceil(name.scrollWidth + dot.offsetWidth + gap + padding);
+
+            item.style.setProperty('--status-hover-width', `${fullWidth}px`);
+        });
     }
 
     function getMaxScroll() {
@@ -199,6 +211,7 @@
         let startX = 0;
         let startScrollLeft = 0;
         let moved = false;
+        let pressedPill = null;
 
         viewport.addEventListener('pointerdown', (event) => {
             if (event.button !== 0 || getMaxScroll() <= 1) {
@@ -209,6 +222,7 @@
             startX = event.clientX;
             startScrollLeft = viewport.scrollLeft;
             moved = false;
+            pressedPill = event.target.closest('.status-pill');
             if (scrollAnimationId) {
                 window.cancelAnimationFrame(scrollAnimationId);
                 scrollAnimationId = null;
@@ -238,7 +252,13 @@
 
             viewport.classList.remove('is-dragging');
             viewport.releasePointerCapture(pointerId);
+
+            if (!moved && pressedPill) {
+                activateStatus(pressedPill);
+            }
+
             pointerId = null;
+            pressedPill = null;
             window.setTimeout(() => {
                 moved = false;
             }, 0);
@@ -301,6 +321,27 @@
         });
     }
 
+    function expandTruncatedItem(item) {
+        if (!item?.classList.contains('is-truncated')) {
+            return;
+        }
+
+        const name = item.querySelector('.status-name');
+        item.style.setProperty('width', item.style.getPropertyValue('--status-hover-width'), 'important');
+        name.style.setProperty('max-width', 'none', 'important');
+    }
+
+    function collapseTruncatedItem(item) {
+        if (!item?.classList.contains('is-truncated')) {
+            return;
+        }
+
+        const status = statuses[Number(item.dataset.statusIndex)];
+        const name = item.querySelector('.status-name');
+        item.style.setProperty('width', `${status.width}px`);
+        name.style.setProperty('max-width', `${status.truncateWidth}px`);
+    }
+
     function setAddedDrawerScrollMode(hasScroll) {
         carousel.classList.toggle('is-no-scroll', !hasScroll);
         viewport.scrollLeft = 0;
@@ -321,6 +362,9 @@
     }
 
     renderStatuses();
+    updateTruncatedHoverWidths();
+    window.requestAnimationFrame(updateTruncatedHoverWidths);
+    document.fonts?.ready?.then(updateTruncatedHoverWidths);
     activateStatus(track.querySelector('.status-pill.active'));
     bindDragScroll();
 
@@ -340,6 +384,19 @@
         }
 
         activateStatus(item);
+    });
+
+    track.addEventListener('pointerover', (event) => {
+        expandTruncatedItem(event.target.closest('.status-pill'));
+    });
+
+    track.addEventListener('pointerout', (event) => {
+        const item = event.target.closest('.status-pill');
+        if (!item || item.contains(event.relatedTarget)) {
+            return;
+        }
+
+        collapseTruncatedItem(item);
     });
 
     addedScrollButton?.addEventListener('click', () => setAddedDrawerScrollMode(true));
