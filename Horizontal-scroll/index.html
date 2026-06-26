@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20260625-horizontal-scroll-10" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260626-horizontal-scroll-11" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
     <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
@@ -111,14 +111,28 @@
             </div>
         </header>
 
-        <nav class="drawer-tabs" aria-label="Deal sections">
-            <a class="drawer-tab is-active" href="#">Загальні</a>
-            <a class="drawer-tab" href="#">Оплати</a>
-            <a class="drawer-tab" href="#">Завдання</a>
-            <a class="drawer-tab" href="#">Товари</a>
-            <a class="drawer-tab" href="#">Дзвінки</a>
-            <a class="drawer-tab" href="#">Документи</a>
-        </nav>
+        <div class="tabs-carousel" data-tabs-carousel>
+            <button class="tabs-arrow tabs-arrow-prev" type="button" data-tabs-prev aria-label="Попередні вкладки">
+                <span class="sp-icon icon-chevron-left" aria-hidden="true"></span>
+            </button>
+            <div class="drawer-tabs-viewport" data-tabs-viewport tabindex="0" aria-label="Deal sections">
+                <nav class="drawer-tabs" data-tabs-track>
+                    <a class="drawer-tab is-active" href="#">Загальні</a>
+                    <a class="drawer-tab" href="#">Оплати</a>
+                    <a class="drawer-tab" href="#">Завдання</a>
+                    <a class="drawer-tab" href="#">Товари</a>
+                    <a class="drawer-tab" href="#">Дзвінки</a>
+                    <a class="drawer-tab" href="#">Документи</a>
+                    <a class="drawer-tab" href="#">Коментарі</a>
+                    <a class="drawer-tab" href="#">Файли</a>
+                    <a class="drawer-tab" href="#">Історія</a>
+                    <a class="drawer-tab" href="#">Інтеграції</a>
+                </nav>
+            </div>
+            <button class="tabs-arrow tabs-arrow-next" type="button" data-tabs-next aria-label="Наступні вкладки">
+                <span class="sp-icon icon-chevron-right" aria-hidden="true"></span>
+            </button>
+        </div>
 
         <section class="drawer-body">
             <div class="drawer-column drawer-column-main">
@@ -238,6 +252,6 @@
     </main>
 </div>
 
-<script src="scripts/prototype.js?v=20260625-horizontal-scroll-10"></script>
+<script src="scripts/prototype.js?v=20260626-horizontal-scroll-11"></script>
 </body>
 </html>

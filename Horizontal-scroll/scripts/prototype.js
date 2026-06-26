@@ -29,11 +29,18 @@
     const track = carousel.querySelector('[data-status-track]');
     const prevButton = carousel.querySelector('[data-scroll-prev]');
     const nextButton = carousel.querySelector('[data-scroll-next]');
+    const tabsCarousel = document.querySelector('[data-tabs-carousel]');
+    const tabsViewport = tabsCarousel?.querySelector('[data-tabs-viewport]');
+    const tabsTrack = tabsCarousel?.querySelector('[data-tabs-track]');
+    const tabsPrevButton = tabsCarousel?.querySelector('[data-tabs-prev]');
+    const tabsNextButton = tabsCarousel?.querySelector('[data-tabs-next]');
     const addedScrollButton = document.querySelector('[data-switcher-option="added-scroll"]');
     const addedNoScrollButton = document.querySelector('[data-switcher-option="added-no-scroll"]');
     const dragSelectThreshold = 8;
     let scrollAnimationId = null;
+    let tabsScrollAnimationId = null;
     let suppressClickUntil = 0;
+    let suppressTabsClickUntil = 0;
 
     function renderStatuses() {
         const fragment = document.createDocumentFragment();
@@ -137,6 +144,50 @@
         scrollAnimationId = window.requestAnimationFrame(animate);
     }
 
+    function getTabsMaxScroll() {
+        if (!tabsCarousel || tabsCarousel.classList.contains('is-no-scroll')) {
+            return 0;
+        }
+
+        return Math.max(0, tabsViewport.scrollWidth - tabsViewport.clientWidth);
+    }
+
+    function clampTabsScroll(left) {
+        return Math.min(getTabsMaxScroll(), Math.max(0, left));
+    }
+
+    function getTabLeft(item) {
+        return item.offsetLeft - tabsTrack.offsetLeft;
+    }
+
+    function scrollTabsToLeft(left) {
+        const targetLeft = clampTabsScroll(left);
+        const startLeft = tabsViewport.scrollLeft;
+        const distance = targetLeft - startLeft;
+        const duration = Math.min(900, Math.max(420, Math.abs(distance) * .72));
+        const startTime = window.performance.now();
+
+        if (tabsScrollAnimationId) {
+            window.cancelAnimationFrame(tabsScrollAnimationId);
+        }
+
+        function animate(now) {
+            const progress = Math.min(1, (now - startTime) / duration);
+            tabsViewport.scrollLeft = clampTabsScroll(startLeft + distance * easeInOutCubic(progress));
+
+            if (progress < 1) {
+                tabsScrollAnimationId = window.requestAnimationFrame(animate);
+                return;
+            }
+
+            tabsViewport.scrollLeft = targetLeft;
+            tabsScrollAnimationId = null;
+            updateTabsArrowState();
+        }
+
+        tabsScrollAnimationId = window.requestAnimationFrame(animate);
+    }
+
     function updateArrowState() {
         const maxScroll = getMaxScroll();
         const left = viewport.scrollLeft;
@@ -148,6 +199,23 @@
         nextButton.disabled = !hasOverflow || atEnd;
         prevButton.classList.toggle('is-disabled', prevButton.disabled);
         nextButton.classList.toggle('is-disabled', nextButton.disabled);
+    }
+
+    function updateTabsArrowState() {
+        if (!tabsPrevButton || !tabsNextButton) {
+            return;
+        }
+
+        const maxScroll = getTabsMaxScroll();
+        const left = tabsViewport.scrollLeft;
+        const hasOverflow = maxScroll > 1;
+        const atStart = left <= 1;
+        const atEnd = left >= maxScroll - 1;
+
+        tabsPrevButton.disabled = !hasOverflow || atStart;
+        tabsNextButton.disabled = !hasOverflow || atEnd;
+        tabsPrevButton.classList.toggle('is-disabled', tabsPrevButton.disabled);
+        tabsNextButton.classList.toggle('is-disabled', tabsNextButton.disabled);
     }
 
     function getVisibleItems() {
@@ -182,6 +250,38 @@
         scrollToLeft(target);
     }
 
+    function getVisibleTabs() {
+        const items = Array.from(tabsTrack.querySelectorAll('.drawer-tab'));
+        const start = tabsViewport.scrollLeft;
+        const end = start + tabsViewport.clientWidth;
+
+        return items.filter((item) => {
+            const itemStart = getTabLeft(item);
+            const itemEnd = itemStart + item.offsetWidth;
+            return itemStart < end - 2 && itemEnd > start + 2;
+        });
+    }
+
+    function scrollTabsBySection(direction) {
+        const items = Array.from(tabsTrack.querySelectorAll('.drawer-tab'));
+        const visibleItems = getVisibleTabs();
+        const visibleCount = Math.max(1, visibleItems.length);
+        let targetIndex = 0;
+
+        if (direction > 0) {
+            const lastVisible = visibleItems[visibleItems.length - 1];
+            const lastIndex = items.indexOf(lastVisible);
+            targetIndex = Math.min(items.length - 1, lastIndex + 1);
+        } else {
+            const firstVisible = visibleItems[0];
+            const firstIndex = items.indexOf(firstVisible);
+            targetIndex = Math.max(0, firstIndex - visibleCount);
+        }
+
+        const target = items[targetIndex] ? getTabLeft(items[targetIndex]) : 0;
+        scrollTabsToLeft(target);
+    }
+
     function scrollSelectedIntoView(item) {
         if (carousel.classList.contains('is-no-scroll') || getMaxScroll() <= 1) {
             return;
@@ -203,6 +303,27 @@
         }
     }
 
+    function scrollSelectedTabIntoView(item) {
+        if (!tabsCarousel || tabsCarousel.classList.contains('is-no-scroll') || getTabsMaxScroll() <= 1) {
+            return;
+        }
+
+        const itemLeft = getTabLeft(item);
+        const itemRight = itemLeft + item.offsetWidth;
+        const viewportLeft = tabsViewport.scrollLeft;
+        const viewportRight = viewportLeft + tabsViewport.clientWidth;
+        const edgePadding = 8;
+
+        if (itemLeft < viewportLeft + edgePadding) {
+            scrollTabsToLeft(itemLeft - edgePadding);
+            return;
+        }
+
+        if (itemRight > viewportRight - edgePadding) {
+            scrollTabsToLeft(itemRight - tabsViewport.clientWidth + edgePadding);
+        }
+    }
+
     function handleWheel(event) {
         const maxScroll = getMaxScroll();
         if (maxScroll <= 1) {
@@ -221,6 +342,26 @@
         }
 
         viewport.scrollLeft = clampScroll(viewport.scrollLeft + delta);
+    }
+
+    function handleTabsWheel(event) {
+        const maxScroll = getTabsMaxScroll();
+        if (maxScroll <= 1) {
+            return;
+        }
+
+        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        if (!delta) {
+            return;
+        }
+
+        event.preventDefault();
+        if (tabsScrollAnimationId) {
+            window.cancelAnimationFrame(tabsScrollAnimationId);
+            tabsScrollAnimationId = null;
+        }
+
+        tabsViewport.scrollLeft = clampTabsScroll(tabsViewport.scrollLeft + delta);
     }
 
     function bindDragScroll() {
@@ -295,6 +436,83 @@
         });
     }
 
+    function bindTabsDragScroll() {
+        if (!tabsViewport || !tabsTrack) {
+            return;
+        }
+
+        let pointerId = null;
+        let startX = 0;
+        let startScrollLeft = 0;
+        let moved = false;
+        let pressedTab = null;
+
+        tabsViewport.addEventListener('pointerdown', (event) => {
+            if (event.button !== 0 || getTabsMaxScroll() <= 1) {
+                return;
+            }
+
+            pointerId = event.pointerId;
+            startX = event.clientX;
+            startScrollLeft = tabsViewport.scrollLeft;
+            moved = false;
+            pressedTab = event.target.closest('.drawer-tab');
+
+            if (tabsScrollAnimationId) {
+                window.cancelAnimationFrame(tabsScrollAnimationId);
+                tabsScrollAnimationId = null;
+            }
+
+            tabsViewport.classList.add('is-dragging');
+            tabsViewport.setPointerCapture(pointerId);
+        });
+
+        tabsViewport.addEventListener('pointermove', (event) => {
+            if (pointerId !== event.pointerId) {
+                return;
+            }
+
+            const distance = event.clientX - startX;
+            if (Math.abs(distance) > dragSelectThreshold) {
+                moved = true;
+            }
+
+            tabsViewport.scrollLeft = clampTabsScroll(startScrollLeft - distance);
+        });
+
+        function endDrag(event) {
+            if (pointerId !== event.pointerId) {
+                return;
+            }
+
+            tabsViewport.classList.remove('is-dragging');
+            tabsViewport.releasePointerCapture(pointerId);
+
+            const scrollMoved = Math.abs(tabsViewport.scrollLeft - startScrollLeft) > dragSelectThreshold;
+            if (!moved && !scrollMoved && pressedTab) {
+                activateTab(pressedTab);
+            } else if (moved || scrollMoved) {
+                suppressTabsClickUntil = window.performance.now() + 250;
+            }
+
+            pointerId = null;
+            pressedTab = null;
+            window.setTimeout(() => {
+                moved = false;
+            }, 0);
+        }
+
+        tabsViewport.addEventListener('pointerup', endDrag);
+        tabsViewport.addEventListener('pointercancel', endDrag);
+
+        tabsTrack.addEventListener('click', (event) => {
+            if (moved || window.performance.now() < suppressTabsClickUntil) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        });
+    }
+
     function activateStatus(item) {
         if (!item) {
             return;
@@ -343,6 +561,18 @@
         scrollSelectedIntoView(item);
     }
 
+    function activateTab(item) {
+        if (!item) {
+            return;
+        }
+
+        tabsTrack.querySelectorAll('.drawer-tab').forEach((tab) => {
+            tab.classList.toggle('is-active', tab === item);
+        });
+
+        scrollSelectedTabIntoView(item);
+    }
+
     function expandTruncatedItem(item) {
         if (!item?.classList.contains('is-truncated')) {
             return;
@@ -366,11 +596,19 @@
 
     function setAddedDrawerScrollMode(hasScroll) {
         carousel.classList.toggle('is-no-scroll', !hasScroll);
+        tabsCarousel?.classList.toggle('is-no-scroll', !hasScroll);
         viewport.scrollLeft = 0;
+        if (tabsViewport) {
+            tabsViewport.scrollLeft = 0;
+        }
 
         if (scrollAnimationId) {
             window.cancelAnimationFrame(scrollAnimationId);
             scrollAnimationId = null;
+        }
+        if (tabsScrollAnimationId) {
+            window.cancelAnimationFrame(tabsScrollAnimationId);
+            tabsScrollAnimationId = null;
         }
 
         if (addedScrollButton && addedNoScrollButton) {
@@ -381,6 +619,7 @@
         }
 
         updateArrowState();
+        updateTabsArrowState();
     }
 
     renderStatuses();
@@ -389,6 +628,7 @@
     document.fonts?.ready?.then(updateTruncatedHoverWidths);
     activateStatus(track.querySelector('.status-pill.active'));
     bindDragScroll();
+    bindTabsDragScroll();
 
     carousel.addEventListener('click', (event) => {
         const button = event.target.closest('[data-scroll-prev], [data-scroll-next]');
@@ -397,6 +637,15 @@
         }
 
         scrollBySection(button === prevButton ? -1 : 1);
+    });
+
+    tabsCarousel?.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-tabs-prev], [data-tabs-next]');
+        if (!button || button.disabled) {
+            return;
+        }
+
+        scrollTabsBySection(button === tabsPrevButton ? -1 : 1);
     });
 
     track.addEventListener('click', (event) => {
@@ -411,6 +660,21 @@
         }
 
         activateStatus(item);
+    });
+
+    tabsTrack?.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        if (window.performance.now() < suppressTabsClickUntil) {
+            return;
+        }
+
+        const item = event.target.closest('.drawer-tab');
+        if (!item) {
+            return;
+        }
+
+        activateTab(item);
     });
 
     track.addEventListener('pointerover', (event) => {
@@ -431,9 +695,13 @@
 
     viewport.addEventListener('wheel', handleWheel, { passive: false });
     viewport.addEventListener('scroll', updateArrowState, { passive: true });
+    tabsViewport?.addEventListener('wheel', handleTabsWheel, { passive: false });
+    tabsViewport?.addEventListener('scroll', updateTabsArrowState, { passive: true });
     window.addEventListener('resize', updateArrowState);
+    window.addEventListener('resize', updateTabsArrowState);
 
     updateArrowState();
+    updateTabsArrowState();
 
     window.horizontalScrollPrototype = {
         viewport,
