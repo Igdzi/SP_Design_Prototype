@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20260626-horizontal-scroll-12" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260626-horizontal-scroll-14" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
     <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
@@ -60,7 +60,80 @@
         </div>
     </section>
 
-    <main class="crm-deal-drawer" aria-label="CRM deal drawer">
+    <main class="crm-add-deal-drawer is-hidden" data-add-drawer aria-label="CRM add deal drawer">
+        <button class="drawer-close" type="button" aria-label="Закрити дровер">
+            <span aria-hidden="true">×</span>
+        </button>
+
+        <header class="crm-add-deal-drawer__header">
+            <div class="add-title-row">
+                <div class="add-title-input">Назва угоди</div>
+            </div>
+
+            <div class="deal-steps-row add-deal-steps-row">
+                <button class="pipeline-dropdown add-pipeline-dropdown" type="button" aria-label="Вибрати воронку">
+                    <span class="pipeline-avatar">П</span>
+                    <span class="pipeline-name">Продажі та створення</span>
+                    <span class="caret"></span>
+                </button>
+
+                <div class="add-status-carousel" data-add-status-carousel>
+                    <button class="add-status-arrow add-status-arrow-prev" type="button" data-add-scroll-prev aria-label="Попередні етапи">
+                        <span class="sp-icon icon-chevron-left" aria-hidden="true"></span>
+                    </button>
+                    <div class="add-status-viewport" data-add-status-viewport tabindex="0" aria-label="Етапи нової угоди">
+                        <div class="add-steps-list add-status-track" data-add-status-track></div>
+                    </div>
+                    <button class="add-status-arrow add-status-arrow-next" type="button" data-add-scroll-next aria-label="Наступні етапи">
+                        <span class="sp-icon icon-chevron-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="add-drawer-tabs">
+            <a class="add-drawer-tab is-active" href="#">Загальні</a>
+            <a class="add-drawer-tab" href="#">Товари</a>
+        </div>
+
+        <section class="add-drawer-body">
+            <section class="drawer-section add-drawer-section">
+                <div class="drawer-section-heading">
+                    <span class="sp-icon icon-info"></span>
+                    <span>Про угоду</span>
+                    <div class="price-control">
+                        <span>Сума</span>
+                        <span class="price-currency">UAH</span>
+                    </div>
+                </div>
+
+                <dl class="deal-fields">
+                    <div class="deal-field-row">
+                        <dt>Відповідальний</dt>
+                        <dd><span class="user-avatar">І</span>Igor Dzis</dd>
+                    </div>
+                    <div class="deal-field-row">
+                        <dt>Термін виконання</dt>
+                        <dd><span class="sp-icon icon-calendar"></span>Додати дату завершення угоди...</dd>
+                    </div>
+                    <div class="deal-field-row">
+                        <dt>Контакт</dt>
+                        <dd><a href="#" class="drawer-link">+ Додати контакт</a></dd>
+                    </div>
+                    <div class="deal-field-row">
+                        <dt>Файли</dt>
+                        <dd><a href="#" class="drawer-link">+ Додати файл</a></dd>
+                    </div>
+                </dl>
+            </section>
+        </section>
+
+        <footer class="drawer-footer">
+            <button class="btn btn-success" type="button">Додати угоду</button>
+        </footer>
+    </main>
+
+    <main class="crm-deal-drawer" data-added-drawer aria-label="CRM deal drawer">
         <button class="drawer-close" type="button" aria-label="Закрити дровер">
             <span aria-hidden="true">×</span>
         </button>
@@ -262,6 +335,6 @@
     </main>
 </div>
 
-<script src="scripts/prototype.js?v=20260626-horizontal-scroll-12"></script>
+<script src="scripts/prototype.js?v=20260626-horizontal-scroll-14"></script>
 </body>
 </html>
