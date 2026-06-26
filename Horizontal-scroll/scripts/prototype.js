@@ -37,6 +37,7 @@
     const addedScrollButton = document.querySelector('[data-switcher-option="added-scroll"]');
     const addedNoScrollButton = document.querySelector('[data-switcher-option="added-no-scroll"]');
     const dragSelectThreshold = 8;
+    const tabsDragSelectThreshold = 3;
     let scrollAnimationId = null;
     let tabsScrollAnimationId = null;
     let suppressClickUntil = 0;
@@ -452,6 +453,7 @@
                 return;
             }
 
+            event.preventDefault();
             pointerId = event.pointerId;
             startX = event.clientX;
             startScrollLeft = tabsViewport.scrollLeft;
@@ -473,10 +475,11 @@
             }
 
             const distance = event.clientX - startX;
-            if (Math.abs(distance) > dragSelectThreshold) {
+            if (Math.abs(distance) > tabsDragSelectThreshold) {
                 moved = true;
             }
 
+            event.preventDefault();
             tabsViewport.scrollLeft = clampTabsScroll(startScrollLeft - distance);
         });
 
@@ -488,7 +491,7 @@
             tabsViewport.classList.remove('is-dragging');
             tabsViewport.releasePointerCapture(pointerId);
 
-            const scrollMoved = Math.abs(tabsViewport.scrollLeft - startScrollLeft) > dragSelectThreshold;
+            const scrollMoved = Math.abs(tabsViewport.scrollLeft - startScrollLeft) > tabsDragSelectThreshold;
             if (!moved && !scrollMoved && pressedTab) {
                 activateTab(pressedTab);
             } else if (moved || scrollMoved) {
@@ -623,6 +626,9 @@
     }
 
     renderStatuses();
+    tabsTrack?.querySelectorAll('.drawer-tab').forEach((tab) => {
+        tab.draggable = false;
+    });
     updateTruncatedHoverWidths();
     window.requestAnimationFrame(updateTruncatedHoverWidths);
     document.fonts?.ready?.then(updateTruncatedHoverWidths);

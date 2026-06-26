@@ -535,6 +535,7 @@
     font-weight: 700;
     text-align: center;
     white-space: nowrap;
+    user-select: none;
 }
 
 .drawer-tab:hover,
