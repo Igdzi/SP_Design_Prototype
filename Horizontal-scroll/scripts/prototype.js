@@ -46,6 +46,11 @@
     const addTrack = addCarousel?.querySelector('[data-add-status-track]');
     const addPrevButton = addCarousel?.querySelector('[data-add-scroll-prev]');
     const addNextButton = addCarousel?.querySelector('[data-add-scroll-next]');
+    const addTabsCarousel = document.querySelector('[data-add-tabs-carousel]');
+    const addTabsViewport = addTabsCarousel?.querySelector('[data-add-tabs-viewport]');
+    const addTabsTrack = addTabsCarousel?.querySelector('[data-add-tabs-track]');
+    const addTabsPrevButton = addTabsCarousel?.querySelector('[data-add-tabs-prev]');
+    const addTabsNextButton = addTabsCarousel?.querySelector('[data-add-tabs-next]');
     const viewport = carousel.querySelector('[data-status-viewport]');
     const track = carousel.querySelector('[data-status-track]');
     const prevButton = carousel.querySelector('[data-scroll-prev]');
@@ -62,9 +67,11 @@
     const dragSelectThreshold = 8;
     const tabsDragSelectThreshold = 3;
     let addScrollAnimationId = null;
+    let addTabsScrollAnimationId = null;
     let scrollAnimationId = null;
     let tabsScrollAnimationId = null;
     let suppressAddClickUntil = 0;
+    let suppressAddTabsClickUntil = 0;
     let suppressClickUntil = 0;
     let suppressTabsClickUntil = 0;
     let activeDrawer = 'added';
@@ -171,6 +178,14 @@
         return Math.max(0, addViewport.scrollWidth - addViewport.clientWidth);
     }
 
+    function getAddTabsMaxScroll() {
+        if (!addTabsCarousel || addTabsCarousel.classList.contains('is-no-scroll')) {
+            return 0;
+        }
+
+        return Math.max(0, addTabsViewport.scrollWidth - addTabsViewport.clientWidth);
+    }
+
     function clampScroll(left) {
         return Math.min(getMaxScroll(), Math.max(0, left));
     }
@@ -179,12 +194,20 @@
         return Math.min(getAddMaxScroll(), Math.max(0, left));
     }
 
+    function clampAddTabsScroll(left) {
+        return Math.min(getAddTabsMaxScroll(), Math.max(0, left));
+    }
+
     function getItemLeft(item) {
         return item.offsetLeft - track.offsetLeft;
     }
 
     function getAddItemLeft(item) {
         return item.offsetLeft - addTrack.offsetLeft;
+    }
+
+    function getAddTabLeft(item) {
+        return item.offsetLeft - addTabsTrack.offsetLeft;
     }
 
     function easeInOutCubic(progress) {
@@ -247,6 +270,34 @@
         }
 
         addScrollAnimationId = window.requestAnimationFrame(animate);
+    }
+
+    function scrollAddTabsToLeft(left) {
+        const targetLeft = clampAddTabsScroll(left);
+        const startLeft = addTabsViewport.scrollLeft;
+        const distance = targetLeft - startLeft;
+        const duration = Math.min(900, Math.max(420, Math.abs(distance) * .72));
+        const startTime = window.performance.now();
+
+        if (addTabsScrollAnimationId) {
+            window.cancelAnimationFrame(addTabsScrollAnimationId);
+        }
+
+        function animate(now) {
+            const progress = Math.min(1, (now - startTime) / duration);
+            addTabsViewport.scrollLeft = clampAddTabsScroll(startLeft + distance * easeInOutCubic(progress));
+
+            if (progress < 1) {
+                addTabsScrollAnimationId = window.requestAnimationFrame(animate);
+                return;
+            }
+
+            addTabsViewport.scrollLeft = targetLeft;
+            addTabsScrollAnimationId = null;
+            updateAddTabsArrowState();
+        }
+
+        addTabsScrollAnimationId = window.requestAnimationFrame(animate);
     }
 
     function getTabsMaxScroll() {
@@ -323,6 +374,23 @@
         addNextButton.classList.toggle('is-disabled', addNextButton.disabled);
     }
 
+    function updateAddTabsArrowState() {
+        if (!addTabsPrevButton || !addTabsNextButton) {
+            return;
+        }
+
+        const maxScroll = getAddTabsMaxScroll();
+        const left = addTabsViewport.scrollLeft;
+        const hasOverflow = maxScroll > 1;
+        const atStart = left <= 1;
+        const atEnd = left >= maxScroll - 1;
+
+        addTabsPrevButton.disabled = !hasOverflow || atStart;
+        addTabsNextButton.disabled = !hasOverflow || atEnd;
+        addTabsPrevButton.classList.toggle('is-disabled', addTabsPrevButton.disabled);
+        addTabsNextButton.classList.toggle('is-disabled', addTabsNextButton.disabled);
+    }
+
     function updateTabsArrowState() {
         if (!tabsPrevButton || !tabsNextButton) {
             return;
@@ -359,6 +427,18 @@
 
         return items.filter((item) => {
             const itemStart = getAddItemLeft(item);
+            const itemEnd = itemStart + item.offsetWidth;
+            return itemStart < end - 2 && itemEnd > start + 2;
+        });
+    }
+
+    function getVisibleAddTabs() {
+        const items = Array.from(addTabsTrack.querySelectorAll('.add-drawer-tab'));
+        const start = addTabsViewport.scrollLeft;
+        const end = start + addTabsViewport.clientWidth;
+
+        return items.filter((item) => {
+            const itemStart = getAddTabLeft(item);
             const itemEnd = itemStart + item.offsetWidth;
             return itemStart < end - 2 && itemEnd > start + 2;
         });
@@ -402,6 +482,26 @@
 
         const target = items[targetIndex] ? getAddItemLeft(items[targetIndex]) : 0;
         scrollAddToLeft(target);
+    }
+
+    function scrollAddTabsBySection(direction) {
+        const items = Array.from(addTabsTrack.querySelectorAll('.add-drawer-tab'));
+        const visibleItems = getVisibleAddTabs();
+        const visibleCount = Math.max(1, visibleItems.length);
+        let targetIndex = 0;
+
+        if (direction > 0) {
+            const lastVisible = visibleItems[visibleItems.length - 1];
+            const lastIndex = items.indexOf(lastVisible);
+            targetIndex = Math.min(items.length - 1, lastIndex + 1);
+        } else {
+            const firstVisible = visibleItems[0];
+            const firstIndex = items.indexOf(firstVisible);
+            targetIndex = Math.max(0, firstIndex - visibleCount);
+        }
+
+        const target = items[targetIndex] ? getAddTabLeft(items[targetIndex]) : 0;
+        scrollAddTabsToLeft(target);
     }
 
     function getVisibleTabs() {
@@ -478,6 +578,27 @@
         }
     }
 
+    function scrollSelectedAddTabIntoView(item) {
+        if (!addTabsCarousel || addTabsCarousel.classList.contains('is-no-scroll') || getAddTabsMaxScroll() <= 1) {
+            return;
+        }
+
+        const itemLeft = getAddTabLeft(item);
+        const itemRight = itemLeft + item.offsetWidth;
+        const viewportLeft = addTabsViewport.scrollLeft;
+        const viewportRight = viewportLeft + addTabsViewport.clientWidth;
+        const edgePadding = 8;
+
+        if (itemLeft < viewportLeft + edgePadding) {
+            scrollAddTabsToLeft(itemLeft - edgePadding);
+            return;
+        }
+
+        if (itemRight > viewportRight - edgePadding) {
+            scrollAddTabsToLeft(itemRight - addTabsViewport.clientWidth + edgePadding);
+        }
+    }
+
     function scrollSelectedTabIntoView(item) {
         if (!tabsCarousel || tabsCarousel.classList.contains('is-no-scroll') || getTabsMaxScroll() <= 1) {
             return;
@@ -537,6 +658,26 @@
         }
 
         addViewport.scrollLeft = clampAddScroll(addViewport.scrollLeft + delta);
+    }
+
+    function handleAddTabsWheel(event) {
+        const maxScroll = getAddTabsMaxScroll();
+        if (maxScroll <= 1) {
+            return;
+        }
+
+        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        if (!delta) {
+            return;
+        }
+
+        event.preventDefault();
+        if (addTabsScrollAnimationId) {
+            window.cancelAnimationFrame(addTabsScrollAnimationId);
+            addTabsScrollAnimationId = null;
+        }
+
+        addTabsViewport.scrollLeft = clampAddTabsScroll(addTabsViewport.scrollLeft + delta);
     }
 
     function handleTabsWheel(event) {
@@ -704,6 +845,85 @@
 
         addTrack.addEventListener('click', (event) => {
             if (moved || window.performance.now() < suppressAddClickUntil) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        });
+    }
+
+    function bindAddTabsDragScroll() {
+        if (!addTabsViewport || !addTabsTrack) {
+            return;
+        }
+
+        let pointerId = null;
+        let startX = 0;
+        let startScrollLeft = 0;
+        let moved = false;
+        let pressedTab = null;
+
+        addTabsViewport.addEventListener('pointerdown', (event) => {
+            if (event.button !== 0 || getAddTabsMaxScroll() <= 1) {
+                return;
+            }
+
+            event.preventDefault();
+            pointerId = event.pointerId;
+            startX = event.clientX;
+            startScrollLeft = addTabsViewport.scrollLeft;
+            moved = false;
+            pressedTab = event.target.closest('.add-drawer-tab');
+
+            if (addTabsScrollAnimationId) {
+                window.cancelAnimationFrame(addTabsScrollAnimationId);
+                addTabsScrollAnimationId = null;
+            }
+
+            addTabsViewport.classList.add('is-dragging');
+            addTabsViewport.setPointerCapture(pointerId);
+        });
+
+        addTabsViewport.addEventListener('pointermove', (event) => {
+            if (pointerId !== event.pointerId) {
+                return;
+            }
+
+            const distance = event.clientX - startX;
+            if (Math.abs(distance) > tabsDragSelectThreshold) {
+                moved = true;
+            }
+
+            event.preventDefault();
+            addTabsViewport.scrollLeft = clampAddTabsScroll(startScrollLeft - distance);
+        });
+
+        function endDrag(event) {
+            if (pointerId !== event.pointerId) {
+                return;
+            }
+
+            addTabsViewport.classList.remove('is-dragging');
+            addTabsViewport.releasePointerCapture(pointerId);
+
+            const scrollMoved = Math.abs(addTabsViewport.scrollLeft - startScrollLeft) > tabsDragSelectThreshold;
+            if (!moved && !scrollMoved && pressedTab) {
+                activateAddTab(pressedTab);
+            } else if (moved || scrollMoved) {
+                suppressAddTabsClickUntil = window.performance.now() + 250;
+            }
+
+            pointerId = null;
+            pressedTab = null;
+            window.setTimeout(() => {
+                moved = false;
+            }, 0);
+        }
+
+        addTabsViewport.addEventListener('pointerup', endDrag);
+        addTabsViewport.addEventListener('pointercancel', endDrag);
+
+        addTabsTrack.addEventListener('click', (event) => {
+            if (moved || window.performance.now() < suppressAddTabsClickUntil) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
             }
@@ -880,6 +1100,18 @@
         scrollSelectedAddIntoView(item);
     }
 
+    function activateAddTab(item) {
+        if (!item) {
+            return;
+        }
+
+        addTabsTrack.querySelectorAll('.add-drawer-tab').forEach((tab) => {
+            tab.classList.toggle('is-active', tab === item);
+        });
+
+        scrollSelectedAddTabIntoView(item);
+    }
+
     function activateTab(item) {
         if (!item) {
             return;
@@ -942,14 +1174,23 @@
 
         addDrawerHasScroll = hasScroll;
         addCarousel.classList.toggle('is-no-scroll', !hasScroll);
+        addTabsCarousel?.classList.toggle('is-no-scroll', !hasScroll);
         addViewport.scrollLeft = 0;
+        if (addTabsViewport) {
+            addTabsViewport.scrollLeft = 0;
+        }
 
         if (addScrollAnimationId) {
             window.cancelAnimationFrame(addScrollAnimationId);
             addScrollAnimationId = null;
         }
+        if (addTabsScrollAnimationId) {
+            window.cancelAnimationFrame(addTabsScrollAnimationId);
+            addTabsScrollAnimationId = null;
+        }
 
         updateAddArrowState();
+        updateAddTabsArrowState();
     }
 
     function updateSwitcherButtons() {
@@ -972,6 +1213,7 @@
 
         if (drawerName === 'add') {
             updateAddArrowState();
+            updateAddTabsArrowState();
         } else {
             updateArrowState();
             updateTabsArrowState();
@@ -995,12 +1237,16 @@
     tabsTrack?.querySelectorAll('.drawer-tab').forEach((tab) => {
         tab.draggable = false;
     });
+    addTabsTrack?.querySelectorAll('.add-drawer-tab').forEach((tab) => {
+        tab.draggable = false;
+    });
     activateAddStatus(addTrack?.querySelector('.add-status-pill.active'));
     updateTruncatedHoverWidths();
     window.requestAnimationFrame(updateTruncatedHoverWidths);
     document.fonts?.ready?.then(updateTruncatedHoverWidths);
     activateStatus(track.querySelector('.status-pill.active'));
     bindAddDragScroll();
+    bindAddTabsDragScroll();
     bindDragScroll();
     bindTabsDragScroll();
 
@@ -1020,6 +1266,15 @@
         }
 
         scrollAddBySection(button === addPrevButton ? -1 : 1);
+    });
+
+    addTabsCarousel?.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-add-tabs-prev], [data-add-tabs-next]');
+        if (!button || button.disabled) {
+            return;
+        }
+
+        scrollAddTabsBySection(button === addTabsPrevButton ? -1 : 1);
     });
 
     tabsCarousel?.addEventListener('click', (event) => {
@@ -1059,6 +1314,21 @@
         activateAddStatus(item);
     });
 
+    addTabsTrack?.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        if (window.performance.now() < suppressAddTabsClickUntil) {
+            return;
+        }
+
+        const item = event.target.closest('.add-drawer-tab');
+        if (!item) {
+            return;
+        }
+
+        activateAddTab(item);
+    });
+
     tabsTrack?.addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -1094,15 +1364,19 @@
 
     addViewport?.addEventListener('wheel', handleAddWheel, { passive: false });
     addViewport?.addEventListener('scroll', updateAddArrowState, { passive: true });
+    addTabsViewport?.addEventListener('wheel', handleAddTabsWheel, { passive: false });
+    addTabsViewport?.addEventListener('scroll', updateAddTabsArrowState, { passive: true });
     viewport.addEventListener('wheel', handleWheel, { passive: false });
     viewport.addEventListener('scroll', updateArrowState, { passive: true });
     tabsViewport?.addEventListener('wheel', handleTabsWheel, { passive: false });
     tabsViewport?.addEventListener('scroll', updateTabsArrowState, { passive: true });
     window.addEventListener('resize', updateAddArrowState);
+    window.addEventListener('resize', updateAddTabsArrowState);
     window.addEventListener('resize', updateArrowState);
     window.addEventListener('resize', updateTabsArrowState);
 
     updateAddArrowState();
+    updateAddTabsArrowState();
     updateArrowState();
     updateTabsArrowState();
     updateSwitcherButtons();

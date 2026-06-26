@@ -145,9 +145,8 @@
 }
 
 .crm-add-deal-drawer {
-    width: min(760px, calc(100vw - 206px));
-    min-width: 620px;
-    background: #fff;
+    width: 720px;
+    min-width: 720px;
 }
 
 .is-hidden {
@@ -179,6 +178,7 @@
 .crm-add-deal-drawer__header {
     flex: 0 0 auto;
     padding: 22px 28px 0;
+    background: #fff;
 }
 
 .add-title-row {
@@ -740,13 +740,98 @@
     color: #00b175;
 }
 
-.add-drawer-tabs {
-    display: flex;
-    align-items: flex-end;
+.add-tabs-carousel {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) 32px;
+    align-items: center;
     gap: 8px;
     height: 55px;
     margin: 0 28px;
     border-bottom: 1px solid #d9e1e1;
+    background: #fff;
+}
+
+.add-tabs-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: #e1e8e8;
+    color: #023346;
+    transition: background-color .15s ease, opacity .15s ease;
+}
+
+.add-tabs-arrow .sp-icon {
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.add-tabs-arrow:hover:not(:disabled) {
+    background: #d4dddd;
+}
+
+.add-tabs-arrow:disabled,
+.add-tabs-arrow.is-disabled {
+    cursor: default;
+    opacity: .4;
+}
+
+.add-tabs-carousel.is-no-scroll {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.add-tabs-carousel.is-no-scroll .add-tabs-arrow {
+    display: none;
+}
+
+.add-drawer-tabs-viewport {
+    min-width: 0;
+    height: 55px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.add-drawer-tabs-viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.add-drawer-tabs-viewport.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+.add-tabs-carousel.is-no-scroll .add-drawer-tabs-viewport {
+    width: max-content;
+    max-width: 100%;
+    overflow: hidden;
+    cursor: default;
+}
+
+.add-drawer-tabs {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    width: max-content;
+    min-width: 100%;
+    height: 55px;
+}
+
+.add-tabs-carousel.is-no-scroll .add-drawer-tabs {
+    width: max-content;
+    min-width: 0;
+}
+
+.add-tabs-carousel.is-no-scroll .add-drawer-tab:nth-child(n+4) {
+    display: none;
 }
 
 .add-drawer-tab {
@@ -761,6 +846,7 @@
     text-align: center;
     text-decoration: none;
     white-space: nowrap;
+    user-select: none;
 }
 
 .add-drawer-tab.is-active {
@@ -773,7 +859,6 @@
     min-height: 0;
     padding: 15px 28px 24px;
     overflow: auto;
-    background: #f2f5f5;
 }
 
 .add-drawer-section {

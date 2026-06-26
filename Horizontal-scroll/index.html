@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20260626-horizontal-scroll-15" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260626-horizontal-scroll-16" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
     <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
@@ -91,9 +91,27 @@
             </div>
         </header>
 
-        <div class="add-drawer-tabs">
-            <a class="add-drawer-tab is-active" href="#">Загальні</a>
-            <a class="add-drawer-tab" href="#">Товари</a>
+        <div class="add-tabs-carousel" data-add-tabs-carousel>
+            <button class="add-tabs-arrow add-tabs-arrow-prev" type="button" data-add-tabs-prev aria-label="Попередні вкладки">
+                <span class="sp-icon icon-chevron-left" aria-hidden="true"></span>
+            </button>
+            <div class="add-drawer-tabs-viewport" data-add-tabs-viewport tabindex="0" aria-label="Розділи нової угоди">
+                <nav class="add-drawer-tabs" data-add-tabs-track>
+                    <a class="add-drawer-tab is-active" href="#">Загальні</a>
+                    <a class="add-drawer-tab" href="#">Товари</a>
+                    <a class="add-drawer-tab" href="#">Контакт</a>
+                    <a class="add-drawer-tab" href="#">Файли</a>
+                    <a class="add-drawer-tab" href="#">Коментарі</a>
+                    <a class="add-drawer-tab" href="#">Завдання</a>
+                    <a class="add-drawer-tab" href="#">Оплати</a>
+                    <a class="add-drawer-tab" href="#">Документи</a>
+                    <a class="add-drawer-tab" href="#">Нотатки</a>
+                    <a class="add-drawer-tab" href="#">Історія</a>
+                </nav>
+            </div>
+            <button class="add-tabs-arrow add-tabs-arrow-next" type="button" data-add-tabs-next aria-label="Наступні вкладки">
+                <span class="sp-icon icon-chevron-right" aria-hidden="true"></span>
+            </button>
         </div>
 
         <section class="add-drawer-body">
@@ -335,6 +353,6 @@
     </main>
 </div>
 
-<script src="scripts/prototype.js?v=20260626-horizontal-scroll-15"></script>
+<script src="scripts/prototype.js?v=20260626-horizontal-scroll-16"></script>
 </body>
 </html>
