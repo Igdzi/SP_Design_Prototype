@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20260626-horizontal-scroll-12" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260626-horizontal-scroll-13" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
     <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
@@ -64,6 +64,31 @@
         <button class="drawer-close" type="button" aria-label="Закрити дровер">
             <span aria-hidden="true">×</span>
         </button>
+
+        <section class="crm-add-deal-preview" aria-label="CRM add deal drawer">
+            <div class="add-title-row">
+                <div class="add-title-input">Назва угоди</div>
+            </div>
+            <div class="deal-steps-row add-deal-steps-row">
+                <button class="pipeline-dropdown add-pipeline-dropdown" type="button" aria-label="Вибрати воронку">
+                    <span class="pipeline-avatar">П</span>
+                    <span class="pipeline-name">Продажі та створення</span>
+                    <span class="caret"></span>
+                </button>
+
+                <div class="add-status-carousel" data-add-status-carousel>
+                    <button class="add-status-arrow add-status-arrow-prev" type="button" data-add-scroll-prev aria-label="Попередні етапи">
+                        <span class="sp-icon icon-chevron-left" aria-hidden="true"></span>
+                    </button>
+                    <div class="add-status-viewport" data-add-status-viewport tabindex="0" aria-label="Етапи нової угоди">
+                        <div class="add-steps-list add-status-track" data-add-status-track></div>
+                    </div>
+                    <button class="add-status-arrow add-status-arrow-next" type="button" data-add-scroll-next aria-label="Наступні етапи">
+                        <span class="sp-icon icon-chevron-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
         <header class="crm-deal-drawer__header">
             <div class="crm-deal-drawer__header-row">
@@ -262,6 +287,6 @@
     </main>
 </div>
 
-<script src="scripts/prototype.js?v=20260626-horizontal-scroll-12"></script>
+<script src="scripts/prototype.js?v=20260626-horizontal-scroll-13"></script>
 </body>
 </html>
