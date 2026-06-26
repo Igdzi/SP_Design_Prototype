@@ -55,10 +55,10 @@
     const tabsTrack = tabsCarousel?.querySelector('[data-tabs-track]');
     const tabsPrevButton = tabsCarousel?.querySelector('[data-tabs-prev]');
     const tabsNextButton = tabsCarousel?.querySelector('[data-tabs-next]');
-    const addScrollButton = document.querySelector('[data-switcher-option="add-scroll"]');
-    const addNoScrollButton = document.querySelector('[data-switcher-option="add-no-scroll"]');
-    const addedScrollButton = document.querySelector('[data-switcher-option="added-scroll"]');
-    const addedNoScrollButton = document.querySelector('[data-switcher-option="added-no-scroll"]');
+    const addDrawerButton = document.querySelector('[data-drawer-option="add"]');
+    const addedDrawerButton = document.querySelector('[data-drawer-option="added"]');
+    const scrollModeButton = document.querySelector('[data-scroll-mode="scroll"]');
+    const noScrollModeButton = document.querySelector('[data-scroll-mode="no-scroll"]');
     const dragSelectThreshold = 8;
     const tabsDragSelectThreshold = 3;
     let addScrollAnimationId = null;
@@ -67,6 +67,9 @@
     let suppressAddClickUntil = 0;
     let suppressClickUntil = 0;
     let suppressTabsClickUntil = 0;
+    let activeDrawer = 'added';
+    let addDrawerHasScroll = true;
+    let addedDrawerHasScroll = true;
 
     function renderStatuses() {
         const fragment = document.createDocumentFragment();
@@ -911,8 +914,7 @@
     }
 
     function setAddedDrawerScrollMode(hasScroll) {
-        addDrawer?.classList.add('is-hidden');
-        addedDrawer?.classList.remove('is-hidden');
+        addedDrawerHasScroll = hasScroll;
         carousel.classList.toggle('is-no-scroll', !hasScroll);
         tabsCarousel?.classList.toggle('is-no-scroll', !hasScroll);
         viewport.scrollLeft = 0;
@@ -929,13 +931,6 @@
             tabsScrollAnimationId = null;
         }
 
-        if (addedScrollButton && addedNoScrollButton) {
-            addedScrollButton.classList.toggle('btn-primary', hasScroll);
-            addedScrollButton.classList.toggle('btn-default', !hasScroll);
-            addedNoScrollButton.classList.toggle('btn-primary', !hasScroll);
-            addedNoScrollButton.classList.toggle('btn-default', hasScroll);
-        }
-
         updateArrowState();
         updateTabsArrowState();
     }
@@ -945,8 +940,7 @@
             return;
         }
 
-        addDrawer?.classList.remove('is-hidden');
-        addedDrawer?.classList.add('is-hidden');
+        addDrawerHasScroll = hasScroll;
         addCarousel.classList.toggle('is-no-scroll', !hasScroll);
         addViewport.scrollLeft = 0;
 
@@ -955,14 +949,45 @@
             addScrollAnimationId = null;
         }
 
-        if (addScrollButton && addNoScrollButton) {
-            addScrollButton.classList.toggle('btn-primary', hasScroll);
-            addScrollButton.classList.toggle('btn-default', !hasScroll);
-            addNoScrollButton.classList.toggle('btn-primary', !hasScroll);
-            addNoScrollButton.classList.toggle('btn-default', hasScroll);
+        updateAddArrowState();
+    }
+
+    function updateSwitcherButtons() {
+        const currentHasScroll = activeDrawer === 'add' ? addDrawerHasScroll : addedDrawerHasScroll;
+
+        addDrawerButton?.classList.toggle('btn-primary', activeDrawer === 'add');
+        addDrawerButton?.classList.toggle('btn-default', activeDrawer !== 'add');
+        addedDrawerButton?.classList.toggle('btn-primary', activeDrawer === 'added');
+        addedDrawerButton?.classList.toggle('btn-default', activeDrawer !== 'added');
+        scrollModeButton?.classList.toggle('btn-primary', currentHasScroll);
+        scrollModeButton?.classList.toggle('btn-default', !currentHasScroll);
+        noScrollModeButton?.classList.toggle('btn-primary', !currentHasScroll);
+        noScrollModeButton?.classList.toggle('btn-default', currentHasScroll);
+    }
+
+    function showDrawer(drawerName) {
+        activeDrawer = drawerName;
+        addDrawer?.classList.toggle('is-hidden', drawerName !== 'add');
+        addedDrawer?.classList.toggle('is-hidden', drawerName !== 'added');
+
+        if (drawerName === 'add') {
+            updateAddArrowState();
+        } else {
+            updateArrowState();
+            updateTabsArrowState();
         }
 
-        updateAddArrowState();
+        updateSwitcherButtons();
+    }
+
+    function setActiveDrawerScrollMode(hasScroll) {
+        if (activeDrawer === 'add') {
+            setAddDrawerScrollMode(hasScroll);
+        } else {
+            setAddedDrawerScrollMode(hasScroll);
+        }
+
+        updateSwitcherButtons();
     }
 
     renderStatuses();
@@ -1062,10 +1087,10 @@
         collapseTruncatedItem(item);
     });
 
-    addScrollButton?.addEventListener('click', () => setAddDrawerScrollMode(true));
-    addNoScrollButton?.addEventListener('click', () => setAddDrawerScrollMode(false));
-    addedScrollButton?.addEventListener('click', () => setAddedDrawerScrollMode(true));
-    addedNoScrollButton?.addEventListener('click', () => setAddedDrawerScrollMode(false));
+    addDrawerButton?.addEventListener('click', () => showDrawer('add'));
+    addedDrawerButton?.addEventListener('click', () => showDrawer('added'));
+    scrollModeButton?.addEventListener('click', () => setActiveDrawerScrollMode(true));
+    noScrollModeButton?.addEventListener('click', () => setActiveDrawerScrollMode(false));
 
     addViewport?.addEventListener('wheel', handleAddWheel, { passive: false });
     addViewport?.addEventListener('scroll', updateAddArrowState, { passive: true });
@@ -1080,6 +1105,7 @@
     updateAddArrowState();
     updateArrowState();
     updateTabsArrowState();
+    updateSwitcherButtons();
 
     window.horizontalScrollPrototype = {
         viewport,
