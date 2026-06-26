@@ -147,6 +147,7 @@
 .crm-add-deal-drawer {
     width: 720px;
     min-width: 720px;
+    background: #f3f5f5;
 }
 
 .is-hidden {
@@ -178,7 +179,6 @@
 .crm-add-deal-drawer__header {
     flex: 0 0 auto;
     padding: 22px 28px 0;
-    background: #fff;
 }
 
 .add-title-row {
@@ -748,7 +748,6 @@
     height: 55px;
     margin: 0 28px;
     border-bottom: 1px solid #d9e1e1;
-    background: #fff;
 }
 
 .add-tabs-arrow {
