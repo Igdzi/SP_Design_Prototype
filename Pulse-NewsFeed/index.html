@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="ma-light" lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM / Пульс</title>
+    <meta id="ma_viewport" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260724-25" rel="stylesheet" media="screen">
+
+    <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
+    <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
+    <link rel="apple-touch-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/apple-touch-icon.png">
+    <link rel="alternate icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.ico">
+    <link rel="manifest" href="https://login.sendpulse.com/img/favicon/sendpulse/manifest.json">
+</head>
+
+<body class="sp">
+<div id="page-wrapper" class="site-wrapper clearfix">
+    <nav id="menu-navbar" class="navbar sp-navbar js-menu-navbar">
+        <div class="sp-navbar-collapse">
+            <a href="/welcome" class="top-menu-item top-menu-item-logo top-menu-item-logo-desktop" data-analytics-event="ma_header_logo_btn">
+                <img src="https://login.sendpulse.com/img/sendpulse-logo-menu.svg" width="32" alt="SendPulse">
+            </a>
+            <div class="activate-submenu-phone">
+                <a class="top-menu-item top-menu-item-logo" id="activate-submenu-phone">
+                    <img src="https://login.sendpulse.com/img/sendpulse-logo-menu.svg" width="32" alt="SendPulse">
+                    <span class="activate-submenu-phone-item js-header-navbar-toggle-text"></span>
+                </a>
+            </div>
+            <button type="button" class="navbar-toggle collapsed header-navbar-toggle" data-toggle="collapse" data-target="#header-navbar-collapse" aria-expanded="false">
+                <span class="header-navbar-toggle-icon js-header-navbar-toggle-icon"><span class="sp-icon icon-envelope"></span></span>
+                <span class="header-navbar-toggle-text js-header-navbar-toggle-text"></span>
+            </button>
+        </div>
+
+        <ul class="nav navbar-nav sp-nav-services navbar-collapse collapse" id="header-navbar-collapse">
+            <li class="animate js-navbar-item">
+                <a href="/emailservice/" class="top-menu-item" data-analytics-event="ma_header_email_btn">
+                    <span class="sp-icon icon-envelope"></span>
+                    <div class="top-menu-item-text">Розсилки</div>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/automation/" class="top-menu-item" data-analytics-event="ma_header_a360_btn">
+                    <span class="sp-icon icon-chain-a360"></span>
+                    <span class="top-menu-item-text">Automation</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/messengers/" class="top-menu-item" data-analytics-event="ma_header_chatbots_btn">
+                    <span class="sp-icon icon-chatbot"></span>
+                    <span class="top-menu-item-text">Чат-боти</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item active">
+                <a href="/crm/" class="top-menu-item" data-analytics-event="ma_header_crm_btn">
+                    <span class="sp-icon icon-crm"></span>
+                    <span class="top-menu-item-text">CRM</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/landing-pages/" class="top-menu-item" data-analytics-event="ma_header_websites_btn">
+                    <span class="sp-icon icon-landing-site"></span>
+                    <span class="top-menu-item-text">Сайти</span>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/pop-ups/" class="top-menu-item" data-analytics-event="ma_header_popups_btn">
+                    <span class="sp-icon icon-popup"></span>
+                    <span class="top-menu-item-text">Попапи</span>
+                </a>
+            </li>
+            <li class="animate js-navbar-item">
+                <a href="/push/" class="top-menu-item" data-analytics-event="ma_header_push_btn">
+                    <span class="sp-icon icon-bell"></span>
+                    <div class="top-menu-item-text">Push</div>
+                </a>
+            </li>
+            <li class="animate js-navbar-item">
+                <a href="/smtp/" class="top-menu-item" data-analytics-event="ma_header_smtp_btn">
+                    <span class="sp-icon icon-code"></span>
+                    <div class="top-menu-item-text">SMTP</div>
+                </a>
+            </li>
+            <li class="animate highlight-menu-item">
+                <a href="/edu/" class="top-menu-item" data-analytics-event="ma_header_courses_btn">
+                    <span class="sp-icon icon-edu"></span>
+                    <span class="top-menu-item-text">Курси</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right sp-nav-account">
+            <li class="js-navbar-item hidden"><a href="/manual/" class="section-link"><span>Документація</span></a></li>
+            <li class="js-navbar-item hidden"><a href="/support/" class="section-link"><span>Підтримка</span></a></li>
+            <li class="js-navbar-item hidden" id="setting-item"><a href="/settings/" class="section-link"><span>Налаштування</span></a></li>
+            <li class="animate-accent js-navbar-item hidden-xs"></li>
+            <li class="noty-button-holder" id="noty-sidebar-app">
+                <a class="noty-button" data-toggle="collapse" href="#notySidebar" data-analytics-event="ma_header_notification_btn">
+                    <span class="sp-icon icon-bell"></span>
+                    <span class="badge status-red" id="noty-sidebar-notread-status">&nbsp;</span>
+                </a>
+            </li>
+            <li class="dropdown" role="navigation">
+                <a class="dropdown-toggle user-dropdown" data-toggle="dropdown" aria-expanded="false" data-analytics-event="ma_header_account_btn">
+                    <div id="user_avatar_img_circle" class="img-circle text-center" style="background-color: #f5f5f5;"></div>
+                    <span class="caret"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <div id="side-menu" class="side-menu open">
+            <a href="javascript: void(0);" class="side-menu-close" aria-label="Close">×</a>
+            <div id="accrodion-collapser-phone" class="accrodion-collapser">
+                <ul id="accordion" class="accordion flat-list">
+                    <li class="active"><a href="/crm/pulse"><span class="sp-icon icon-ap-activity"></span><span class="sb-link-text truncate"> Пульс </span></a></li>
+                    <li><a href="/crm/deals"><span class="sp-icon icon-deal"></span><span class="sb-link-text truncate"> Угоди </span></a></li>
+                    <li><a href="/crm/contacts"><span class="sp-icon icon-users"></span><span class="sb-link-text truncate"> Контакти </span></a></li>
+                    <li><a href="/crm/tasks/kanban"><span class="sp-icon icon-tick"></span><span class="sb-link-text truncate"> Завдання </span></a></li>
+                    <li><a href="/crm/activity"><span class="sp-icon icon-revert"></span><span class="sb-link-text truncate"> Історія подій </span></a></li>
+                    <li><a href="/crm/mail"><span class="sp-icon icon-envelope"></span><span class="sb-link-text truncate"> Пошта </span></a></li>
+                    <li class="expandable e-commerce-nav"><a href="#"><span class="sp-icon icon-cart"></span><span class="sb-link-text truncate"> eCommerce <span class="caret pull-right"></span></span></a></li>
+                    <li><a href="/crm/integration"><span class="sp-icon icon-integration"></span><span class="sb-link-text truncate"> Інтеграції </span></a></li>
+                    <li><a href="/crm/file-manager"><span class="sp-icon icon-file-manager"></span><span class="sb-link-text truncate"> Менеджер файлів </span></a></li>
+                    <li><a href="/crm/settings"><span class="sp-icon icon-mixer"></span><span class="sb-link-text truncate">Налаштування</span></a></li>
+                    <li class="last"><a href="/crm/plans"><span class="sp-icon icon-pay-wallet"></span><span class="sb-link-text truncate"> Тарифи </span></a></li>
+                    <li class="accordion-footer accordion-footer-plan-email">
+                        <a title="Дійсний до: 27 червня 2026 р., 11:10" href="/crm/plans">
+                            <span class="sp-icon icon-briefcase"></span>
+                            <div class="progress"><div class="progress-bar" style="width: 100%;"></div></div>
+                            <div class="sb-link-text"> Standard <div><small>Перейти до тарифів</small></div></div>
+                        </a>
+                    </li>
+                </ul>
+                <button class="btn btn-toggle-sidebar pull-right" id="btnToggleSidebar">
+                    <span class="sp-icon icon-chevron-left icon-sidebar-hide"></span>
+                    <span class="sp-icon icon-chevron-right icon-sidebar-show"></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="content-placeholder">
+            <div id="header" class="clearfix"></div>
+            <div id="content-wrapper" class="js-content-wrapper content-wrapper-dashboard">
+                <div id="breadcrumbs">CRM / Пульс</div>
+
+                <div class="pulse-page-header">
+                    <h1>Пульс</h1>
+
+                    <div class="dropdown">
+                        <button class="btn btn-create dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sp-icon icon-add"></span> Додати <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" id="addDropdownMenu">
+                            <li><a href="#" data-add="deal"><span class="sp-icon icon-deal"></span> Угоду</a></li>
+                            <li><a href="#" data-add="contact"><span class="sp-icon icon-contact"></span> Контакт</a></li>
+                            <li><a href="#" data-add="task"><span class="sp-icon icon-tick"></span> Задачу</a></li>
+                            <li><a href="#" data-add="pipeline" title="Воронка для угод"><span class="sp-icon icon-pipelines"></span> Воронку</a></li>
+                            <li><a href="#" data-add="board" title="Дошка для задач"><span class="sp-icon icon-clipboard"></span> Дошку</a></li>
+                            <li class="divider" id="addAnnDivider"></li>
+                            <li id="addAnnItem"><a href="#" id="openAnnFormBtn"><span class="sp-icon icon-bullhorn"></span> Анонс</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ═══ SECTION: ANNOUNCEMENTS ═══ -->
+                <section id="pulseAnnouncements" class="pulse-section pulse-ann-section">
+                    <div class="pulse-sec-title"><span class="sp-icon icon-bullhorn"></span> Анонси <span class="pulse-sec-count" id="annSecCount"></span></div>
+                    <div class="pulse-ann-grid" id="annGrid"></div>
+                </section>
+
+                <!-- ═══ ZONE LAYOUT: MY DAY (2/3) + FEED (1/3) ═══ -->
+                <div class="pulse-zone-layout">
+
+                    <!-- ── ZONE LEFT: MY DAY ── -->
+                    <div class="pulse-zone-left">
+                        <div class="pulse-sec-title"><span class="sp-icon icon-ap-calendar"></span> Мій день</div>
+
+                        <!-- TASKS PANEL -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><span class="sp-icon icon-task"></span> Завдання</h3>
+                                <a href="/crm/tasks/kanban" class="pulse-panel-link">Усі завдання →</a>
+                            </div>
+                            <div class="panel-body" id="tasksPanelBody"></div>
+                        </div>
+
+                        <!-- DEALS PANEL -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><span class="sp-icon icon-deal"></span> Угоди з дедлайном</h3>
+                                <a href="/crm/deals" class="pulse-panel-link">Усі угоди →</a>
+                            </div>
+                            <div class="panel-body" id="dealsPanelBody"></div>
+                        </div>
+                    </div>
+
+                    <!-- ── ZONE RIGHT: EVENT FEED (components ported from ../CRM_History-Event-Page) ── -->
+                    <div class="pulse-zone-right">
+                        <div class="pulse-sec-title">
+                            <span class="sp-icon icon-revert"></span> Історія подій
+                            <div class="pulse-period-toggle" id="feedPeriodMenu">
+                                <a href="#" class="active" data-period="сьогодні">Сьогодні</a>
+                                <a href="#" data-period="вчора">Вчора</a>
+                            </div>
+                        </div>
+
+                        <main id="feedList" class="activity-feed" aria-live="polite"></main>
+
+                        <div class="pulse-load-more-row">
+                            <button class="btn btn-default" id="loadMoreBtn" type="button">
+                                <span class="sp-icon icon-refresh"></span> Завантажити більше
+                            </button>
+                        </div>
+                    </div>
+
+                </div><!-- /pulse-zone-layout -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ ANNOUNCEMENT DETAIL MODAL ══════ -->
+<div class="modal fade" id="annDetailModal" tabindex="-1" role="dialog" aria-labelledby="annDetailTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="crm-modal-page pulse-ann-modal" id="annDetailCard">
+                <div class="crm-modal-page__section top">
+                    <div class="crm-modal-page-top">
+                        <div class="title" id="annDetailTitle">Анонс</div>
+                        <span class="pulse-prio-badge" id="annDetailBadge"></span>
+                        <div class="close-icon" data-dismiss="modal" aria-label="Close">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.00641 6L0.496792 1.49038L0 0.993585L0.993585 0L1.49038 0.496792L6 5.00641L10.5096 0.496792L11.0064 0L12 0.993585L11.5032 1.49038L6.99358 6L11.5032 10.5096L12 11.0064L11.0064 12L10.5096 11.5032L6 6.99358L1.49038 11.5032L0.993585 12L0 11.0064L0.496793 10.5096L5.00641 6Z" fill="#000000"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="crm-modal-page__section body">
+                    <div class="pulse-ann-modal-meta" id="annDetailMeta"></div>
+                    <div class="pulse-ann-modal-text" id="annDetailText"></div>
+                    <div class="pulse-ann-modal-img" id="annDetailImg" style="display:none"></div>
+                </div>
+                <div class="crm-modal-page__section bottom">
+                    <div class="pulse-ann-modal-actions" id="annDetailActionsRow">
+                        <div class="dropdown dropup pulse-actions-dropdown" id="annDetailAuthorActions">
+                            <button type="button" class="pulse-actions-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="pulse-actions-btn-label">Дії</span>
+                                <span class="pulse-actions-btn-divider"></span>
+                                <span class="pulse-actions-btn-caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="annEditBtn"><span class="sp-icon icon-ap-edit"></span> Редагувати</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="annDeleteBtn" class="pulse-actions-item-danger" title="Видалити повністю з блоку анонсів"><span class="sp-icon icon-ap-trash"></span> Видалити</a></li>
+                            </ul>
+                        </div>
+                        <div class="pulse-ann-modal-actions-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ ANNOUNCEMENT CREATE / EDIT MODAL ══════ -->
+<div class="modal fade" id="annFormModal" tabindex="-1" role="dialog" aria-labelledby="annFormTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="crm-modal-page">
+                <div class="crm-modal-page__section top">
+                    <div class="crm-modal-page-top">
+                        <div class="title" id="annFormTitle">Новий анонс</div>
+                        <div class="close-icon" data-dismiss="modal" aria-label="Close">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.00641 6L0.496792 1.49038L0 0.993585L0.993585 0L1.49038 0.496792L6 5.00641L10.5096 0.496792L11.0064 0L12 0.993585L11.5032 1.49038L6.99358 6L11.5032 10.5096L12 11.0064L11.0064 12L10.5096 11.5032L6 6.99358L1.49038 11.5032L0.993585 12L0 11.0064L0.496793 10.5096L5.00641 6Z" fill="#000000"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="crm-modal-page__section body">
+                    <form id="annForm">
+                        <div class="form-group">
+                            <label for="annText">Текст анонсу <span class="pulse-required">*</span></label>
+                            <textarea class="form-control" id="annText" rows="5" maxlength="500" placeholder="Введіть текст анонсу для команди..."></textarea>
+                            <p class="pulse-field-error" id="annTextError">Введіть текст анонсу</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Зображення</label>
+                            <div class="pulse-upload-zone" id="annImageZone">
+                                <div class="pulse-upload-zone__icon">
+                                    <span class="sp-icon icon-picture"></span>
+                                </div>
+                                <div class="pulse-upload-zone__top">
+                                    <div class="pulse-upload-zone__title">Перетягніть зображення або натисніть, щоб завантажити його</div>
+                                </div>
+                                <div class="pulse-upload-zone__notification">
+                                    <p>PNG, JPG — до 5 МБ</p>
+                                </div>
+                            </div>
+                            <input type="file" id="annImageInput" accept="image/*" class="hide">
+                            <div class="pulse-upload-preview" id="annImagePreview" style="display:none">
+                                <img id="annImageThumb" alt="">
+                                <button type="button" class="pulse-upload-remove" id="annImageRemoveBtn" aria-label="Видалити зображення">×</button>
+                            </div>
+                        </div>
+
+                        <div class="pulse-form-row">
+                            <div class="form-group">
+                                <label for="annPriority">Пріоритет</label>
+                                <select class="form-control" id="annPriority">
+                                    <option value="normal">Інформаційний</option>
+                                    <option value="important">Важливий</option>
+                                    <option value="urgent">Терміновий</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="annExpiry">Дійсний до</label>
+                                <input type="date" class="form-control" id="annExpiry">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="crm-modal-page__section bottom">
+                    <div class="crm-modal-page-bottom">
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-default" id="annCancelBtn">Скасувати</button>
+                            <button type="button" class="btn btn-create" id="annSubmitBtn">Опублікувати</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ OBJECT DRAWER (угода / завдання / контакт / дзвінок) ══════ -->
+<aside id="objectDrawer" class="activity-drawer" aria-hidden="true">
+    <div class="activity-drawer-panel pulse-object-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="objectDrawerTitle">
+        <button class="close-drawer activity-drawer-close" type="button" aria-label="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.84082 7L0.579591 1.73877L0 1.15918L1.15918 0L1.73877 0.579591L7 5.84082L12.2612 0.579591L12.8408 0L14 1.15918L13.4204 1.73877L8.15918 7L13.4204 12.2612L14 12.8408L12.8408 14L12.2612 13.4204L7 8.15918L1.73877 13.4204L1.15918 14L0 12.8408L0.579592 12.2612L5.84082 7Z" fill="#999999"></path>
+            </svg>
+        </button>
+        <div class="activity-drawer-scroll">
+            <div class="pulse-drawer-content">
+                <div class="pulse-drawer-header">
+                    <span class="pulse-drawer-type" id="objectDrawerType">Угода</span>
+                    <h2 id="objectDrawerTitle">—</h2>
+                    <div class="pulse-drawer-actions">
+                        <button type="button" class="btn btn-default btn-sm"><span class="sp-icon icon-ap-edit"></span> Редагувати</button>
+                        <button type="button" class="btn btn-default btn-sm"><span class="sp-icon icon-arrow-right1"></span> Відкрити повністю</button>
+                    </div>
+                </div>
+                <div id="objectDrawerBody"></div>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- ══════ ANNOUNCEMENT DELETE CONFIRM POPOVER ══════ -->
+<div class="pulse-ann-confirm-popover hide" id="annConfirmBlock">
+    <p class="pulse-ann-confirm-popover-text" id="annConfirmText">Ви дійсно хочете видалити анонс?</p>
+    <div class="pulse-ann-confirm-popover-buttons">
+        <button type="button" class="btn btn-danger btn-sm" id="annConfirmYes">Так, видалити</button>
+        <button type="button" class="btn btn-default btn-sm" id="annConfirmNo">Ні, залишити</button>
+    </div>
+</div>
+
+<!-- ══════ PROTOTYPE-ONLY: STATE SWITCHER (not part of the real product UI) ══════ -->
+<div class="proto-state-panel" id="protoStatePanel">
+    <span class="proto-state-label">Стан прототипу</span>
+    <div class="proto-state-toggle">
+        <button type="button" class="active" data-proto-state="full">Повний</button>
+        <button type="button" data-proto-state="empty">Порожній</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://login.sendpulse.com/dist/js/bootstrap.min.js"></script>
+<script src="scripts/prototype.js?v=20260724-25"></script>
+</body>
+</html>

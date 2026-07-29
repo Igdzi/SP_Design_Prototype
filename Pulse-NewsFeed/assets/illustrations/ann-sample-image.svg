@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+    <defs>
+        <linearGradient id="ann-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#8ed1c9"/>
+            <stop offset="1" stop-color="#c9e8de"/>
+        </linearGradient>
+        <linearGradient id="ann-hill-back" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#5fb3ab"/>
+            <stop offset="1" stop-color="#4a9d95"/>
+        </linearGradient>
+        <linearGradient id="ann-hill-front" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#00b175"/>
+            <stop offset="1" stop-color="#029e6a"/>
+        </linearGradient>
+    </defs>
+    <rect width="640" height="360" fill="url(#ann-sky)"/>
+    <circle cx="500" cy="90" r="46" fill="#ffffff" opacity="0.85"/>
+    <path d="M0 210 Q 160 140 320 205 T 640 190 V360 H0 Z" fill="url(#ann-hill-back)"/>
+    <path d="M0 260 Q 180 190 340 250 T 640 235 V360 H0 Z" fill="url(#ann-hill-front)"/>
+</svg>
