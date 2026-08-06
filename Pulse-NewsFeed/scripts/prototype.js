@@ -35,17 +35,57 @@
     var announcements = [
         ann(1, 'urgent', 'Олена Коваль', '21.07.2026 18:30',
             'Завтра о 14:00 загальна нарада відділу продажів. Обговорюємо нові тарифи та KPI на серпень. Обов\'язкова участь.',
-            true, 'assets/illustrations/ann-sample-image.svg'),
+            true, 'assets/illustrations/ann-sample-image.svg', 'сьогодні'),
         ann(2, 'important', 'Максим Литвин', '20.07.2026 10:15',
             'Оновлення CRM: додано інтеграцію з Telegram-ботом. Тепер менеджери можуть отримувати сповіщення про нові угоди та завдання прямо у Telegram. Деталі у базі знань.',
-            false),
+            false, null, 'вчора'),
         ann(3, 'normal', currentUser, '19.07.2026 09:00',
             'Нагадуємо: до кінця липня необхідно заповнити анкету самооцінки. Посилання надіслано на корпоративну пошту.',
-            false)
+            false, null, 'тиждень')
     ];
 
-    function ann(id, priority, author, date, text, hasImage, image) {
-        return { id: id, priority: priority, author: author, date: date, text: text, hasImage: hasImage, image: image || null, status: 'active' };
+    function ann(id, priority, author, date, text, hasImage, image, period) {
+        return { id: id, priority: priority, author: author, date: date, text: text, hasImage: hasImage, image: image || null, status: 'active', period: period || 'сьогодні' };
+    }
+
+    /* ── MOCK DATA: DRAWER FILLER ANNOUNCEMENTS (pads each period to 10 items for the "Усі анонси" drawer) ── */
+    var fillerAnnAuthors = ['Олена Коваль', 'Максим Литвин', currentUser, 'Ігор Мельник', 'Марина Савченко', 'Юрій Коваленко'];
+    var fillerAnnTexts = [
+        'Оновлення регламенту обробки заявок клієнтів.',
+        'Планове технічне обслуговування серверів у вихідні.',
+        'Нагадування про дедлайн подачі звітів по кварталу.',
+        'Запрошуємо на демо нової функції CRM у четвер.',
+        'Зміни у графіку роботи служби підтримки.',
+        'Оновлено шаблони листів для email-розсилок.'
+    ];
+    var fillerAnnPriorities = ['normal', 'important', 'urgent'];
+    var fillerAnnPeriods = ['сьогодні', 'вчора', 'тиждень'];
+    var FILLER_ANN_PER_PERIOD = 9;
+
+    var fillerAnnouncements = [];
+    (function buildFillerAnnouncements() {
+        var id = 1000;
+        fillerAnnPeriods.forEach(function (period, periodIndex) {
+            for (var i = 0; i < FILLER_ANN_PER_PERIOD; i++) {
+                id++;
+                var author = fillerAnnAuthors[(i + periodIndex) % fillerAnnAuthors.length];
+                var text = fillerAnnTexts[(i + periodIndex) % fillerAnnTexts.length];
+                var priority = fillerAnnPriorities[i % fillerAnnPriorities.length];
+                var day = Math.max(1, 21 - periodIndex - Math.floor(i / 6));
+                var hour = 8 + (i % 10);
+                var dateLabel = (day < 10 ? '0' : '') + day + '.07.2026 ' + (hour < 10 ? '0' : '') + hour + ':00';
+                var item = ann(id, priority, author, dateLabel, text, false, null, period);
+                item.synthetic = true;
+                fillerAnnouncements.push(item);
+            }
+        });
+    })();
+
+    function findAnnById(id) {
+        var numId = Number(id);
+        var found = announcements.filter(function (item) { return item.id === numId; })[0];
+        if (found) return found;
+        return fillerAnnouncements.filter(function (item) { return item.id === numId; })[0];
     }
 
     /* ── MOCK DATA: FEED EVENTS (content ported verbatim from ../CRM_History-Event-Page/scripts/prototype.js) ── */
@@ -491,7 +531,6 @@
 
     /* ── DOM REFS ── */
     var annGrid = document.getElementById('annGrid');
-    var annSecCount = document.getElementById('annSecCount');
     var annSection = document.getElementById('pulseAnnouncements');
     var feedListEl = document.getElementById('feedList');
     var loadMoreBtn = document.getElementById('loadMoreBtn');
@@ -506,22 +545,46 @@
         return announcements.filter(function (a) { return a.status === 'active'; });
     }
 
+    function annCardMarkup(a) {
+        return '<div class="pulse-ann-card prio-' + a.priority + '" data-open-ann="' + a.id + '">' +
+            '<div class="pulse-ann-card-head">' +
+            '<span class="pulse-prio-badge">' + prioLabel[a.priority] + '</span>' +
+            '<span class="pulse-ann-card-date">' + a.date + '</span>' +
+            '</div>' +
+            '<div class="pulse-ann-card-body">' +
+            '<div class="pulse-ann-card-author">' + escapeHtml(a.author) + '</div>' +
+            '<div class="pulse-ann-card-text">' + escapeHtml(a.text) + '</div>' +
+            '</div>' +
+            '</div>';
+    }
+
     function renderAnnouncements() {
         var active = activeAnnouncements();
         annSection.classList.toggle('hide', active.length === 0);
-        annSecCount.textContent = active.length ? active.length : '';
-        annGrid.innerHTML = active.map(function (a) {
-            return '<div class="pulse-ann-card prio-' + a.priority + '" data-open-ann="' + a.id + '">' +
-                '<div class="pulse-ann-card-head">' +
-                '<span class="pulse-prio-badge">' + prioLabel[a.priority] + '</span>' +
-                '<span class="pulse-ann-card-date">' + a.date + '</span>' +
-                '</div>' +
-                '<div class="pulse-ann-card-body">' +
-                '<div class="pulse-ann-card-author">' + escapeHtml(a.author) + '</div>' +
-                '<div class="pulse-ann-card-text">' + escapeHtml(a.text) + '</div>' +
-                '</div>' +
-                '</div>';
-        }).join('');
+        annGrid.innerHTML = active.map(annCardMarkup).join('');
+    }
+
+    var annListState = { period: 'сьогодні', filtered: [] };
+
+    function renderAnnListDrawer() {
+        var source = activeAnnouncements().concat(fillerAnnouncements);
+        annListState.filtered = source.filter(function (a) { return a.period === annListState.period; });
+        var body = document.getElementById('annListDrawerBody');
+        body.innerHTML = annListState.filtered.length
+            ? annListState.filtered.map(annCardMarkup).join('')
+            : emptyState('assets/illustrations/ic-empty-task.svg', 'У вас немає анонсів');
+    }
+
+    function openAnnListDrawer() {
+        annListState.period = 'сьогодні';
+        document.querySelectorAll('#annListPeriodTabs [data-ann-period]').forEach(function (tab) {
+            tab.classList.toggle('active', tab.getAttribute('data-ann-period') === 'сьогодні');
+        });
+        renderAnnListDrawer();
+        closeDrawer();
+        document.getElementById('annListDrawer').classList.add('is-open');
+        document.getElementById('annListDrawer').setAttribute('aria-hidden', 'false');
+        setProtoPanelVisible(false);
     }
 
     /* ── RENDER: FEED LIST (activity-feed components ported from ../CRM_History-Event-Page) ── */
@@ -698,7 +761,7 @@
 
     /* ── ANNOUNCEMENT DETAIL MODAL ── */
     function openAnnDetail(id) {
-        var a = announcements.filter(function (item) { return item.id === Number(id); })[0];
+        var a = findAnnById(id);
         if (!a) return;
         state.currentAnnId = a.id;
 
@@ -719,7 +782,7 @@
             imgBlock.innerHTML = '';
         }
 
-        var canManage = a.author === currentUser;
+        var canManage = !a.synthetic && a.author === currentUser;
         document.getElementById('annDetailAuthorActions').classList.toggle('hide', !canManage);
 
         hideAnnConfirmPopover();
@@ -897,6 +960,7 @@
         document.getElementById('objectDrawerBody').innerHTML = rowsHtml + commentsHtml;
         document.getElementById('objectDrawer').classList.add('is-open');
         document.getElementById('objectDrawer').setAttribute('aria-hidden', 'false');
+        setProtoPanelVisible(false);
     }
 
     function openDrawer(key) {
@@ -912,8 +976,16 @@
     }
 
     function closeDrawer() {
-        document.getElementById('objectDrawer').classList.remove('is-open');
-        document.getElementById('objectDrawer').setAttribute('aria-hidden', 'true');
+        document.querySelectorAll('.activity-drawer.is-open').forEach(function (drawer) {
+            drawer.classList.remove('is-open');
+            drawer.setAttribute('aria-hidden', 'true');
+        });
+        setProtoPanelVisible(true);
+    }
+
+    function setProtoPanelVisible(visible) {
+        var panel = document.getElementById('protoStatePanel');
+        if (panel) panel.style.display = visible ? '' : 'none';
     }
 
     /* ── EVENT DELEGATION ── */
@@ -945,6 +1017,21 @@
             event.preventDefault();
             if (openDropdown) openDropdown.classList.remove('open');
             openAnnForm();
+            return;
+        }
+        if (event.target.closest('#openAnnListBtn')) {
+            event.preventDefault();
+            openAnnListDrawer();
+            return;
+        }
+        if (event.target.closest('#annListPeriodTabs [data-ann-period]')) {
+            event.preventDefault();
+            var periodTab = event.target.closest('[data-ann-period]');
+            annListState.period = periodTab.getAttribute('data-ann-period');
+            document.querySelectorAll('#annListPeriodTabs [data-ann-period]').forEach(function (tab) {
+                tab.classList.toggle('active', tab === periodTab);
+            });
+            renderAnnListDrawer();
             return;
         }
         if (event.target.closest('[data-add="deal"]')) { event.preventDefault(); alert('Відкриється форма створення угоди.'); return; }
@@ -1004,7 +1091,7 @@
             alert('Відкриється перегляд листа в розділі «Пошта».');
             return;
         }
-        if (drawerClose || event.target.id === 'objectDrawer') {
+        if (drawerClose || event.target.classList.contains('activity-drawer')) {
             closeDrawer();
             return;
         }

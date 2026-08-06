@@ -81,6 +81,13 @@
     text-transform: none;
 }
 
+.pulse-sec-title-link {
+    margin-left: auto;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: none;
+}
+
 .pulse-period-toggle {
     display: flex;
     align-items: center;
@@ -170,7 +177,7 @@
 
 .pulse-ann-card-text {
     color: #000;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.275;
     overflow-wrap: anywhere;
 }
@@ -607,6 +614,21 @@
     border: 0;
     border-radius: 10px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, .35);
+}
+
+/* modal can open on top of the announcement list drawer (e.g. clicking a card) — keep it and its backdrop above the drawer's z-index so the drawer dims behind it instead of closing */
+.modal-backdrop {
+    z-index: 1055;
+}
+
+.modal {
+    z-index: 1060;
+}
+
+.pulse-ann-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .crm-modal-page__section.top {
@@ -1063,6 +1085,38 @@
     color: #023346;
     font-size: 20px;
     font-weight: 700;
+}
+
+/* ── ANNOUNCEMENT LIST DRAWER ── */
+.pulse-ann-list-drawer-panel {
+    background: #f2f5f5;
+}
+
+.pulse-ann-list-drawer-panel .pulse-drawer-content {
+    padding: 24px 28px;
+}
+
+.pulse-ann-list-drawer-panel .pulse-drawer-header h3 {
+    margin: 0 0 14px;
+    color: #023346;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.pulse-ann-list-drawer-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+#annListPeriodTabs {
+    margin-bottom: 20px;
+    border-bottom: 0;
+}
+
+#annListPeriodTabs::after {
+    display: none;
 }
 
 .pulse-drawer-actions {

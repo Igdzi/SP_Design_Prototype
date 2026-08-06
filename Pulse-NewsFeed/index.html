@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20260724-25" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260806-1" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
     <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
@@ -169,7 +169,10 @@
 
                 <!-- ═══ SECTION: ANNOUNCEMENTS ═══ -->
                 <section id="pulseAnnouncements" class="pulse-section pulse-ann-section">
-                    <div class="pulse-sec-title"><span class="sp-icon icon-bullhorn"></span> Анонси <span class="pulse-sec-count" id="annSecCount"></span></div>
+                    <div class="pulse-sec-title">
+                        <span class="sp-icon icon-bullhorn"></span> Анонси
+                        <a href="#" class="pulse-panel-link pulse-sec-title-link" id="openAnnListBtn">Усі анонси →</a>
+                    </div>
                     <div class="pulse-ann-grid" id="annGrid"></div>
                 </section>
 
@@ -224,6 +227,30 @@
         </div>
     </div>
 </div>
+
+<!-- ══════ ANNOUNCEMENT LIST DRAWER ══════ -->
+<aside id="annListDrawer" class="activity-drawer" aria-hidden="true">
+    <div class="activity-drawer-panel pulse-ann-list-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="annListDrawerTitle">
+        <button class="close-drawer activity-drawer-close" type="button" aria-label="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.84082 7L0.579591 1.73877L0 1.15918L1.15918 0L1.73877 0.579591L7 5.84082L12.2612 0.579591L12.8408 0L14 1.15918L13.4204 1.73877L8.15918 7L13.4204 12.2612L14 12.8408L12.8408 14L12.2612 13.4204L7 8.15918L1.73877 13.4204L1.15918 14L0 12.8408L0.579592 12.2612L5.84082 7Z" fill="#999999"></path>
+            </svg>
+        </button>
+        <div class="activity-drawer-scroll">
+            <div class="pulse-drawer-content">
+                <div class="pulse-drawer-header pulse-ann-list-drawer-header">
+                    <h3 id="annListDrawerTitle">Анонси</h3>
+                </div>
+                <div data-toggle="buttons" role="group" class="btn-group filter-date-preinstalled tabs nav-tabs horizontal-scroll" id="annListPeriodTabs">
+                    <label class="btn btn-sm btn-default active" data-ann-period="сьогодні">За сьогодні</label>
+                    <label class="btn btn-sm btn-default" data-ann-period="вчора">За вчора</label>
+                    <label class="btn btn-sm btn-default" data-ann-period="тиждень">За тиждень</label>
+                </div>
+                <div class="pulse-ann-list" id="annListDrawerBody"></div>
+            </div>
+        </div>
+    </div>
+</aside>
 
 <!-- ══════ ANNOUNCEMENT DETAIL MODAL ══════ -->
 <div class="modal fade" id="annDetailModal" tabindex="-1" role="dialog" aria-labelledby="annDetailTitle">
@@ -386,6 +413,6 @@
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://login.sendpulse.com/dist/js/bootstrap.min.js"></script>
-<script src="scripts/prototype.js?v=20260724-25"></script>
+<script src="scripts/prototype.js?v=20260806-1"></script>
 </body>
 </html>
