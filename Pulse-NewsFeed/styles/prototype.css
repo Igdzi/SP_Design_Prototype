@@ -5,13 +5,19 @@
     right: 20px;
     z-index: 2000;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
     padding: 8px 12px;
     background: #fff;
     border: 1px dashed #c7cfd1;
     border-radius: 8px;
     box-shadow: 0 4px 14px rgba(2, 51, 70, .12);
+}
+
+.proto-state-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .proto-state-label {
@@ -118,7 +124,7 @@
 
 /* ── ANNOUNCEMENTS SECTION ── */
 .pulse-ann-section {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 }
 
 .pulse-ann-section.hide {
@@ -213,7 +219,7 @@
     background: #5bc0de;
 }
 
-/* ── TWO-ZONE LAYOUT ── */
+/* ── ZONE LAYOUT (3 display variants toggled via #protoStatePanel [data-proto-layout]) ── */
 .pulse-zone-layout {
     display: flex;
     align-items: flex-start;
@@ -241,10 +247,57 @@
     margin-bottom: 14px;
 }
 
+.pulse-myday-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.pulse-myday-panels > .panel {
+    margin-bottom: 0;
+}
+
 @media (max-width: 1000px) {
     .pulse-zone-layout {
         flex-direction: column;
     }
+}
+
+/* ── VARIANT 2: tab switcher inside the panel, replaces the panel-title (same panel/card, no new section) ──
+   Deliberately not a .panel-heading — it must not inherit unrelated panel-heading rules (e.g. the
+   .pulse-zone-left .panel-heading {display:flex} rule below), which previously leaked it into variant 1. ── */
+.pulse-myday-tabhead {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px;
+}
+
+.pulse-myday-tabs {
+    margin: 0;
+}
+
+.pulse-zone-layout[data-layout="2"] .pulse-myday-panels > .panel > .panel-heading {
+    display: none;
+}
+
+.pulse-zone-layout[data-layout="2"] .pulse-myday-panels > .panel > .pulse-myday-tabhead {
+    display: flex;
+    background-color: #f8f9f9;
+}
+
+.pulse-zone-layout[data-layout="2"] .pulse-myday-panels > .panel {
+    display: none;
+}
+
+.pulse-zone-layout[data-layout="2"] .pulse-myday-panels > .panel.active-tab {
+    display: block;
+}
+
+/* ── VARIANT 1: hide load-more button ── */
+.pulse-zone-layout[data-layout="1"] #loadMoreBtn {
+    display: none;
 }
 
 /* ── EVENT FEED — activity-feed components ported from ../CRM_History-Event-Page/styles/prototype.css ── */

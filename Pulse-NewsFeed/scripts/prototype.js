@@ -3,10 +3,28 @@
 
     var currentUser = 'Юрій Кіслицин';
 
+    /* item caps differ per Мій день layout variant (1: stacked panels / 2: tabs) — see getFeedMax()/getMyDayMax() */
+    var FEED_MAX_ITEMS_VARIANT1 = 11;
+    var FEED_MAX_ITEMS_VARIANT2 = 9;
+    var MY_DAY_MAX_ITEMS_VARIANT1 = 8;
+    var MY_DAY_MAX_ITEMS_VARIANT2 = 12;
+
+    function currentLayoutVariant() {
+        return pulseZoneLayout ? pulseZoneLayout.getAttribute('data-layout') : '1';
+    }
+
+    function getFeedMax() {
+        return currentLayoutVariant() === '2' ? FEED_MAX_ITEMS_VARIANT2 : FEED_MAX_ITEMS_VARIANT1;
+    }
+
+    function getMyDayMax() {
+        return currentLayoutVariant() === '2' ? MY_DAY_MAX_ITEMS_VARIANT2 : MY_DAY_MAX_ITEMS_VARIANT1;
+    }
+
     var state = {
         canPublishAnnouncements: true,
-        feedVisible: 20,
-        feedPageSize: 20,
+        feedVisible: FEED_MAX_ITEMS_VARIANT1,
+        feedPageSize: FEED_MAX_ITEMS_VARIANT1,
         feedPeriod: 'сьогодні',
         currentAnnId: null,
         editingAnnId: null
@@ -102,7 +120,10 @@
         serviceEvent('crm', 'Юрій Коваленко', 'створив угоду', 'Постачання меблів «Офіс Комфорт»', 'Сума: 280 000 грн, етап: Нова заявка', 'вчора', '17:05'),
         serviceEvent('email', 'Марина Савченко', 'запланувала розсилку', 'Літня знижка -20%', '9 800 отримувачів, сегмент: Всі клієнти', 'вчора', '15:30'),
         serviceEvent('crm', 'Ігор Мельник', 'закрив угоду', 'Розширення ліцензії «Медіа Груп»', 'Сума: 620 000 грн, етап: Won', 'вчора', '14:12'),
-        serviceEvent('smtp', 'Олена Петренко', 'підтвердила домен', 'mail.mediagroup.ua', 'SPF і DKIM активні', 'вчора', '10:15')
+        serviceEvent('smtp', 'Олена Петренко', 'підтвердила домен', 'mail.mediagroup.ua', 'SPF і DKIM активні', 'вчора', '10:15'),
+        serviceEvent('crm', 'Максим Литвин', 'додав контакт', 'Ростислав Кравченко', 'Компанія: «ВеломаркетПлюс», джерело: запит через форму', 'сьогодні', '15:45'),
+        serviceEvent('automation', 'Марина Савченко', 'оновила сценарій', 'Відправка gift-кода нових клієнтів', 'Тригер: рівень дня рішення угоди', 'сьогодні', '14:30'),
+        serviceEvent('sites', 'Юрій Коваленко', 'опублікував оновлення', 'Лендінг для літньої акції 2026', 'Домен: summer2026.example.com, версія 2.1', 'сьогодні', '13:15')
     ];
 
     function serviceEvent(service, author, action, entity, details, dateLabel, time) {
@@ -190,12 +211,7 @@
             dateStart: '24 липня, 10:00', dateEnd: null, dateSort: 8,
             board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
             links: []
-        }
-    ];
-
-    /* ── RESERVE QUEUE: backfills the Мій день task list as items are completed,
-       so the panel keeps showing 8 tasks until the queue runs dry — then it shortens. ── */
-    var taskQueue = [
+        },
         {
             id: 't9', name: 'Провести співбесіду з кандидатом', done: false, priority: 'medium',
             dateStart: '24 липня, 13:00', dateEnd: null, dateSort: 9,
@@ -218,6 +234,47 @@
             id: 't12', name: 'Оновити CRM-профіль клієнта', done: false, priority: 'medium',
             dateStart: '25 липня, 12:00', dateEnd: null, dateSort: 12,
             board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
+            links: []
+        }
+    ];
+
+    /* ── RESERVE QUEUE: backfills the Мій день task list as items are completed,
+       so the panel keeps showing 12 tasks until the queue runs dry — then it shortens. ── */
+    var taskQueue = [
+        {
+            id: 't13', name: 'Узгодити акційні умови з «Технопром»', done: false, priority: 'medium',
+            dateStart: '26 липня, 11:00', dateEnd: null, dateSort: 13,
+            board: { name: 'Продажі Q3', color: '02-Blue' },
+            links: [{ type: 'deal', name: 'Оновлення ліцензії «Технопром»', drawerKey: 'deal-6' }]
+        },
+        {
+            id: 't14', name: 'Підготувати кейс для «Дата Хаб»', done: false, priority: 'low',
+            dateStart: '26 липня, 14:00', dateEnd: null, dateSort: 14,
+            board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
+            links: []
+        },
+        {
+            id: 't15', name: 'Перевірити оплату «Нова Пошта Софт»', done: false, priority: 'high',
+            dateStart: '27 липня, 09:00', dateEnd: null, dateSort: 15,
+            board: { name: 'Постачання', color: '04-Mint/Turquoise' },
+            links: [{ type: 'deal', name: 'Продовження підписки «Нова Пошта Софт»', drawerKey: 'deal-8' }]
+        },
+        {
+            id: 't16', name: 'Оновити чек-лист онбордингу клієнтів', done: false, priority: 'medium',
+            dateStart: '27 липня, 13:00', dateEnd: null, dateSort: 16,
+            board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
+            links: []
+        },
+        {
+            id: 't17', name: 'Верифікувати контакти нових клієнтів', done: false, priority: 'low',
+            dateStart: '28 липня, 10:00', dateEnd: null, dateSort: 17,
+            board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
+            links: []
+        },
+        {
+            id: 't18', name: 'Оновити звіт про виконання квартального плану', done: false, priority: 'high',
+            dateStart: '28 липня, 14:00', dateEnd: null, dateSort: 18,
+            board: { name: 'Продажі Q3', color: '02-Blue' },
             links: []
         }
     ];
@@ -270,6 +327,42 @@
             board: { name: 'Продажі', color: '11-Lavender' }, amount: '95 000 UAH',
             dateLabel: 'До 29 Липня, 16:00', dateSort: 20260729,
             products: { count: 2, total: '95 000', currency: 'UAH' }
+        },
+        {
+            id: 'deal-9', name: 'Впровадження CRM для «Смарт Логістика»',
+            board: { name: 'Продажі', color: '07-Yellow' }, amount: '360 000 UAH',
+            dateLabel: 'До 30 Липня, 10:00', dateSort: 20260730,
+            products: [{ name: 'Ліцензія CRM Business x10', price: '360 000', currency: 'UAH' }]
+        },
+        {
+            id: 'deal-10', name: 'Розширення парку принтерів «Офіс Плюс»',
+            board: { name: 'Постачання', color: '01-Gray' }, amount: '210 000 UAH',
+            dateLabel: 'До 31 Липня, 15:00', dateSort: 20260731,
+            products: { count: 3, total: '210 000', currency: 'UAH' }
+        },
+        {
+            id: 'deal-11', name: 'Оновлення тарифу «Глобал Трейд»',
+            board: { name: 'Продажі', color: '05-Light Green/Lime' }, amount: '480 000 UAH',
+            dateLabel: 'До 1 Серпня, 12:00', dateSort: 20260801,
+            products: [{ name: 'Розширена ліцензія CRM x30', price: '480 000', currency: 'UAH' }]
+        },
+        {
+            id: 'deal-12', name: 'Постачання канцелярії «Освіта Плюс»',
+            board: { name: 'Постачання', color: '08-Orange' }, amount: '75 000 UAH',
+            dateLabel: 'До 2 Серпня, 09:00', dateSort: 20260802,
+            products: { count: 4, total: '75 000', currency: 'UAH' }
+        },
+        {
+            id: 'deal-13', name: 'Облік документів для «Юридич Консалт»',
+            board: { name: 'Продажі', color: '11-Lavender' }, amount: '180 000 UAH',
+            dateLabel: 'До 3 Серпня, 11:00', dateSort: 20260803,
+            products: [{ name: 'Модуль управління документами', price: '180 000', currency: 'UAH' }]
+        },
+        {
+            id: 'deal-14', name: 'Розширення серверних потужностей «БізнесТек»',
+            board: { name: 'Постачання', color: '01-Gray' }, amount: '540 000 UAH',
+            dateLabel: 'До 5 Серпня, 15:00', dateSort: 20260805,
+            products: { count: 2, total: '540 000', currency: 'UAH' }
         }
     ];
 
@@ -370,6 +463,72 @@
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
                 ['Дедлайн', '29.07.2026'],
                 ['Контакт', 'Наталія Бойко']
+            ],
+            comments: []
+        },
+        'deal-9': {
+            type: 'Угода',
+            title: 'Впровадження CRM для «Смарт Логістика»',
+            rows: [
+                ['Сума', '<strong>360 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-blue"></span> КП відправлено'],
+                ['Дедлайн', '30.07.2026'],
+                ['Контакт', 'Владислав Гриценко']
+            ],
+            comments: []
+        },
+        'deal-10': {
+            type: 'Угода',
+            title: 'Розширення парку принтерів «Офіс Плюс»',
+            rows: [
+                ['Сума', '<strong>210 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-orange"></span> Рахунок виставлено'],
+                ['Дедлайн', '31.07.2026'],
+                ['Контакт', 'Тетяна Кравець']
+            ],
+            comments: []
+        },
+        'deal-11': {
+            type: 'Угода',
+            title: 'Оновлення тарифу «Глобал Трейд»',
+            rows: [
+                ['Сума', '<strong>480 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
+                ['Дедлайн', '01.08.2026'],
+                ['Контакт', 'Богдан Руденко']
+            ],
+            comments: []
+        },
+        'deal-12': {
+            type: 'Угода',
+            title: 'Постачання канцелярії «Освіта Плюс»',
+            rows: [
+                ['Сума', '<strong>75 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-blue"></span> Нова заявка'],
+                ['Дедлайн', '02.08.2026'],
+                ['Контакт', 'Ірина Бондаренко']
+            ],
+            comments: []
+        },
+        'deal-13': {
+            type: 'Угода',
+            title: 'Облік документів для «Юридич Консалт»',
+            rows: [
+                ['Сума', '<strong>180 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-orange"></span> Рахунок виставлено'],
+                ['Дедлайн', '03.08.2026'],
+                ['Контакт', 'Сергій Петренко']
+            ],
+            comments: []
+        },
+        'deal-14': {
+            type: 'Угода',
+            title: 'Розширення серверних потужностей «БізнесТек»',
+            rows: [
+                ['Сума', '<strong>540 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
+                ['Дедлайн', '05.08.2026'],
+                ['Контакт', 'Павло Шевчук']
             ],
             comments: []
         },
@@ -491,6 +650,63 @@
             ],
             comments: []
         },
+        't13': {
+            type: 'Завдання',
+            title: 'Узгодити акційні умови з «Технопром»',
+            rows: [
+                ['Статус', '<span class="label label-default">Нове</span>'],
+                ['Дедлайн', '26.07.2026 11:00'],
+                ['Угода', '<a href="#" data-open-drawer="deal-6">Оновлення ліцензії «Технопром»</a>']
+            ],
+            comments: []
+        },
+        't14': {
+            type: 'Завдання',
+            title: 'Підготувати кейс для «Дата Хаб»',
+            rows: [
+                ['Статус', '<span class="label label-default">Нове</span>'],
+                ['Дедлайн', '26.07.2026 14:00']
+            ],
+            comments: []
+        },
+        't15': {
+            type: 'Завдання',
+            title: 'Перевірити оплату «Нова Пошта Софт»',
+            rows: [
+                ['Статус', '<span class="label label-default">Нове</span>'],
+                ['Дедлайн', '27.07.2026 09:00'],
+                ['Угода', '<a href="#" data-open-drawer="deal-8">Продовження підписки «Нова Пошта Софт»</a>']
+            ],
+            comments: []
+        },
+        't16': {
+            type: 'Завдання',
+            title: 'Оновити чек-лист онбордингу клієнтів',
+            rows: [
+                ['Статус', '<span class="label label-default">Нове</span>'],
+                ['Дедлайн', '27.07.2026 13:00']
+            ],
+            comments: []
+        },
+        't17': {
+            type: 'Завдання',
+            title: 'Верифікувати контакти нових клієнтів',
+            rows: [
+                ['Статус', '<span class="label label-default">Нове</span>'],
+                ['Дедлайн', '28.07.2026 10:00']
+            ],
+            comments: []
+        },
+        't18': {
+            type: 'Завдання',
+            title: 'Оновити звіт про виконання квартального плану',
+            rows: [
+                ['Статус', '<span class="label label-primary">В роботі</span>'],
+                ['Дедлайн', '28.07.2026 14:00'],
+                ['Відповідальний', currentUser]
+            ],
+            comments: []
+        },
         'contact-anna': {
             type: 'Контакт',
             title: 'Анна Шевченко',
@@ -537,6 +753,7 @@
     var feedPeriodMenu = document.getElementById('feedPeriodMenu');
     var tasksPanelBody = document.getElementById('tasksPanelBody');
     var dealsPanelBody = document.getElementById('dealsPanelBody');
+    var pulseZoneLayout = document.getElementById('pulseZoneLayout');
     var addAnnItem = document.getElementById('addAnnItem');
     var addAnnDivider = document.getElementById('addAnnDivider');
 
@@ -589,12 +806,14 @@
 
     /* ── RENDER: FEED LIST (activity-feed components ported from ../CRM_History-Event-Page) ── */
     function renderFeed() {
+        var feedMax = getFeedMax();
         var periodEvents = feedEvents.filter(function (event) { return event.dateLabel === state.feedPeriod; });
-        var visible = periodEvents.slice(0, state.feedVisible);
+        var visibleCount = Math.min(state.feedVisible, feedMax);
+        var visible = periodEvents.slice(0, visibleCount);
 
         feedListEl.innerHTML = visible.map(renderEventRow).join('') || '<div class="alert alert-info">Немає даних для відображення</div>';
 
-        var hasMore = periodEvents.length > state.feedVisible;
+        var hasMore = periodEvents.length > visibleCount && visibleCount < feedMax;
         loadMoreBtn.classList.toggle('hide', !hasMore);
 
         feedPeriodMenu.querySelectorAll('[data-period]').forEach(function (link) {
@@ -626,7 +845,7 @@
     }
 
     function loadMoreFeed() {
-        state.feedVisible += state.feedPageSize;
+        state.feedVisible = Math.min(state.feedVisible + state.feedPageSize, getFeedMax());
         renderFeed();
     }
 
@@ -688,7 +907,7 @@
             tasksPanelBody.innerHTML = emptyState('assets/illustrations/ic-empty-task.svg', 'У вас немає завдань');
             return;
         }
-        var sorted = sortByField(tasks, 'dateSort').slice(0, 8);
+        var sorted = sortByField(tasks, 'dateSort').slice(0, getMyDayMax());
         tasksPanelBody.innerHTML = sorted.map(function (t) {
             var enteringClass = t.id === enteringId ? ' is-entering' : '';
             return '<div class="pulse-row pulse-row-task' + (t.done ? ' is-done' : '') + enteringClass + '" data-open-drawer="' + t.id + '">' +
@@ -746,7 +965,7 @@
             dealsPanelBody.innerHTML = emptyState('assets/illustrations/ic-empty-deal.svg', 'У вас немає угод з дедлайном');
             return;
         }
-        var sorted = sortByField(deadlineDeals, 'dateSort').slice(0, 8);
+        var sorted = sortByField(deadlineDeals, 'dateSort').slice(0, getMyDayMax());
         dealsPanelBody.innerHTML = sorted.map(function (d) {
             return '<div class="pulse-row pulse-row-deal" data-open-drawer="' + d.id + '">' +
                 '<span class="pulse-task-title">' + escapeHtml(d.name) + '</span>' +
@@ -999,11 +1218,17 @@
         var drawerClose = event.target.closest('.activity-drawer-close');
         var taskCheck = event.target.closest('[data-task-check]');
         var periodTrigger = event.target.closest('#feedPeriodMenu [data-period]');
+        var myDayTabTrigger = event.target.closest('.pulse-myday-tabs [data-myday-tab]');
         var openDropdown = document.querySelector('.dropdown.open, .btn-group.open');
 
         if (periodTrigger) {
             event.preventDefault();
             selectFeedPeriod(periodTrigger.getAttribute('data-period'));
+            return;
+        }
+        if (myDayTabTrigger) {
+            event.preventDefault();
+            selectMyDayTab(myDayTabTrigger.getAttribute('data-myday-tab'));
             return;
         }
         if (dropdownTrigger) {
@@ -1163,6 +1388,37 @@
                 b.classList.toggle('active', b === btn);
             });
             applyProtoState(btn.getAttribute('data-proto-state'));
+        });
+    });
+
+    /* ── PROTOTYPE-ONLY: LAYOUT VARIANT SWITCHER (1: Мій день stacked + feed / 2: tabs Завдання ⇄ Угоди) ── */
+    function selectMyDayTab(tabKey) {
+        document.querySelectorAll('.pulse-myday-tabs li').forEach(function (li) {
+            li.classList.toggle('active', li.querySelector('[data-myday-tab="' + tabKey + '"]') !== null);
+        });
+        document.querySelectorAll('#pulseMyDayPanels [data-myday-panel]').forEach(function (panel) {
+            panel.classList.toggle('active-tab', panel.getAttribute('data-myday-panel') === tabKey);
+        });
+    }
+
+    function applyProtoLayout(variant) {
+        pulseZoneLayout.setAttribute('data-layout', variant);
+        if (variant === '2') {
+            selectMyDayTab('tasks');
+        }
+        /* item caps differ per variant (getMyDayMax/getFeedMax) — re-render so the new cap applies immediately */
+        state.feedVisible = Math.min(state.feedVisible, getFeedMax());
+        renderTasks();
+        renderDeals();
+        renderFeed();
+    }
+
+    document.querySelectorAll('#protoStatePanel [data-proto-layout]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('#protoStatePanel [data-proto-layout]').forEach(function (b) {
+                b.classList.toggle('active', b === btn);
+            });
+            applyProtoLayout(btn.getAttribute('data-proto-layout'));
         });
     });
 
