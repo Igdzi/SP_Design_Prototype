@@ -930,10 +930,11 @@
         var iconStyleAttr = seg.color ? ' style="color:' + seg.color + '"' : '';
         var marker = seg.isBoard
             ? ''
-            : '<span class="sp-icon ' + seg.icon + '"' + iconStyleAttr + (seg.title ? ' title="' + escapeHtml(seg.title) + '"' : '') + '></span>';
+            : '<span class="sp-icon ' + seg.icon + '"' + iconStyleAttr + '></span>';
         var valueClass = seg.isBoard ? 'pulse-meta-value pulse-meta-board' : 'pulse-meta-value';
         var valueStyleAttr = seg.color ? ' style="color:' + seg.color + '"' : '';
-        return dot + '<span class="' + valueClass + '"' + valueStyleAttr + '>' + marker + seg.text + '</span>';
+        var valueTitleAttr = seg.title ? ' title="' + escapeHtml(seg.title) + '"' : '';
+        return dot + '<span class="' + valueClass + '"' + valueStyleAttr + valueTitleAttr + '>' + marker + seg.text + '</span>';
     }
 
     /* ── DUE DATE URGENCY: "today" is fixed for this prototype (mock dates aren't relative to the
@@ -947,11 +948,11 @@
         return new Date(y, m, d);
     }
 
-    function dueUrgencyColor(ymd) {
+    function dueUrgencyInfo(ymd) {
         if (!ymd) return null;
         var diffDays = Math.round((ymdToDate(ymd) - ymdToDate(PROTO_TODAY_YMD)) / 86400000);
-        if (diffDays < 0) return '#D94B4D';
-        if (diffDays <= 3) return '#AE7F1C';
+        if (diffDays < 0) return { color: '#D94B4D', title: 'Термін виконання закінчився' };
+        if (diffDays <= 3) return { color: '#AE7F1C', title: 'Термін виконання скоро закінчиться' };
         return null;
     }
 
@@ -966,10 +967,12 @@
         segments.push({ icon: prio.icon, text: '', color: prio.color, title: 'Пріоритет: ' + prio.label });
 
         if (t.dateStart) {
+            var taskUrgency = dueUrgencyInfo(t.dueDateSort);
             segments.push({
                 icon: 'icon-calendar',
                 text: t.dateEnd ? (t.dateStart + ' - ' + t.dateEnd) : t.dateStart,
-                color: dueUrgencyColor(t.dueDateSort)
+                color: taskUrgency && taskUrgency.color,
+                title: taskUrgency && taskUrgency.title
             });
         }
 
@@ -1007,9 +1010,15 @@
 
     function dealMetaHtml(d) {
         var segments = [];
+        var dealUrgency = dueUrgencyInfo(d.dateSort);
         segments.push({ isBoard: true, text: escapeHtml(d.board.name) });
         segments.push({ icon: 'icon-pay-wallet', text: d.amount });
-        segments.push({ icon: 'icon-alarm-clock', text: d.dateLabel.replace(/^До\s+/i, ''), color: dueUrgencyColor(d.dateSort) });
+        segments.push({
+            icon: 'icon-alarm-clock',
+            text: d.dateLabel.replace(/^До\s+/i, ''),
+            color: dealUrgency && dealUrgency.color,
+            title: dealUrgency && dealUrgency.title
+        });
 
         return segments.map(metaSegmentHtml).join('');
     }
