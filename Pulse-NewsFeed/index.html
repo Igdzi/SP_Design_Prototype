@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20260807-7" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20260807-21" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
     <link rel="mask-icon" href="https://login.sendpulse.com/img/favicon/sendpulse/mask-icon.svg" color="#009fc1">
@@ -145,7 +145,7 @@
 
         <div id="content-placeholder">
             <div id="header" class="clearfix"></div>
-            <div id="content-wrapper" class="js-content-wrapper content-wrapper-dashboard">
+            <div id="content-wrapper" class="js-content-wrapper content-wrapper-dashboard" data-layout="1">
                 <div id="breadcrumbs">CRM / Пульс</div>
 
                 <div class="pulse-page-header">
@@ -171,7 +171,7 @@
                 <section id="pulseAnnouncements" class="pulse-section pulse-ann-section">
                     <div class="pulse-sec-title">
                         <span class="sp-icon icon-bullhorn"></span> Анонси
-                        <a href="#" class="pulse-panel-link pulse-sec-title-link" id="openAnnListBtn">Усі анонси →</a>
+                        <a href="#" class="pulse-panel-link pulse-sec-title-link js-open-ann-list" id="openAnnListBtn">Усі анонси →</a>
                     </div>
                     <div class="pulse-ann-grid" id="annGrid"></div>
                 </section>
@@ -187,7 +187,7 @@
                             <!-- TASKS PANEL -->
                             <div class="panel panel-default active-tab" data-myday-panel="tasks">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><span class="sp-icon icon-task"></span> Завдання</h3>
+                                    <h3 class="panel-title">Завдання</h3>
                                     <a href="/crm/tasks/kanban" class="pulse-panel-link">Усі завдання →</a>
                                 </div>
                                 <!-- variant 2 only: tab switcher + contextual link, replaces the panel-title above (same panel/card) -->
@@ -204,7 +204,7 @@
                             <!-- DEALS PANEL -->
                             <div class="panel panel-default" data-myday-panel="deals">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title"><span class="sp-icon icon-deal"></span> Угоди з дедлайном</h3>
+                                    <h3 class="panel-title">Угоди з дедлайном</h3>
                                     <a href="/crm/deals" class="pulse-panel-link">Усі угоди →</a>
                                 </div>
                                 <!-- variant 2 only: tab switcher + contextual link, replaces the panel-title above (same panel/card) -->
@@ -220,8 +220,11 @@
                         </div>
                     </div>
 
-                    <!-- ── ZONE RIGHT: EVENT FEED (components ported from ../CRM_History-Event-Page) ── -->
-                    <div class="pulse-zone-right">
+                    <!-- ── ZONE RIGHT: EVENT FEED (components ported from ../CRM_History-Event-Page) ──
+                         variant 3 only: this whole block is moved into #pulseMyDayPanels as a 3rd panel
+                         (see applyProtoLayout()), so it's a true flex sibling of Завдання/Угоди — same
+                         top alignment, same panel/panel-default look — then moved back for variant 1/2. -->
+                    <div class="pulse-zone-right" id="pulseZoneRight">
                         <div class="pulse-sec-title">
                             <span class="sp-icon icon-revert"></span> Історія подій
                             <div class="pulse-period-toggle" id="feedPeriodMenu">
@@ -229,8 +232,13 @@
                                 <a href="#" data-period="вчора">Вчора</a>
                             </div>
                         </div>
+                        <!-- variant 3 only: panel-heading + "Усі події" link, replaces the pulse-sec-title above (same block, no new section) -->
+                        <div class="panel-heading pulse-history-panel-heading">
+                            <h3 class="panel-title">Історія подій</h3>
+                            <a href="/crm/activity" class="pulse-panel-link">Усі події →</a>
+                        </div>
 
-                        <main id="feedList" class="activity-feed" aria-live="polite"></main>
+                        <main id="feedList" class="activity-feed panel-body" aria-live="polite"></main>
 
                         <div class="pulse-load-more-row">
                             <button class="btn btn-default" id="loadMoreBtn" type="button">
@@ -427,6 +435,7 @@
         <div class="proto-state-toggle">
             <button type="button" class="active" data-proto-layout="1">1 варіант</button>
             <button type="button" data-proto-layout="2">2 варіант</button>
+            <button type="button" data-proto-layout="3">3 варіант</button>
         </div>
     </div>
     <div class="proto-state-row">
@@ -440,6 +449,6 @@
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://login.sendpulse.com/dist/js/bootstrap.min.js"></script>
-<script src="scripts/prototype.js?v=20260807-5"></script>
+<script src="scripts/prototype.js?v=20260807-18"></script>
 </body>
 </html>

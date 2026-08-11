@@ -3,22 +3,30 @@
 
     var currentUser = 'Юрій Кіслицин';
 
-    /* item caps differ per Мій день layout variant (1: stacked panels / 2: tabs) — see getFeedMax()/getMyDayMax() */
+    /* item caps differ per Мій день layout variant (1: stacked panels / 2: tabs / 3: three columns) — see getFeedMax()/getMyDayMax() */
     var FEED_MAX_ITEMS_VARIANT1 = 11;
     var FEED_MAX_ITEMS_VARIANT2 = 9;
-    var MY_DAY_MAX_ITEMS_VARIANT1 = 8;
-    var MY_DAY_MAX_ITEMS_VARIANT2 = 12;
+    var FEED_MAX_ITEMS_VARIANT3 = 12;
+    var MY_DAY_MAX_ITEMS_VARIANT1 = 9;
+    var MY_DAY_MAX_ITEMS_VARIANT2 = 13;
+    var MY_DAY_MAX_ITEMS_VARIANT3 = 12;
 
     function currentLayoutVariant() {
         return pulseZoneLayout ? pulseZoneLayout.getAttribute('data-layout') : '1';
     }
 
     function getFeedMax() {
-        return currentLayoutVariant() === '2' ? FEED_MAX_ITEMS_VARIANT2 : FEED_MAX_ITEMS_VARIANT1;
+        var variant = currentLayoutVariant();
+        if (variant === '2') return FEED_MAX_ITEMS_VARIANT2;
+        if (variant === '3') return FEED_MAX_ITEMS_VARIANT3;
+        return FEED_MAX_ITEMS_VARIANT1;
     }
 
     function getMyDayMax() {
-        return currentLayoutVariant() === '2' ? MY_DAY_MAX_ITEMS_VARIANT2 : MY_DAY_MAX_ITEMS_VARIANT1;
+        var variant = currentLayoutVariant();
+        if (variant === '2') return MY_DAY_MAX_ITEMS_VARIANT2;
+        if (variant === '3') return MY_DAY_MAX_ITEMS_VARIANT3;
+        return MY_DAY_MAX_ITEMS_VARIANT1;
     }
 
     var state = {
@@ -121,9 +129,7 @@
         serviceEvent('email', 'Марина Савченко', 'запланувала розсилку', 'Літня знижка -20%', '9 800 отримувачів, сегмент: Всі клієнти', 'вчора', '15:30'),
         serviceEvent('crm', 'Ігор Мельник', 'закрив угоду', 'Розширення ліцензії «Медіа Груп»', 'Сума: 620 000 грн, етап: Won', 'вчора', '14:12'),
         serviceEvent('smtp', 'Олена Петренко', 'підтвердила домен', 'mail.mediagroup.ua', 'SPF і DKIM активні', 'вчора', '10:15'),
-        serviceEvent('crm', 'Максим Литвин', 'додав контакт', 'Ростислав Кравченко', 'Компанія: «ВеломаркетПлюс», джерело: запит через форму', 'сьогодні', '15:45'),
-        serviceEvent('automation', 'Марина Савченко', 'оновила сценарій', 'Відправка gift-кода нових клієнтів', 'Тригер: рівень дня рішення угоди', 'сьогодні', '14:30'),
-        serviceEvent('sites', 'Юрій Коваленко', 'опублікував оновлення', 'Лендінг для літньої акції 2026', 'Домен: summer2026.example.com, версія 2.1', 'сьогодні', '13:15')
+        serviceEvent('crm', 'Максим Литвин', 'додав контакт', 'Ростислав Кравченко', 'Компанія: «ВеломаркетПлюс», джерело: запит через форму', 'сьогодні', '15:45')
     ];
 
     function serviceEvent(service, author, action, entity, details, dateLabel, time) {
@@ -142,25 +148,6 @@
         high: { label: 'Високий', icon: 'icon-arrow-up', color: '#d94b4d' },
         medium: { label: 'Середній', icon: 'icon-arrow-right-circle', color: '#e3a92d' },
         low: { label: 'Низький', icon: 'icon-arrow-down', color: '#91a4a5' }
-    };
-
-    var linkTypeIcon = { deal: 'icon-deal', task: 'icon-task', contact: 'icon-contact' };
-    var linkTypeCountLabel = { deal: 'Угоди', contact: 'Контакти', task: 'Задач' };
-
-    /* "item / board" indicator colors — exact hex values from Figma node-id 6088-1396 (the "item / board" component set). */
-    var boardColors = {
-        '01-Gray': '#b1b1b1',
-        '02-Blue': '#7eb7ff',
-        '03-Cyan/Light Blue': '#77ceff',
-        '04-Mint/Turquoise': '#58d8f2',
-        '05-Light Green/Lime': '#a3e1a2',
-        '06-Mustard/Gold': '#efc14e',
-        '07-Yellow': '#dad001',
-        '08-Orange': '#ec8c32',
-        '09-Coral/Salmon': '#ff8565',
-        '10-Pink': '#f08bf9',
-        '11-Lavender': '#9593ff',
-        '12-Purple': '#866cbf'
     };
 
     var tasks = [
@@ -235,11 +222,23 @@
             dateStart: '25 липня, 12:00', dateEnd: null, dateSort: 12,
             board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
             links: []
+        },
+        {
+            id: 't19', name: 'Погодити рекламний бюджет на серпень', done: false, priority: 'high',
+            dateStart: '29 липня, 11:00', dateEnd: null, dateSort: 19,
+            board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
+            links: []
+        },
+        {
+            id: 't20', name: 'Підготувати матеріали для вебінару', done: false, priority: 'medium',
+            dateStart: '29 липня, 14:00', dateEnd: null, dateSort: 20,
+            board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
+            links: []
         }
     ];
 
     /* ── RESERVE QUEUE: backfills the Мій день task list as items are completed,
-       so the panel keeps showing 12 tasks until the queue runs dry — then it shortens. ── */
+       so the panel keeps showing 13 tasks until the queue runs dry — then it shortens. ── */
     var taskQueue = [
         {
             id: 't13', name: 'Узгодити акційні умови з «Технопром»', done: false, priority: 'medium',
@@ -363,6 +362,18 @@
             board: { name: 'Постачання', color: '01-Gray' }, amount: '540 000 UAH',
             dateLabel: 'До 5 Серпня, 15:00', dateSort: 20260805,
             products: { count: 2, total: '540 000', currency: 'UAH' }
+        },
+        {
+            id: 'deal-15', name: 'Оновлення обладнання «Ветеран Агро»',
+            board: { name: 'Постачання', color: '02-Blue' }, amount: '320 000 UAH',
+            dateLabel: 'До 6 Серпня, 13:00', dateSort: 20260806,
+            products: [{ name: 'Комплект контрольно-вимірювального обладнання', price: '320 000', currency: 'UAH' }]
+        },
+        {
+            id: 'deal-16', name: 'Продовження контракту «Агро-Сервіс»',
+            board: { name: 'Продажі', color: '06-Mustard/Gold' }, amount: '265 000 UAH',
+            dateLabel: 'До 7 Серпня, 10:00', dateSort: 20260807,
+            products: { count: 1, total: '265 000', currency: 'UAH' }
         }
     ];
 
@@ -529,6 +540,28 @@
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
                 ['Дедлайн', '05.08.2026'],
                 ['Контакт', 'Павло Шевчук']
+            ],
+            comments: []
+        },
+        'deal-15': {
+            type: 'Угода',
+            title: 'Оновлення обладнання «Ветеран Агро»',
+            rows: [
+                ['Сума', '<strong>320 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-blue"></span> КП відправлено'],
+                ['Дедлайн', '06.08.2026'],
+                ['Контакт', 'Олег Гриценко']
+            ],
+            comments: []
+        },
+        'deal-16': {
+            type: 'Угода',
+            title: 'Продовження контракту «Агро-Сервіс»',
+            rows: [
+                ['Сума', '<strong>265 000 ₴</strong>'],
+                ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
+                ['Дедлайн', '07.08.2026'],
+                ['Контакт', 'Валентина Кравець']
             ],
             comments: []
         },
@@ -707,6 +740,25 @@
             ],
             comments: []
         },
+        't19': {
+            type: 'Завдання',
+            title: 'Погодити рекламний бюджет на серпень',
+            rows: [
+                ['Статус', '<span class="label label-default">Нове</span>'],
+                ['Дедлайн', '29.07.2026 11:00'],
+                ['Відповідальний', currentUser]
+            ],
+            comments: []
+        },
+        't20': {
+            type: 'Завдання',
+            title: 'Підготувати матеріали для вебінару',
+            rows: [
+                ['Статус', '<span class="label label-default">Нове</span>'],
+                ['Дедлайн', '29.07.2026 14:00']
+            ],
+            comments: []
+        },
         'contact-anna': {
             type: 'Контакт',
             title: 'Анна Шевченко',
@@ -747,13 +799,14 @@
 
     /* ── DOM REFS ── */
     var annGrid = document.getElementById('annGrid');
-    var annSection = document.getElementById('pulseAnnouncements');
     var feedListEl = document.getElementById('feedList');
     var loadMoreBtn = document.getElementById('loadMoreBtn');
     var feedPeriodMenu = document.getElementById('feedPeriodMenu');
     var tasksPanelBody = document.getElementById('tasksPanelBody');
     var dealsPanelBody = document.getElementById('dealsPanelBody');
     var pulseZoneLayout = document.getElementById('pulseZoneLayout');
+    var pulseMyDayPanels = document.getElementById('pulseMyDayPanels');
+    var pulseZoneRight = document.getElementById('pulseZoneRight');
     var addAnnItem = document.getElementById('addAnnItem');
     var addAnnDivider = document.getElementById('addAnnDivider');
 
@@ -762,10 +815,16 @@
         return announcements.filter(function (a) { return a.status === 'active'; });
     }
 
-    function annCardMarkup(a) {
+    function annCardMarkup(a, showViewedCheck) {
+        var checkboxHtml = showViewedCheck
+            ? '<input type="checkbox" class="pulse-checkbox pulse-ann-checkbox" data-ann-check="' + a.id + '" title="Позначити як переглянуте">'
+            : '';
         return '<div class="pulse-ann-card prio-' + a.priority + '" data-open-ann="' + a.id + '">' +
             '<div class="pulse-ann-card-head">' +
+            '<span class="pulse-ann-card-head-left">' +
+            checkboxHtml +
             '<span class="pulse-prio-badge">' + prioLabel[a.priority] + '</span>' +
+            '</span>' +
             '<span class="pulse-ann-card-date">' + a.date + '</span>' +
             '</div>' +
             '<div class="pulse-ann-card-body">' +
@@ -777,8 +836,10 @@
 
     function renderAnnouncements() {
         var active = activeAnnouncements();
-        annSection.classList.toggle('hide', active.length === 0);
-        annGrid.innerHTML = active.map(annCardMarkup).join('');
+        annGrid.classList.toggle('is-empty', active.length === 0);
+        annGrid.innerHTML = active.length
+            ? active.map(function (a) { return annCardMarkup(a, true); }).join('')
+            : '<div class="pulse-ann-empty-row">Немає актуальних анонсів<a href="#" class="pulse-panel-link js-open-ann-list">Усі анонси →</a></div>';
     }
 
     var annListState = { period: 'сьогодні', filtered: [] };
@@ -788,7 +849,7 @@
         annListState.filtered = source.filter(function (a) { return a.period === annListState.period; });
         var body = document.getElementById('annListDrawerBody');
         body.innerHTML = annListState.filtered.length
-            ? annListState.filtered.map(annCardMarkup).join('')
+            ? annListState.filtered.map(function (a) { return annCardMarkup(a); }).join('')
             : emptyState('assets/illustrations/ic-empty-task.svg', 'У вас немає анонсів');
     }
 
@@ -806,15 +867,17 @@
 
     /* ── RENDER: FEED LIST (activity-feed components ported from ../CRM_History-Event-Page) ── */
     function renderFeed() {
+        var isVariant3 = currentLayoutVariant() === '3';
         var feedMax = getFeedMax();
-        var periodEvents = feedEvents.filter(function (event) { return event.dateLabel === state.feedPeriod; });
-        var visibleCount = Math.min(state.feedVisible, feedMax);
+        var periodEvents = isVariant3 ? feedEvents : feedEvents.filter(function (event) { return event.dateLabel === state.feedPeriod; });
+        var visibleCount = isVariant3 ? feedMax : Math.min(state.feedVisible, feedMax);
         var visible = periodEvents.slice(0, visibleCount);
+        var rowRenderer = isVariant3 ? renderHistoryRow : renderEventRow;
 
-        feedListEl.innerHTML = visible.map(renderEventRow).join('') || '<div class="alert alert-info">Немає даних для відображення</div>';
+        feedListEl.innerHTML = visible.map(rowRenderer).join('') || emptyState('assets/illustrations/ic-empty-history.svg', 'Немає даних для відображення');
 
         var hasMore = periodEvents.length > visibleCount && visibleCount < feedMax;
-        loadMoreBtn.classList.toggle('hide', !hasMore);
+        loadMoreBtn.classList.toggle('hide', !hasMore || isVariant3);
 
         feedPeriodMenu.querySelectorAll('[data-period]').forEach(function (link) {
             link.classList.toggle('disabled', feedEvents.length === 0);
@@ -838,10 +901,22 @@
             '<span class="activity-service-icon service-' + event.service + '"><img src="' + svc.icon + '" alt=""></span>' +
             '<div class="activity-event-main">' +
             '<div class="activity-event-text"><span class="activity-event-author">' + escapeHtml(event.author) + '</span> ' + escapeHtml(event.action) + ' <strong>' + escapeHtml(event.entity) + '</strong></div>' +
-            '<div class="activity-event-meta"><span class="activity-badge service-' + event.service + '">' + svc.label + '</span><span class="activity-details"><strong>Деталі:</strong> ' + escapeHtml(event.details) + '</span></div>' +
             '</div>' +
             '<time class="activity-time">' + event.time + '</time>' +
             '</article>';
+    }
+
+    /* variant 3: Історія подій rows — same divider/hover as Завдання/Угоди rows (.pulse-row), but icon
+       + title + time sit on one line (no .pulse-task-meta row underneath). ── */
+    function renderHistoryRow(event) {
+        var svc = serviceMeta[event.service];
+        var clickAttr = event.type === 'email' ? ' data-open-mail="1"' : ' data-feed-drawer="' + event._id + '"';
+        var title = '<span class="activity-event-author">' + escapeHtml(event.author) + '</span> ' + escapeHtml(event.action) + ' <strong>' + escapeHtml(event.entity) + '</strong>';
+        return '<div class="pulse-row pulse-row-history"' + clickAttr + '>' +
+            '<span class="activity-service-icon service-' + event.service + '"><img src="' + svc.icon + '" alt=""></span>' +
+            '<span class="pulse-task-title">' + title + '</span>' +
+            '<time class="activity-time">' + event.time + '</time>' +
+            '</div>';
     }
 
     function loadMoreFeed() {
@@ -850,56 +925,30 @@
     }
 
     /* ── RENDER: MY DAY ── */
-    function taskLinksSegment(links) {
-        if (!links) return null;
-        var counts = {};
-        var singleType = null, singleName = null, total = 0;
-        if (Array.isArray(links)) {
-            if (!links.length) return null;
-            if (links.length === 1) {
-                singleType = links[0].type;
-                singleName = links[0].name;
-                total = 1;
-            } else {
-                links.forEach(function (l) { counts[l.type] = (counts[l.type] || 0) + 1; total++; });
-            }
-        } else {
-            Object.keys(links).forEach(function (type) {
-                if (links[type] > 0) { counts[type] = links[type]; total += links[type]; }
-            });
-        }
-        if (!total) return null;
-        if (singleName) return { icon: linkTypeIcon[singleType], text: escapeHtml(singleName) };
-        var order = ['deal', 'contact', 'task'];
-        var parts = order.filter(function (type) { return counts[type]; })
-            .map(function (type) { return counts[type] + ' ' + linkTypeCountLabel[type]; });
-        return { icon: 'icon-link', text: parts.join(', ') };
+    function metaSegmentHtml(seg, index) {
+        var dot = index > 0 ? '<span class="pulse-meta-dot"></span>' : '';
+        var marker = seg.isBoard
+            ? ''
+            : '<span class="sp-icon ' + seg.icon + '"' + (seg.color ? ' style="color:' + seg.color + '"' : '') + (seg.title ? ' title="' + escapeHtml(seg.title) + '"' : '') + '></span>';
+        var valueClass = seg.isBoard ? 'pulse-meta-value pulse-meta-board' : 'pulse-meta-value';
+        return dot + '<span class="' + valueClass + '">' + marker + seg.text + '</span>';
     }
 
     function taskMetaHtml(t) {
         var segments = [];
 
         if (t.board) {
-            segments.push({ boardColor: boardColors[t.board.color] || '#9ca3af', text: escapeHtml(t.board.name) });
+            segments.push({ isBoard: true, text: escapeHtml(t.board.name) });
         }
 
         var prio = taskPriorityMeta[t.priority];
-        segments.push({ icon: prio.icon, text: prio.label, color: prio.color });
+        segments.push({ icon: prio.icon, text: '', color: prio.color, title: 'Пріоритет: ' + prio.label });
 
         if (t.dateStart) {
             segments.push({ icon: 'icon-calendar', text: t.dateEnd ? (t.dateStart + ' - ' + t.dateEnd) : t.dateStart });
         }
 
-        var linkSeg = taskLinksSegment(t.links);
-        if (linkSeg) segments.push({ icon: linkSeg.icon, text: linkSeg.text });
-
-        return segments.map(function (seg, index) {
-            var dot = index > 0 ? '<span class="pulse-meta-dot"></span>' : '';
-            var marker = seg.boardColor
-                ? '<span class="pulse-board-dot" style="background:' + seg.boardColor + '"></span>'
-                : '<span class="sp-icon ' + seg.icon + '"' + (seg.color ? ' style="color:' + seg.color + '"' : '') + '></span>';
-            return dot + '<span class="pulse-meta-value">' + marker + seg.text + '</span>';
-        }).join('');
+        return segments.map(metaSegmentHtml).join('');
     }
 
     function renderTasks(enteringId) {
@@ -931,33 +980,13 @@
         }
     }
 
-    function dealProductsSegment(products) {
-        if (!products) return null;
-        if (Array.isArray(products)) {
-            if (!products.length) return null;
-            var p = products[0];
-            return { icon: 'icon-cart', text: escapeHtml(p.name) + ' - ' + p.price + ' ' + p.currency };
-        }
-        if (!products.count) return null;
-        return { icon: 'icon-cart', text: products.count + ' товара, сума: ' + products.total + ' ' + products.currency };
-    }
-
     function dealMetaHtml(d) {
         var segments = [];
-        segments.push({ boardColor: boardColors[d.board.color] || '#9ca3af', text: escapeHtml(d.board.name) });
+        segments.push({ isBoard: true, text: escapeHtml(d.board.name) });
         segments.push({ icon: 'icon-pay-wallet', text: d.amount });
-        segments.push({ icon: 'icon-alarm-clock', text: d.dateLabel });
+        segments.push({ icon: 'icon-alarm-clock', text: d.dateLabel.replace(/^До\s+/i, '') });
 
-        var productSeg = dealProductsSegment(d.products);
-        if (productSeg) segments.push(productSeg);
-
-        return segments.map(function (seg, index) {
-            var dot = index > 0 ? '<span class="pulse-meta-dot"></span>' : '';
-            var marker = seg.boardColor
-                ? '<span class="pulse-board-dot" style="background:' + seg.boardColor + '"></span>'
-                : '<span class="sp-icon ' + seg.icon + '"></span>';
-            return dot + '<span class="pulse-meta-value">' + marker + seg.text + '</span>';
-        }).join('');
+        return segments.map(metaSegmentHtml).join('');
     }
 
     function renderDeals() {
@@ -1212,6 +1241,7 @@
         var dropdownTrigger = event.target.closest('[data-toggle="dropdown"]');
         var modalDismiss = event.target.closest('[data-dismiss="modal"]');
         var annCard = event.target.closest('[data-open-ann]');
+        var annCheck = event.target.closest('[data-ann-check]');
         var drawerTrigger = event.target.closest('[data-open-drawer]');
         var feedDrawerTrigger = event.target.closest('[data-feed-drawer]');
         var mailTrigger = event.target.closest('[data-open-mail]');
@@ -1244,7 +1274,7 @@
             openAnnForm();
             return;
         }
-        if (event.target.closest('#openAnnListBtn')) {
+        if (event.target.closest('.js-open-ann-list')) {
             event.preventDefault();
             openAnnListDrawer();
             return;
@@ -1275,6 +1305,38 @@
         if (modalDismiss || event.target.classList.contains('modal')) {
             event.preventDefault();
             closeModals();
+            return;
+        }
+        if (annCheck) {
+            var annId = Number(annCheck.getAttribute('data-ann-check'));
+            var a = announcements.filter(function (item) { return item.id === annId; })[0];
+            if (a) {
+                var leavingCard = annCheck.closest('.pulse-ann-card');
+                var otherCards = Array.prototype.filter.call(annGrid.querySelectorAll('.pulse-ann-card'), function (c) { return c !== leavingCard; });
+                var firstRects = otherCards.map(function (c) { return c.getBoundingClientRect(); });
+
+                leavingCard.classList.add('is-leaving');
+                setTimeout(function () {
+                    a.status = 'viewed';
+                    renderAnnouncements();
+
+                    /* FLIP: remaining cards glide into their new grid position instead of snapping ── */
+                    otherCards.forEach(function (oldCard, i) {
+                        var newCard = annGrid.querySelector('[data-open-ann="' + oldCard.getAttribute('data-open-ann') + '"]');
+                        if (!newCard) return;
+                        var firstRect = firstRects[i];
+                        var lastRect = newCard.getBoundingClientRect();
+                        var dx = firstRect.left - lastRect.left;
+                        var dy = firstRect.top - lastRect.top;
+                        if (!dx && !dy) return;
+                        newCard.style.transition = 'none';
+                        newCard.style.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
+                        newCard.offsetHeight; /* force reflow so the "no transition" state commits before we animate back */
+                        newCard.style.transition = '';
+                        newCard.style.transform = '';
+                    });
+                }, 180);
+            }
             return;
         }
         if (annCard) {
@@ -1403,8 +1465,19 @@
 
     function applyProtoLayout(variant) {
         pulseZoneLayout.setAttribute('data-layout', variant);
+        document.getElementById('content-wrapper').setAttribute('data-layout', variant);
         if (variant === '2') {
             selectMyDayTab('tasks');
+        }
+        /* variant 3: Історія подій becomes a true 3rd sibling inside pulse-myday-panels (same flex row as
+           Завдання/Угоди — guarantees identical top alignment) and gets real .panel.panel-default classes
+           so it inherits their exact background/border/shadow. Moved back out for variant 1/2. */
+        if (variant === '3') {
+            pulseZoneRight.classList.add('panel', 'panel-default');
+            pulseMyDayPanels.appendChild(pulseZoneRight);
+        } else {
+            pulseZoneRight.classList.remove('panel', 'panel-default');
+            pulseZoneLayout.appendChild(pulseZoneRight);
         }
         /* item caps differ per variant (getMyDayMax/getFeedMax) — re-render so the new cap applies immediately */
         state.feedVisible = Math.min(state.feedVisible, getFeedMax());
