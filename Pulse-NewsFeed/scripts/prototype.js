@@ -153,85 +153,85 @@
     var tasks = [
         {
             id: 't1', name: 'Зателефонувати клієнту «Бета Трейд»', done: false, priority: 'high',
-            dateStart: '21 липня, 17:00', dateEnd: null, dateSort: 1,
+            dateStart: '11 серпня, 17:00', dateEnd: null, dateSort: 1, dueDateSort: 20260811,
             board: { name: 'Продажі Q3', color: '02-Blue' },
             links: []
         },
         {
             id: 't2', name: 'Узгодити договір з юристами', done: false, priority: 'medium',
-            dateStart: '21 липня, 16:00', dateEnd: '22 липня, 10:00', dateSort: 2,
+            dateStart: '12 серпня, 16:00', dateEnd: null, dateSort: 2, dueDateSort: 20260812,
             board: { name: 'Продажі Q3', color: '02-Blue' },
             links: []
         },
         {
             id: 't3', name: 'Підготувати комерційну пропозицію', done: false, priority: 'high',
-            dateStart: '22 липня, 14:00', dateEnd: null, dateSort: 3,
+            dateStart: '13 серпня, 14:00', dateEnd: null, dateSort: 3, dueDateSort: 20260813,
             board: { name: 'Постачання', color: '04-Mint/Turquoise' },
             links: [{ type: 'deal', name: 'Постачання обладнання для «Агро-Тех»', drawerKey: 'deal-1' }]
         },
         {
             id: 't4', name: 'Провести демо для «Медіа Груп»', done: false, priority: 'low',
-            dateStart: '22 липня, 16:00', dateEnd: null, dateSort: 4,
+            dateStart: '15 серпня, 16:00', dateEnd: null, dateSort: 4, dueDateSort: 20260815,
             board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
             links: [{ type: 'contact', name: 'Оксана Терещенко' }]
         },
         {
-            id: 't5', name: 'Надіслати рахунок ТОВ «Прогрес»', done: false, priority: 'medium',
-            dateStart: null, dateEnd: null, dateSort: 5,
-            board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
-            links: { deal: 2, contact: 1, task: 3 }
-        },
-        {
             id: 't6', name: 'Оновити прайс-лист для дилерів', done: false, priority: 'medium',
-            dateStart: '23 липня, 11:00', dateEnd: null, dateSort: 6,
+            dateStart: '17 серпня, 11:00', dateEnd: null, dateSort: 5, dueDateSort: 20260817,
             board: { name: 'Продажі Q3', color: '02-Blue' },
             links: []
         },
         {
             id: 't7', name: 'Погодити знижку для «Агро-Тех»', done: false, priority: 'high',
-            dateStart: '23 липня, 15:00', dateEnd: null, dateSort: 7,
+            dateStart: '18 серпня, 15:00', dateEnd: null, dateSort: 6, dueDateSort: 20260818,
             board: { name: 'Постачання', color: '04-Mint/Turquoise' },
             links: [{ type: 'deal', name: 'Постачання обладнання для «Агро-Тех»', drawerKey: 'deal-1' }]
         },
         {
+            id: 't5', name: 'Надіслати рахунок ТОВ «Прогрес»', done: false, priority: 'medium',
+            dateStart: null, dateEnd: null, dateSort: 7,
+            board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
+            links: { deal: 2, contact: 1, task: 3 }
+        },
+        {
             id: 't8', name: 'Заповнити звіт по воронці за тиждень', done: false, priority: 'low',
-            dateStart: '24 липня, 10:00', dateEnd: null, dateSort: 8,
+            dateStart: null, dateEnd: null, dateSort: 8,
             board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
             links: []
         },
         {
             id: 't9', name: 'Провести співбесіду з кандидатом', done: false, priority: 'medium',
-            dateStart: '24 липня, 13:00', dateEnd: null, dateSort: 9,
+            dateStart: null, dateEnd: null, dateSort: 9,
             board: { name: 'Продажі Q3', color: '02-Blue' },
             links: []
         },
         {
             id: 't10', name: 'Підготувати звіт по маркетингу', done: false, priority: 'low',
-            dateStart: '24 липня, 15:00', dateEnd: null, dateSort: 10,
+            dateStart: null, dateEnd: null, dateSort: 10,
             board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
             links: []
         },
         {
             id: 't11', name: 'Узгодити терміни постачання з «Дата Хаб»', done: false, priority: 'high',
-            dateStart: '25 липня, 10:00', dateEnd: null, dateSort: 11,
+            dateStart: null, dateEnd: null, dateSort: 11,
             board: { name: 'Постачання', color: '04-Mint/Turquoise' },
             links: [{ type: 'deal', name: 'Постачання серверів «Дата Хаб»', drawerKey: 'deal-7' }]
         },
         {
             id: 't12', name: 'Оновити CRM-профіль клієнта', done: false, priority: 'medium',
-            dateStart: '25 липня, 12:00', dateEnd: null, dateSort: 12,
+            dateStart: null, dateEnd: null, dateSort: 12,
             board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
             links: []
         },
         {
             id: 't19', name: 'Погодити рекламний бюджет на серпень', done: false, priority: 'high',
-            dateStart: '29 липня, 11:00', dateEnd: null, dateSort: 19,
+            dateStart: null, dateEnd: null, dateSort: 13,
             board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
             links: []
         },
         {
             id: 't20', name: 'Підготувати матеріали для вебінару', done: false, priority: 'medium',
-            dateStart: '29 липня, 14:00', dateEnd: null, dateSort: 20,
+            dateStart: null, dateEnd: null, dateSort: 14,
             board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
             links: []
         }
@@ -242,37 +242,37 @@
     var taskQueue = [
         {
             id: 't13', name: 'Узгодити акційні умови з «Технопром»', done: false, priority: 'medium',
-            dateStart: '26 липня, 11:00', dateEnd: null, dateSort: 13,
+            dateStart: null, dateEnd: null, dateSort: 15,
             board: { name: 'Продажі Q3', color: '02-Blue' },
             links: [{ type: 'deal', name: 'Оновлення ліцензії «Технопром»', drawerKey: 'deal-6' }]
         },
         {
             id: 't14', name: 'Підготувати кейс для «Дата Хаб»', done: false, priority: 'low',
-            dateStart: '26 липня, 14:00', dateEnd: null, dateSort: 14,
+            dateStart: null, dateEnd: null, dateSort: 16,
             board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
             links: []
         },
         {
             id: 't15', name: 'Перевірити оплату «Нова Пошта Софт»', done: false, priority: 'high',
-            dateStart: '27 липня, 09:00', dateEnd: null, dateSort: 15,
+            dateStart: null, dateEnd: null, dateSort: 17,
             board: { name: 'Постачання', color: '04-Mint/Turquoise' },
             links: [{ type: 'deal', name: 'Продовження підписки «Нова Пошта Софт»', drawerKey: 'deal-8' }]
         },
         {
             id: 't16', name: 'Оновити чек-лист онбордингу клієнтів', done: false, priority: 'medium',
-            dateStart: '27 липня, 13:00', dateEnd: null, dateSort: 16,
+            dateStart: null, dateEnd: null, dateSort: 18,
             board: { name: 'Задачі на літо', color: '03-Cyan/Light Blue' },
             links: []
         },
         {
             id: 't17', name: 'Верифікувати контакти нових клієнтів', done: false, priority: 'low',
-            dateStart: '28 липня, 10:00', dateEnd: null, dateSort: 17,
+            dateStart: null, dateEnd: null, dateSort: 19,
             board: { name: 'Маркетинг', color: '09-Coral/Salmon' },
             links: []
         },
         {
             id: 't18', name: 'Оновити звіт про виконання квартального плану', done: false, priority: 'high',
-            dateStart: '28 липня, 14:00', dateEnd: null, dateSort: 18,
+            dateStart: null, dateEnd: null, dateSort: 20,
             board: { name: 'Продажі Q3', color: '02-Blue' },
             links: []
         }
@@ -282,97 +282,97 @@
         {
             id: 'deal-3', name: 'Пілотний проєкт «Digital Solutions»',
             board: { name: 'Продажі', color: '10-Pink' }, amount: '400 000 UAH',
-            dateLabel: 'До 19 Липня, 12:00', dateSort: 20260719,
+            dateLabel: 'До 9 Серпня, 12:00', dateSort: 20260809,
             products: null
         },
         {
             id: 'deal-2', name: 'Річний контракт ТОВ «Бета Трейд»',
             board: { name: 'Продажі', color: '02-Blue' }, amount: '840 000 UAH',
-            dateLabel: 'До 20 Липня, 17:00', dateSort: 20260720,
+            dateLabel: 'До 10 Серпня, 17:00', dateSort: 20260810,
             products: null
         },
         {
             id: 'deal-1', name: 'Постачання обладнання для «Агро-Тех»',
             board: { name: 'Постачання', color: '04-Mint/Turquoise' }, amount: '1 200 000 UAH',
-            dateLabel: 'До 21 Липня, 15:30', dateSort: 20260721,
+            dateLabel: 'До 11 Серпня, 15:30', dateSort: 20260811,
             products: [{ name: 'Лінія розливу L-2000', price: '1 200 000', currency: 'UAH' }]
         },
         {
             id: 'deal-4', name: 'Постачання меблів «Офіс Комфорт»',
             board: { name: 'Постачання', color: '04-Mint/Turquoise' }, amount: '280 000 UAH',
-            dateLabel: 'До 23 Липня, 10:00', dateSort: 20260723,
+            dateLabel: 'До 12 Серпня, 10:00', dateSort: 20260812,
             products: { count: 5, total: '280 000', currency: 'UAH' }
         },
         {
             id: 'deal-5', name: 'Розширення ліцензії «Медіа Груп»',
             board: { name: 'Продажі', color: '12-Purple' }, amount: '620 000 UAH',
-            dateLabel: 'До 26 Липня, 14:00', dateSort: 20260726,
+            dateLabel: 'До 14 Серпня, 14:00', dateSort: 20260814,
             products: [{ name: 'Розширена ліцензія CRM x50', price: '620 000', currency: 'UAH' }]
         },
         {
             id: 'deal-6', name: 'Оновлення ліцензії «Технопром»',
             board: { name: 'Продажі', color: '06-Mustard/Gold' }, amount: '150 000 UAH',
-            dateLabel: 'До 27 Липня, 12:00', dateSort: 20260727,
+            dateLabel: 'До 15 Серпня, 12:00', dateSort: 20260815,
             products: { count: 1, total: '150 000', currency: 'UAH' }
         },
         {
             id: 'deal-7', name: 'Постачання серверів «Дата Хаб»',
             board: { name: 'Постачання', color: '08-Orange' }, amount: '2 100 000 UAH',
-            dateLabel: 'До 28 Липня, 09:00', dateSort: 20260728,
+            dateLabel: 'До 17 Серпня, 09:00', dateSort: 20260817,
             products: [{ name: 'Сервери Dell PowerEdge x6', price: '2 100 000', currency: 'UAH' }]
         },
         {
             id: 'deal-8', name: 'Продовження підписки «Нова Пошта Софт»',
             board: { name: 'Продажі', color: '11-Lavender' }, amount: '95 000 UAH',
-            dateLabel: 'До 29 Липня, 16:00', dateSort: 20260729,
+            dateLabel: 'До 18 Серпня, 16:00', dateSort: 20260818,
             products: { count: 2, total: '95 000', currency: 'UAH' }
         },
         {
             id: 'deal-9', name: 'Впровадження CRM для «Смарт Логістика»',
             board: { name: 'Продажі', color: '07-Yellow' }, amount: '360 000 UAH',
-            dateLabel: 'До 30 Липня, 10:00', dateSort: 20260730,
+            dateLabel: 'До 19 Серпня, 10:00', dateSort: 20260819,
             products: [{ name: 'Ліцензія CRM Business x10', price: '360 000', currency: 'UAH' }]
         },
         {
             id: 'deal-10', name: 'Розширення парку принтерів «Офіс Плюс»',
             board: { name: 'Постачання', color: '01-Gray' }, amount: '210 000 UAH',
-            dateLabel: 'До 31 Липня, 15:00', dateSort: 20260731,
+            dateLabel: 'До 20 Серпня, 15:00', dateSort: 20260820,
             products: { count: 3, total: '210 000', currency: 'UAH' }
         },
         {
             id: 'deal-11', name: 'Оновлення тарифу «Глобал Трейд»',
             board: { name: 'Продажі', color: '05-Light Green/Lime' }, amount: '480 000 UAH',
-            dateLabel: 'До 1 Серпня, 12:00', dateSort: 20260801,
+            dateLabel: 'До 21 Серпня, 12:00', dateSort: 20260821,
             products: [{ name: 'Розширена ліцензія CRM x30', price: '480 000', currency: 'UAH' }]
         },
         {
             id: 'deal-12', name: 'Постачання канцелярії «Освіта Плюс»',
             board: { name: 'Постачання', color: '08-Orange' }, amount: '75 000 UAH',
-            dateLabel: 'До 2 Серпня, 09:00', dateSort: 20260802,
+            dateLabel: 'До 22 Серпня, 09:00', dateSort: 20260822,
             products: { count: 4, total: '75 000', currency: 'UAH' }
         },
         {
             id: 'deal-13', name: 'Облік документів для «Юридич Консалт»',
             board: { name: 'Продажі', color: '11-Lavender' }, amount: '180 000 UAH',
-            dateLabel: 'До 3 Серпня, 11:00', dateSort: 20260803,
+            dateLabel: 'До 24 Серпня, 11:00', dateSort: 20260824,
             products: [{ name: 'Модуль управління документами', price: '180 000', currency: 'UAH' }]
         },
         {
             id: 'deal-14', name: 'Розширення серверних потужностей «БізнесТек»',
             board: { name: 'Постачання', color: '01-Gray' }, amount: '540 000 UAH',
-            dateLabel: 'До 5 Серпня, 15:00', dateSort: 20260805,
+            dateLabel: 'До 26 Серпня, 15:00', dateSort: 20260826,
             products: { count: 2, total: '540 000', currency: 'UAH' }
         },
         {
             id: 'deal-15', name: 'Оновлення обладнання «Ветеран Агро»',
             board: { name: 'Постачання', color: '02-Blue' }, amount: '320 000 UAH',
-            dateLabel: 'До 6 Серпня, 13:00', dateSort: 20260806,
+            dateLabel: 'До 28 Серпня, 13:00', dateSort: 20260828,
             products: [{ name: 'Комплект контрольно-вимірювального обладнання', price: '320 000', currency: 'UAH' }]
         },
         {
             id: 'deal-16', name: 'Продовження контракту «Агро-Сервіс»',
             board: { name: 'Продажі', color: '06-Mustard/Gold' }, amount: '265 000 UAH',
-            dateLabel: 'До 7 Серпня, 10:00', dateSort: 20260807,
+            dateLabel: 'До 30 Серпня, 10:00', dateSort: 20260830,
             products: { count: 1, total: '265 000', currency: 'UAH' }
         }
     ];
@@ -394,7 +394,7 @@
             rows: [
                 ['Сума', '<strong>1 200 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
-                ['Дедлайн', '21.07.2026'],
+                ['Дедлайн', '11.08.2026'],
                 ['Контакт', 'Петро Сидоренко, «Агро-Тех»'],
                 ['Відповідальний', currentUser]
             ],
@@ -406,7 +406,7 @@
             rows: [
                 ['Сума', '<strong>840 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-blue"></span> КП відправлено'],
-                ['Дедлайн', '20.07.2026'],
+                ['Дедлайн', '10.08.2026'],
                 ['Контакт', 'Іван Мороз']
             ],
             comments: []
@@ -417,7 +417,7 @@
             rows: [
                 ['Сума', '<strong>400 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-orange"></span> Рахунок виставлено'],
-                ['Дедлайн', '19.07.2026'],
+                ['Дедлайн', '09.08.2026'],
                 ['Контакт', 'Анна Шевченко']
             ],
             comments: []
@@ -428,7 +428,7 @@
             rows: [
                 ['Сума', '<strong>280 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-blue"></span> Нова заявка'],
-                ['Дедлайн', '23.07.2026'],
+                ['Дедлайн', '12.08.2026'],
                 ['Контакт', 'Сергій Павленко']
             ],
             comments: []
@@ -439,7 +439,7 @@
             rows: [
                 ['Сума', '<strong>620 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
-                ['Дедлайн', '26.07.2026'],
+                ['Дедлайн', '14.08.2026'],
                 ['Контакт', 'Оксана Терещенко']
             ],
             comments: []
@@ -450,7 +450,7 @@
             rows: [
                 ['Сума', '<strong>150 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-blue"></span> КП відправлено'],
-                ['Дедлайн', '27.07.2026'],
+                ['Дедлайн', '15.08.2026'],
                 ['Контакт', 'Дмитро Гнатюк']
             ],
             comments: []
@@ -461,7 +461,7 @@
             rows: [
                 ['Сума', '<strong>2 100 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-orange"></span> Рахунок виставлено'],
-                ['Дедлайн', '28.07.2026'],
+                ['Дедлайн', '17.08.2026'],
                 ['Контакт', 'Роман Клименко']
             ],
             comments: []
@@ -472,7 +472,7 @@
             rows: [
                 ['Сума', '<strong>95 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
-                ['Дедлайн', '29.07.2026'],
+                ['Дедлайн', '18.08.2026'],
                 ['Контакт', 'Наталія Бойко']
             ],
             comments: []
@@ -483,7 +483,7 @@
             rows: [
                 ['Сума', '<strong>360 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-blue"></span> КП відправлено'],
-                ['Дедлайн', '30.07.2026'],
+                ['Дедлайн', '19.08.2026'],
                 ['Контакт', 'Владислав Гриценко']
             ],
             comments: []
@@ -494,7 +494,7 @@
             rows: [
                 ['Сума', '<strong>210 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-orange"></span> Рахунок виставлено'],
-                ['Дедлайн', '31.07.2026'],
+                ['Дедлайн', '20.08.2026'],
                 ['Контакт', 'Тетяна Кравець']
             ],
             comments: []
@@ -505,7 +505,7 @@
             rows: [
                 ['Сума', '<strong>480 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
-                ['Дедлайн', '01.08.2026'],
+                ['Дедлайн', '21.08.2026'],
                 ['Контакт', 'Богдан Руденко']
             ],
             comments: []
@@ -516,7 +516,7 @@
             rows: [
                 ['Сума', '<strong>75 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-blue"></span> Нова заявка'],
-                ['Дедлайн', '02.08.2026'],
+                ['Дедлайн', '22.08.2026'],
                 ['Контакт', 'Ірина Бондаренко']
             ],
             comments: []
@@ -527,7 +527,7 @@
             rows: [
                 ['Сума', '<strong>180 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-orange"></span> Рахунок виставлено'],
-                ['Дедлайн', '03.08.2026'],
+                ['Дедлайн', '24.08.2026'],
                 ['Контакт', 'Сергій Петренко']
             ],
             comments: []
@@ -538,7 +538,7 @@
             rows: [
                 ['Сума', '<strong>540 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
-                ['Дедлайн', '05.08.2026'],
+                ['Дедлайн', '26.08.2026'],
                 ['Контакт', 'Павло Шевчук']
             ],
             comments: []
@@ -549,7 +549,7 @@
             rows: [
                 ['Сума', '<strong>320 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-blue"></span> КП відправлено'],
-                ['Дедлайн', '06.08.2026'],
+                ['Дедлайн', '28.08.2026'],
                 ['Контакт', 'Олег Гриценко']
             ],
             comments: []
@@ -560,7 +560,7 @@
             rows: [
                 ['Сума', '<strong>265 000 ₴</strong>'],
                 ['Етап', '<span class="badge badge-status status-green"></span> Переговори'],
-                ['Дедлайн', '07.08.2026'],
+                ['Дедлайн', '30.08.2026'],
                 ['Контакт', 'Валентина Кравець']
             ],
             comments: []
@@ -570,7 +570,7 @@
             title: 'Зателефонувати клієнту «Бета Трейд»',
             rows: [
                 ['Статус', '<span class="label label-danger">Прострочено</span>'],
-                ['Дедлайн', 'вчора 17:00'],
+                ['Дедлайн', '11.08.2026 17:00'],
                 ['Контакт', 'Іван Мороз']
             ],
             comments: []
@@ -580,7 +580,7 @@
             title: 'Узгодити договір з юристами',
             rows: [
                 ['Статус', '<span class="label label-danger">Прострочено</span>'],
-                ['Дедлайн', 'вчора 16:00'],
+                ['Дедлайн', '12.08.2026 16:00'],
                 ['Відповідальний', currentUser],
                 ['Угода', '<a href="#" data-open-drawer="deal-2">Річний контракт ТОВ «Бета Трейд»</a>']
             ],
@@ -591,7 +591,7 @@
             title: 'Підготувати комерційну пропозицію',
             rows: [
                 ['Статус', '<span class="label label-primary">В роботі</span>'],
-                ['Дедлайн', '21.07.2026 14:00'],
+                ['Дедлайн', '13.08.2026 14:00'],
                 ['Відповідальний', currentUser],
                 ['Угода', '<a href="#" data-open-drawer="deal-1">Постачання обладнання для «Агро-Тех»</a>']
             ],
@@ -602,7 +602,7 @@
             title: 'Провести демо для «Медіа Груп»',
             rows: [
                 ['Статус', '<span class="label label-primary">В роботі</span>'],
-                ['Дедлайн', '21.07.2026 16:00'],
+                ['Дедлайн', '15.08.2026 16:00'],
                 ['Відповідальний', currentUser]
             ],
             comments: []
@@ -621,7 +621,7 @@
             title: 'Оновити прайс-лист для дилерів',
             rows: [
                 ['Статус', '<span class="label label-default">Нове</span>'],
-                ['Дедлайн', '23.07.2026 11:00'],
+                ['Дедлайн', '17.08.2026 11:00'],
                 ['Відповідальний', currentUser]
             ],
             comments: []
@@ -631,7 +631,7 @@
             title: 'Погодити знижку для «Агро-Тех»',
             rows: [
                 ['Статус', '<span class="label label-primary">В роботі</span>'],
-                ['Дедлайн', '23.07.2026 15:00'],
+                ['Дедлайн', '18.08.2026 15:00'],
                 ['Відповідальний', currentUser],
                 ['Угода', '<a href="#" data-open-drawer="deal-1">Постачання обладнання для «Агро-Тех»</a>']
             ],
@@ -927,11 +927,32 @@
     /* ── RENDER: MY DAY ── */
     function metaSegmentHtml(seg, index) {
         var dot = index > 0 ? '<span class="pulse-meta-dot"></span>' : '';
+        var iconStyleAttr = seg.color ? ' style="color:' + seg.color + '"' : '';
         var marker = seg.isBoard
             ? ''
-            : '<span class="sp-icon ' + seg.icon + '"' + (seg.color ? ' style="color:' + seg.color + '"' : '') + (seg.title ? ' title="' + escapeHtml(seg.title) + '"' : '') + '></span>';
+            : '<span class="sp-icon ' + seg.icon + '"' + iconStyleAttr + (seg.title ? ' title="' + escapeHtml(seg.title) + '"' : '') + '></span>';
         var valueClass = seg.isBoard ? 'pulse-meta-value pulse-meta-board' : 'pulse-meta-value';
-        return dot + '<span class="' + valueClass + '">' + marker + seg.text + '</span>';
+        var valueStyleAttr = seg.color ? ' style="color:' + seg.color + '"' : '';
+        return dot + '<span class="' + valueClass + '"' + valueStyleAttr + '>' + marker + seg.text + '</span>';
+    }
+
+    /* ── DUE DATE URGENCY: "today" is fixed for this prototype (mock dates aren't relative to the
+       real system clock) — within 3 days = soon (AE7F1C), already past = overdue (D94B4D). ── */
+    var PROTO_TODAY_YMD = 20260813;
+
+    function ymdToDate(ymd) {
+        var y = Math.floor(ymd / 10000);
+        var m = Math.floor((ymd % 10000) / 100) - 1;
+        var d = ymd % 100;
+        return new Date(y, m, d);
+    }
+
+    function dueUrgencyColor(ymd) {
+        if (!ymd) return null;
+        var diffDays = Math.round((ymdToDate(ymd) - ymdToDate(PROTO_TODAY_YMD)) / 86400000);
+        if (diffDays < 0) return '#D94B4D';
+        if (diffDays <= 3) return '#AE7F1C';
+        return null;
     }
 
     function taskMetaHtml(t) {
@@ -945,7 +966,11 @@
         segments.push({ icon: prio.icon, text: '', color: prio.color, title: 'Пріоритет: ' + prio.label });
 
         if (t.dateStart) {
-            segments.push({ icon: 'icon-calendar', text: t.dateEnd ? (t.dateStart + ' - ' + t.dateEnd) : t.dateStart });
+            segments.push({
+                icon: 'icon-calendar',
+                text: t.dateEnd ? (t.dateStart + ' - ' + t.dateEnd) : t.dateStart,
+                color: dueUrgencyColor(t.dueDateSort)
+            });
         }
 
         return segments.map(metaSegmentHtml).join('');
@@ -984,7 +1009,7 @@
         var segments = [];
         segments.push({ isBoard: true, text: escapeHtml(d.board.name) });
         segments.push({ icon: 'icon-pay-wallet', text: d.amount });
-        segments.push({ icon: 'icon-alarm-clock', text: d.dateLabel.replace(/^До\s+/i, '') });
+        segments.push({ icon: 'icon-alarm-clock', text: d.dateLabel.replace(/^До\s+/i, ''), color: dueUrgencyColor(d.dateSort) });
 
         return segments.map(metaSegmentHtml).join('');
     }
