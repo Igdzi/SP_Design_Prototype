@@ -1074,7 +1074,6 @@
         document.getElementById('annFormTitle').textContent = 'Редагувати анонс';
         document.getElementById('annText').value = a.text;
         document.getElementById('annPriority').value = a.priority;
-        document.getElementById('annExpiry').value = '';
         var submitBtn = document.getElementById('annSubmitBtn');
         submitBtn.textContent = 'Зберегти';
         submitBtn.classList.remove('btn-create');
@@ -1141,7 +1140,6 @@
         document.getElementById('annForm').classList.remove('has-error');
         document.getElementById('annText').value = '';
         document.getElementById('annPriority').value = 'normal';
-        document.getElementById('annExpiry').value = '';
         removeAnnImagePreview();
     }
 
