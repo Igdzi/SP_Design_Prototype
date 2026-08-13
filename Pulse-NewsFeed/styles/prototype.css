@@ -675,6 +675,7 @@
     opacity: .5;
 }
 
+.pulse-row-task .pulse-task-meta,
 .pulse-row-deal .pulse-task-meta {
     padding-left: 0;
 }
@@ -684,7 +685,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    padding-left: 24px;
+    padding-left: 0;
     font-size: 14px;
 }
 
