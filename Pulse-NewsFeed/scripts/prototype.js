@@ -816,13 +816,9 @@
     }
 
     function annCardMarkup(a, showViewedCheck) {
-        var checkboxHtml = showViewedCheck
-            ? '<input type="checkbox" class="pulse-checkbox pulse-ann-checkbox" data-ann-check="' + a.id + '" title="Позначити як переглянуте">'
-            : '';
         return '<div class="pulse-ann-card prio-' + a.priority + '" data-open-ann="' + a.id + '">' +
             '<div class="pulse-ann-card-head">' +
             '<span class="pulse-ann-card-head-left">' +
-            checkboxHtml +
             '<span class="pulse-prio-badge">' + prioLabel[a.priority] + '</span>' +
             '</span>' +
             '<span class="pulse-ann-card-date">' + a.date + '</span>' +
@@ -989,7 +985,6 @@
             var enteringClass = t.id === enteringId ? ' is-entering' : '';
             return '<div class="pulse-row pulse-row-task' + (t.done ? ' is-done' : '') + enteringClass + '" data-open-drawer="' + t.id + '">' +
                 '<div class="pulse-task-row-top">' +
-                '<input type="checkbox" class="pulse-checkbox" data-task-check="' + t.id + '"' + (t.done ? ' checked' : '') + '>' +
                 '<span class="pulse-task-title">' + escapeHtml(t.name) + '</span>' +
                 '</div>' +
                 '<div class="pulse-task-meta">' + taskMetaHtml(t) + '</div>' +
@@ -1275,12 +1270,10 @@
         var dropdownTrigger = event.target.closest('[data-toggle="dropdown"]');
         var modalDismiss = event.target.closest('[data-dismiss="modal"]');
         var annCard = event.target.closest('[data-open-ann]');
-        var annCheck = event.target.closest('[data-ann-check]');
         var drawerTrigger = event.target.closest('[data-open-drawer]');
         var feedDrawerTrigger = event.target.closest('[data-feed-drawer]');
         var mailTrigger = event.target.closest('[data-open-mail]');
         var drawerClose = event.target.closest('.activity-drawer-close');
-        var taskCheck = event.target.closest('[data-task-check]');
         var periodTrigger = event.target.closest('#feedPeriodMenu [data-period]');
         var myDayTabTrigger = event.target.closest('.pulse-myday-tabs [data-myday-tab]');
         var openDropdown = document.querySelector('.dropdown.open, .btn-group.open');
@@ -1341,60 +1334,9 @@
             closeModals();
             return;
         }
-        if (annCheck) {
-            var annId = Number(annCheck.getAttribute('data-ann-check'));
-            var a = announcements.filter(function (item) { return item.id === annId; })[0];
-            if (a) {
-                var leavingCard = annCheck.closest('.pulse-ann-card');
-                var otherCards = Array.prototype.filter.call(annGrid.querySelectorAll('.pulse-ann-card'), function (c) { return c !== leavingCard; });
-                var firstRects = otherCards.map(function (c) { return c.getBoundingClientRect(); });
-
-                leavingCard.classList.add('is-leaving');
-                setTimeout(function () {
-                    a.status = 'viewed';
-                    renderAnnouncements();
-
-                    /* FLIP: remaining cards glide into their new grid position instead of snapping ── */
-                    otherCards.forEach(function (oldCard, i) {
-                        var newCard = annGrid.querySelector('[data-open-ann="' + oldCard.getAttribute('data-open-ann') + '"]');
-                        if (!newCard) return;
-                        var firstRect = firstRects[i];
-                        var lastRect = newCard.getBoundingClientRect();
-                        var dx = firstRect.left - lastRect.left;
-                        var dy = firstRect.top - lastRect.top;
-                        if (!dx && !dy) return;
-                        newCard.style.transition = 'none';
-                        newCard.style.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
-                        newCard.offsetHeight; /* force reflow so the "no transition" state commits before we animate back */
-                        newCard.style.transition = '';
-                        newCard.style.transform = '';
-                    });
-                }, 180);
-            }
-            return;
-        }
         if (annCard) {
             event.preventDefault();
             openAnnDetail(annCard.getAttribute('data-open-ann'));
-            return;
-        }
-        if (taskCheck) {
-            var taskId = taskCheck.getAttribute('data-task-check');
-            var t = tasks.filter(function (item) { return item.id === taskId; })[0];
-            if (t) {
-                t.done = taskCheck.checked;
-                var row = taskCheck.closest('.pulse-row');
-                row.classList.toggle('is-done', t.done);
-                if (t.done) {
-                    row.classList.add('is-leaving');
-                    setTimeout(function () {
-                        tasks = tasks.filter(function (item) { return item.id !== taskId; });
-                        var nextTask = taskQueue.length ? taskQueue.shift() : null;
-                        if (nextTask) tasks.push(nextTask);
-                        renderTasks(nextTask && nextTask.id);
-                    }, 300);
-                }
-            }
             return;
         }
         if (drawerTrigger && drawerTrigger.getAttribute('data-open-drawer')) {
