@@ -11,6 +11,10 @@
     var MY_DAY_MAX_ITEMS_VARIANT2 = 13;
     var MY_DAY_MAX_ITEMS_VARIANT3 = 12;
 
+    /* only the 3 most recent active announcements show in the widget — older ones stay
+       active and remain visible in the "Усі анонси" drawer, they just fall out of the grid ── */
+    var ANN_MAX_ITEMS = 3;
+
     function currentLayoutVariant() {
         return pulseZoneLayout ? pulseZoneLayout.getAttribute('data-layout') : '1';
     }
@@ -832,28 +836,22 @@
 
     function renderAnnouncements() {
         var active = activeAnnouncements();
-        annGrid.classList.toggle('is-empty', active.length === 0);
-        annGrid.innerHTML = active.length
-            ? active.map(function (a) { return annCardMarkup(a, true); }).join('')
+        var visible = active.slice(0, ANN_MAX_ITEMS);
+        annGrid.classList.toggle('is-empty', visible.length === 0);
+        annGrid.innerHTML = visible.length
+            ? visible.map(function (a) { return annCardMarkup(a, true); }).join('')
             : '<div class="pulse-ann-empty-row">Немає актуальних анонсів<a href="#" class="pulse-panel-link js-open-ann-list">Усі анонси →</a></div>';
     }
 
-    var annListState = { period: 'сьогодні', filtered: [] };
-
     function renderAnnListDrawer() {
         var source = activeAnnouncements().concat(fillerAnnouncements);
-        annListState.filtered = source.filter(function (a) { return a.period === annListState.period; });
         var body = document.getElementById('annListDrawerBody');
-        body.innerHTML = annListState.filtered.length
-            ? annListState.filtered.map(function (a) { return annCardMarkup(a); }).join('')
+        body.innerHTML = source.length
+            ? source.map(function (a) { return annCardMarkup(a); }).join('')
             : emptyState('assets/illustrations/ic-empty-task.svg', 'У вас немає анонсів');
     }
 
     function openAnnListDrawer() {
-        annListState.period = 'сьогодні';
-        document.querySelectorAll('#annListPeriodTabs [data-ann-period]').forEach(function (tab) {
-            tab.classList.toggle('active', tab.getAttribute('data-ann-period') === 'сьогодні');
-        });
         renderAnnListDrawer();
         closeDrawer();
         document.getElementById('annListDrawer').classList.add('is-open');
@@ -1302,16 +1300,6 @@
         if (event.target.closest('.js-open-ann-list')) {
             event.preventDefault();
             openAnnListDrawer();
-            return;
-        }
-        if (event.target.closest('#annListPeriodTabs [data-ann-period]')) {
-            event.preventDefault();
-            var periodTab = event.target.closest('[data-ann-period]');
-            annListState.period = periodTab.getAttribute('data-ann-period');
-            document.querySelectorAll('#annListPeriodTabs [data-ann-period]').forEach(function (tab) {
-                tab.classList.toggle('active', tab === periodTab);
-            });
-            renderAnnListDrawer();
             return;
         }
         if (event.target.closest('[data-add="deal"]')) { event.preventDefault(); alert('Відкриється форма створення угоди.'); return; }
