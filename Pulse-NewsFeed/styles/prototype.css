@@ -174,13 +174,19 @@
     padding: 14px 16px;
     border-radius: 10px;
     background: #fff;
-    cursor: pointer;
     box-sizing: border-box;
     opacity: 1;
+    transition: opacity .18s ease, transform .18s ease;
+}
+
+/* only the compact grid card (opens the detail modal) is clickable — the drawer's full card
+   already shows everything the modal would, so it gets no hover/shadow affordance ── */
+.pulse-ann-card[data-open-ann] {
+    cursor: pointer;
     transition: box-shadow .12s, opacity .18s ease, transform .18s ease;
 }
 
-.pulse-ann-card:hover {
+.pulse-ann-card[data-open-ann]:hover {
     box-shadow: 0 2px 10px rgba(2, 51, 70, .1);
 }
 
@@ -201,10 +207,6 @@
     align-items: center;
     gap: 8px;
     min-width: 0;
-}
-
-.pulse-ann-checkbox {
-    cursor: pointer;
 }
 
 .pulse-ann-card-date {
@@ -231,6 +233,19 @@
     font-size: 14px;
     line-height: 1.275;
     overflow-wrap: anywhere;
+}
+
+.pulse-ann-card-img img {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.pulse-ann-card-actions {
+    display: flex;
+    gap: 8px;
 }
 
 /* ── PRIORITY BADGE (shared: cards, feed rows, modal) — colors/shape from Figma node-id 6056-1340 / 6059-1412 / 6059-1422 ── */

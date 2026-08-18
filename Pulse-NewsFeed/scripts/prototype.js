@@ -39,7 +39,9 @@
         feedPageSize: FEED_MAX_ITEMS_VARIANT1,
         feedPeriod: 'сьогодні',
         currentAnnId: null,
-        editingAnnId: null
+        editingAnnId: null,
+        editingAnnOrigin: null,
+        pendingDeleteAnnId: null
     };
 
 
@@ -819,8 +821,22 @@
         return announcements.filter(function (a) { return a.status === 'active'; });
     }
 
-    function annCardMarkup(a, showViewedCheck) {
-        return '<div class="pulse-ann-card prio-' + a.priority + '" data-open-ann="' + a.id + '">' +
+    /* fullView (drawer) renders the same info as the detail modal — text, image and, for the
+       announcement's own author, inline manage buttons — so the card never needs to open the
+       modal on click; the compact grid card keeps data-open-ann for that. ── */
+    function annCardMarkup(a, fullView) {
+        var canManage = fullView && !a.synthetic && a.author === currentUser;
+        var openAttr = fullView ? '' : ' data-open-ann="' + a.id + '"';
+        var imgHtml = (fullView && a.hasImage && a.image)
+            ? '<div class="pulse-ann-card-img"><img src="' + a.image + '" alt=""></div>'
+            : '';
+        var actionsHtml = canManage
+            ? '<div class="pulse-ann-card-actions">' +
+                '<button type="button" class="btn btn-default btn-sm" data-ann-edit="' + a.id + '"><span class="sp-icon icon-ap-edit"></span> Редагувати</button>' +
+                '<button type="button" class="btn btn-danger btn-sm" data-ann-delete="' + a.id + '"><span class="sp-icon icon-ap-trash"></span> Видалити</button>' +
+                '</div>'
+            : '';
+        return '<div class="pulse-ann-card prio-' + a.priority + '"' + openAttr + '>' +
             '<div class="pulse-ann-card-head">' +
             '<span class="pulse-ann-card-head-left">' +
             '<span class="pulse-prio-badge">' + prioLabel[a.priority] + '</span>' +
@@ -831,6 +847,8 @@
             '<div class="pulse-ann-card-author">' + escapeHtml(a.author) + '</div>' +
             '<div class="pulse-ann-card-text">' + escapeHtml(a.text) + '</div>' +
             '</div>' +
+            imgHtml +
+            actionsHtml +
             '</div>';
     }
 
@@ -839,7 +857,7 @@
         var visible = active.slice(0, ANN_MAX_ITEMS);
         annGrid.classList.toggle('is-empty', visible.length === 0);
         annGrid.innerHTML = visible.length
-            ? visible.map(function (a) { return annCardMarkup(a, true); }).join('')
+            ? visible.map(function (a) { return annCardMarkup(a, false); }).join('')
             : '<div class="pulse-ann-empty-row">Немає актуальних анонсів<a href="#" class="pulse-panel-link js-open-ann-list">Усі анонси →</a></div>';
     }
 
@@ -847,7 +865,7 @@
         var source = activeAnnouncements().concat(fillerAnnouncements);
         var body = document.getElementById('annListDrawerBody');
         body.innerHTML = source.length
-            ? source.map(function (a) { return annCardMarkup(a); }).join('')
+            ? source.map(function (a) { return annCardMarkup(a, true); }).join('')
             : emptyState('assets/illustrations/ic-empty-task.svg', 'У вас немає анонсів');
     }
 
@@ -1064,10 +1082,14 @@
         openModal('#annDetailModal');
     }
 
-    function editAnn() {
-        var a = announcements.filter(function (item) { return item.id === state.currentAnnId; })[0];
+    /* editAnn/deleteAnn take an explicit id so they work both from the detail modal's "Дії"
+       dropdown (currentAnnId) and directly off a manage button on a drawer card. origin tracks
+       where editing was opened from, so Скасувати knows whether to return to the detail modal. ── */
+    function editAnn(id, origin) {
+        var a = announcements.filter(function (item) { return item.id === id; })[0];
         if (!a) return;
         state.editingAnnId = a.id;
+        state.editingAnnOrigin = origin || null;
         closeModals();
         document.getElementById('annFormTitle').textContent = 'Редагувати анонс';
         document.getElementById('annText').value = a.text;
@@ -1082,26 +1104,28 @@
 
     function cancelAnnForm() {
         var backId = state.editingAnnId;
+        var origin = state.editingAnnOrigin;
         state.editingAnnId = null;
-        if (backId) {
+        state.editingAnnOrigin = null;
+        if (origin === 'detail' && backId) {
             openAnnDetail(backId);
         } else {
             closeModals();
         }
     }
 
-    function deleteAnn() {
-        var a = announcements.filter(function (item) { return item.id === state.currentAnnId; })[0];
+    function deleteAnn(id, anchorEl) {
+        var a = announcements.filter(function (item) { return item.id === id; })[0];
         if (!a) return;
-        showAnnConfirmPopover();
+        state.pendingDeleteAnnId = id;
+        showAnnConfirmPopover(anchorEl);
     }
 
-    function showAnnConfirmPopover() {
-        var anchor = document.querySelector('#annDetailAuthorActions .pulse-actions-btn');
+    function showAnnConfirmPopover(anchorEl) {
         var popover = document.getElementById('annConfirmBlock');
         popover.classList.remove('hide');
-        if (anchor) {
-            var rect = anchor.getBoundingClientRect();
+        if (anchorEl) {
+            var rect = anchorEl.getBoundingClientRect();
             popover.style.top = (rect.bottom + 8) + 'px';
             popover.style.left = rect.left + 'px';
         }
@@ -1112,12 +1136,14 @@
     }
 
     function confirmAnnDelete() {
-        var a = announcements.filter(function (item) { return item.id === state.currentAnnId; })[0];
+        var a = announcements.filter(function (item) { return item.id === state.pendingDeleteAnnId; })[0];
         hideAnnConfirmPopover();
+        state.pendingDeleteAnnId = null;
         if (!a) return;
         a.status = 'deleted';
         closeModals();
         renderAnnouncements();
+        renderAnnListDrawer();
         renderFeed();
     }
 
@@ -1168,6 +1194,7 @@
 
         closeModals();
         renderAnnouncements();
+        renderAnnListDrawer();
         renderFeed();
     }
 
@@ -1266,6 +1293,8 @@
         var dropdownTrigger = event.target.closest('[data-toggle="dropdown"]');
         var modalDismiss = event.target.closest('[data-dismiss="modal"]');
         var annCard = event.target.closest('[data-open-ann]');
+        var annEditTrigger = event.target.closest('[data-ann-edit]');
+        var annDeleteTrigger = event.target.closest('[data-ann-delete]');
         var drawerTrigger = event.target.closest('[data-open-drawer]');
         var feedDrawerTrigger = event.target.closest('[data-feed-drawer]');
         var mailTrigger = event.target.closest('[data-open-mail]');
@@ -1308,8 +1337,10 @@
         if (event.target.closest('[data-add="pipeline"]')) { event.preventDefault(); alert('Відкриється форма створення воронки для угод.'); return; }
         if (event.target.closest('[data-add="board"]')) { event.preventDefault(); alert('Відкриється форма створення дошки для задач.'); return; }
 
-        if (event.target.closest('#annEditBtn')) { event.preventDefault(); if (openDropdown) openDropdown.classList.remove('open'); editAnn(); return; }
-        if (event.target.closest('#annDeleteBtn')) { event.preventDefault(); if (openDropdown) openDropdown.classList.remove('open'); deleteAnn(); return; }
+        if (event.target.closest('#annEditBtn')) { event.preventDefault(); if (openDropdown) openDropdown.classList.remove('open'); editAnn(state.currentAnnId, 'detail'); return; }
+        if (event.target.closest('#annDeleteBtn')) { event.preventDefault(); if (openDropdown) openDropdown.classList.remove('open'); deleteAnn(state.currentAnnId, document.querySelector('#annDetailAuthorActions .pulse-actions-btn')); return; }
+        if (annEditTrigger) { event.preventDefault(); editAnn(Number(annEditTrigger.getAttribute('data-ann-edit')), null); return; }
+        if (annDeleteTrigger) { event.preventDefault(); deleteAnn(Number(annDeleteTrigger.getAttribute('data-ann-delete')), annDeleteTrigger); return; }
         if (event.target.closest('#annConfirmYes')) { confirmAnnDelete(); return; }
         if (event.target.closest('#annConfirmNo')) { hideAnnConfirmPopover(); return; }
         if (event.target.closest('#annCancelBtn')) { cancelAnnForm(); return; }
