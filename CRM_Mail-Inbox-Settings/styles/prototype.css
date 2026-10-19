@@ -139,7 +139,7 @@
 .mail-auto-top .switcher-toggle + label { margin: 6px 0 0; }
 
 .mail-auto-status { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-size: 14px; color: var(--muted-color, #465152); }
-.mail-auto-status .badge-status { width: 13px; height: 13px; margin: 0; }
+.mail-auto-status .badge-status { width: 10px; height: 10px; margin: 0; }
 .mail-auto-item.is-on .mail-auto-status { color: var(--muted-color, #465152); }
 
 .mail-auto-desc { margin: 4px 0 0; font-size: 13px; line-height: 1.35; color: var(--muted-color, #465152); }
