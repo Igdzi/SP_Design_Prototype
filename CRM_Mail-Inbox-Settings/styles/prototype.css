@@ -1,0 +1,204 @@
+/* ═════════════════════════════════════════════════════════════
+   CRM / Пошта — Inbox automation statuses (task: "Improve Inbox
+   settings statuses UI").
+
+   Part 1 — PROD MIRROR: rules copied from the live page
+   (crm-dist/styles-*.css + Angular component styles, _ngcontent
+   selectors stripped) so the screen matches production 1:1.
+   Part 2 — NEW: the redesigned automation block + settings tweaks.
+   ═════════════════════════════════════════════════════════════ */
+
+/* ── PROTOTYPE-ONLY STATE PANEL ── */
+.proto-state-panel {
+    position: fixed; bottom: 20px; right: 20px; z-index: 2000;
+    display: flex; flex-direction: column; gap: 8px; padding: 8px 12px;
+    background: #fff; border: 1px dashed #c7cfd1; border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(2, 51, 70, .12);
+}
+.proto-state-row { display: flex; align-items: center; gap: 10px; }
+.proto-state-label { color: #8a94a6; font-size: 12px; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
+.proto-state-toggle { display: flex; gap: 4px; }
+.proto-state-toggle button { padding: 4px 10px; color: #465152; font-size: 13px; font-weight: 500; background: #f5f7f7; border: 1px solid #dde3e4; border-radius: 6px; cursor: pointer; }
+.proto-state-toggle button.active { color: #fff; font-weight: 700; background: #20a8d8; border-color: #20a8d8; }
+
+/* ═════════ PART 1 — PROD MIRROR ═════════ */
+
+/* Page header (crm-page-top) */
+.crm-page { position: relative; }
+.crm-page-title h1 { margin: 0 0 12px; font-size: 40px; line-height: 44px; font-weight: 700; }
+
+/* Two-column mailbox grid */
+.mailbox { display: grid; grid-template-columns: 250px minmax(0, 1fr); width: 100%; align-items: flex-start; column-gap: 30px; }
+
+.btn-green { color: #fff; background-color: rgb(0, 177, 117); }
+.btn-green:hover, .btn-green:focus { color: #fff; }
+.mailbox__list-btn button { margin-bottom: 15px; }
+.mailbox__list-btn .sp-icon { color: #fff; opacity: 1; margin-right: 8px; }
+
+.mailbox__list-select { list-style: none; position: relative; }
+.mailbox__list-select--btn { display: flex; align-items: center; justify-content: space-between; gap: 8px; cursor: pointer; }
+.mailbox__list-select--btn .truncate { min-width: 0; }
+
+.mailbox__list-folders { list-style: none; padding: 0; margin: 0 0 15px; }
+.mailbox__list-folders--item button {
+    display: flex; align-items: center; width: 100%;
+    background: var(--panel-bg, #fff);
+    font-size: 16px; padding: 10px 12px; margin-bottom: 1px;
+    text-align: left; border-radius: 0; font-weight: 400;
+}
+.mailbox__list-folders--item button .sp-icon { color: rgb(157, 181, 196); }
+.mailbox__list-folders--item-name {
+    display: flex; align-items: center; justify-content: space-between; width: 100%;
+    font-size: 16px; line-height: 142%; word-break: break-all; margin-left: 10px; margin-top: 4px;
+}
+.mailbox__list-folders--item:first-child button { border-top-left-radius: 8px; border-top-right-radius: 8px; }
+.mailbox__list-folders--item:last-child button { border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+.mailbox__list-folders .folder-btn.active { background: var(--bg-color-muted, #fafcfd) !important; box-shadow: none !important; }
+.mailbox__list-folders .folder-btn.active .sp-icon { color: rgb(104, 143, 161) !important; }
+.mailbox__list-folders .badge { background: #465152; color: #fff; font-size: 14px; padding: 3px 7px; }
+
+.mailbox__mails { height: 100%; min-width: 0; }
+.mailbox__mails-search { position: relative; }
+.mailbox__mails-filter { margin-bottom: 20px; }
+.mailbox__mails-table { position: relative; }
+
+/* Thread list — blue-table bits used on prod */
+.mailbox .blue-table { width: 100%; border-collapse: separate; border-radius: 4px; border: 0; }
+.mailbox .blue-table th { background-color: var(--bg-color, #f2f5f5); font-size: 14px; padding: 8px; vertical-align: middle; border: 0; }
+.mailbox .blue-table td { padding: 8px; vertical-align: middle; border: 0 !important; }
+.mailbox .blue-table tbody > tr { outline: 2px solid var(--bg-color, #f2f5f5); box-shadow: rgba(0, 0, 0, .03) 0 1px 2px; }
+.mailbox .blue-table tbody > tr.contact-item-row { background-color: rgba(255, 255, 255, .9); cursor: pointer; }
+.mailbox .blue-table > tbody > tr > td:first-child { border-top-left-radius: 7px; border-bottom-left-radius: 7px; padding-left: 12px; }
+.mailbox .blue-table > tbody > tr > td:last-child { border-top-right-radius: 7px; border-bottom-right-radius: 7px; padding-right: 12px; }
+.mailbox .checkbox-td { width: 20px; }
+.mailbox .checkbox-top { vertical-align: top !important; min-width: 35px; }
+.mailbox .checkbox-top input[type="checkbox"] { margin-left: 4px; }
+.mailbox td, .mailbox th { position: relative; }
+.unread-filter-th { text-align: right; }
+.unread-filter-btn { background: none; border: 0; padding: 0; color: var(--primary-color, #009fc1); cursor: pointer; font-size: 14px; }
+
+.thread { display: flex; align-items: flex-start; justify-content: space-between; }
+.thread .column { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; }
+.thread__subject { margin-right: 10px; width: 100%; min-width: 0; }
+.thread__subject-sender { font-weight: 700; }
+.thread__subject-mail { color: var(--muted-color, #465152); line-height: 24px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; word-break: break-all; }
+.thread__subject-mail .bold { font-weight: 700; color: var(--base-color, #000); }
+.thread__mail-count { display: flex; align-items: center; min-width: 40px; margin-right: 10px; color: var(--muted-color, #465152); }
+.thread__mail-count .sp-icon { margin-right: 3px; font-size: 13px; }
+.thread__mail-date { color: var(--muted-color, #465152); font-size: 15px; font-weight: 700; line-height: 142%; min-width: 100px; align-items: flex-end !important; }
+.thread__mail-date--value { white-space: nowrap; }
+.thread .sp-icon { color: rgb(104, 143, 161); opacity: .5; }
+.thread__mail-date .sp-icon { margin-top: 5px; }
+
+/* ═════════ PART 2 — NEW ═════════ */
+
+/* Mailbox select (as on prod) */
+.mailbox__list-head { margin-bottom: 15px; }
+.mailbox__list-head .dropdown-menu { width: 100%; }
+
+
+/* Automation block — same white surface + 8px radius as folders, no border */
+.mail-auto {
+    background: var(--panel-bg, #fff);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    overflow: hidden;
+}
+.mail-auto-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 12px 8px; }
+.mail-auto-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: var(--muted-color, #465152); }
+.mail-auto-counter { font-size: 13px; font-weight: 700; color: var(--muted-color, #465152); white-space: nowrap; }
+
+.mail-auto-progress { height: 4px; margin: 0 12px 4px; background: var(--bg-color, #f2f5f5); border-radius: 2px; overflow: hidden; }
+.mail-auto-progress-bar { display: block; width: 0; height: 100%; background: var(--sp-secondary, #00b175); border-radius: 2px; transition: width .2s ease-out; }
+
+
+/* Row: [icon] [title ........ switch]
+              [status / details / link] */
+.mail-auto-item {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    column-gap: 10px;
+    padding: 12px;
+    transition: background-color .15s;
+}
+.mail-auto-item + .mail-auto-item { border-top: 1px solid var(--bg-color, #f2f5f5); }
+.mail-auto-item.is-flash { background: rgba(0, 177, 117, .08); }
+
+.mail-auto-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    color: var(--light-color, #91a4a5); background: var(--bg-color, #f2f5f5);
+    transition: background-color .15s, color .15s;
+}
+.mail-auto-icon .sp-icon { margin: 0; opacity: 1; font-size: 14px; color: inherit; }
+.mail-auto-item.is-on .mail-auto-icon { color: var(--sp-secondary, #00b175); background: rgba(0, 177, 117, .12); }
+
+.mail-auto-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-height: 28px; }
+.mail-auto-name { padding-top: 3px; font-size: 14px; font-weight: 700; line-height: 1.3; }
+.mail-auto-name sup { margin-left: 2px; }
+.mail-auto-top .switcher-toggle + label { margin: 6px 0 0; }
+
+.mail-auto-status { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-size: 14px; color: var(--muted-color, #465152); }
+.mail-auto-status .badge-status { width: 13px; height: 13px; margin: 0; }
+.mail-auto-item.is-on .mail-auto-status { color: var(--muted-color, #465152); }
+
+.mail-auto-desc { margin: 4px 0 0; font-size: 13px; line-height: 1.35; color: var(--muted-color, #465152); }
+.mail-auto-item.is-on .mail-auto-desc { display: none; }
+
+/* Details for enabled automation: label above value, never truncated mid-word */
+.mail-auto-meta { display: none; margin: 8px 0 0; }
+.mail-auto-item.is-on .mail-auto-meta { display: block; }
+.mail-auto-meta dt { margin-bottom: 3px; font-size: 13px; font-weight: 400; color: var(--muted-color, #465152); }
+.mail-auto-meta dd { display: flex; align-items: center; gap: 6px; min-width: 0; margin: 0 0 11px; font-size: 14px; }
+.mail-auto-meta dd:last-child { margin-bottom: 0; }
+.mail-auto-meta-value { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* Internal link (opens settings) — dotted per design principles */
+.mail-auto-edit { display: inline-block; margin-top: 8px; font-size: 14px; line-height: 1.2; border-bottom: 1px dashed currentColor; }
+.mail-auto-edit:hover, .mail-auto-edit:focus { text-decoration: none; }
+
+/* Contacts sub-switches */
+.mail-auto-subs { margin: 6px 0 0; padding: 0; list-style: none; }
+.mail-auto-subs li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; font-size: 14px; }
+.mail-auto-subs .switcher-toggle + label { margin: 0; }
+
+.mail-avatar {
+    display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+    width: 22px; height: 22px; border-radius: 50%;
+    font-size: 10px; font-weight: 700; color: #fff; background: var(--sp-primary, #009fc1);
+}
+
+
+/* ── Settings view (prod: .mail-settings.panel in the right column) ── */
+.mail-settings { width: 748px; max-width: 100%; border: 0; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); }
+.mail-settings .panel-body { padding: 24px; }
+.mail-settings .form-group { margin-bottom: 20px; }                     /* 20px between inputs */
+.mail-settings-group { display: block; margin: 0 0 2px; }                /* "Автоматизація CRM" = input label style; 2px + 8px block padding = 10px to checkboxes */
+
+/* Logical blocks (deals / contacts / dialogs): 20px apart = 8 padding + 4 margin + 8 padding.
+   Padding exists for the "is-target" highlight when the user comes from "Змінити". */
+.mail-settings-sec { margin: 0 -12px 4px; padding: 8px 12px; border-radius: 8px; }
+.mail-settings-sec > :last-child { margin-bottom: 0; }
+.mail-settings-sec .checkbox { margin: 0 0 4px; }
+.mail-settings-sec .checkbox:last-child { margin-bottom: 0; }
+.mail-settings-sec .help-block { margin: 0 0 0 20px; font-size: 14px; color: var(--muted-color, #465152); }
+.mail-settings-sub { margin: 12px 0 0 20px; max-width: 520px; }
+.mail-settings-sub label { font-size: 14px; }                          /* Воронка та статус / Відповідальний / … за контакти */
+.mail-settings-sub .form-group { margin-bottom: 12px; }
+.mail-settings-sub .form-group:last-child { margin-bottom: 0; }
+.mail-settings-sec.is-target { animation: secTarget 1.4s ease-out; }
+@keyframes secTarget { 0% { background: rgba(0, 159, 193, .12); } 100% { background: transparent; } }
+.mail-settings-footer { display: flex; align-items: center; gap: 8px; padding: 16px 24px; background: var(--bg-color-muted, #fafcfd); border: 0; border-radius: 0 0 8px 8px; }
+.mail-settings-delete { margin-left: auto; font-size: 14px; }
+
+
+@media (max-width: 991px) {
+    .mailbox { grid-template-columns: 1fr; row-gap: 20px; }
+    .mailbox__list { max-width: 420px; }
+}
+
+/* fixes */
+.mailbox__list-select--btn .truncate { flex: 1 1 auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.mailbox__list-select--btn .caret { flex: 0 0 auto; }
+.mail-auto-meta-value.is-wrap { white-space: normal; }
+.mail-auto-nowrap { white-space: nowrap; }

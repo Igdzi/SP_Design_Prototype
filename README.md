@@ -20,6 +20,7 @@ Current prototypes:
 
 - `CRM_History-Event-Page` - CRM / Analytics / Event history page prototype.
 - `Horizontal-scroll` - CRM drawer prototype with horizontal status bubble scrolling.
+- `CRM_Mail-Inbox-Settings` - CRM / Mail inbox automation statuses redesign.
 
 ## GitHub Pages
 
