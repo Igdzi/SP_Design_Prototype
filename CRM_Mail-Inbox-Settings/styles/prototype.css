@@ -118,7 +118,8 @@
     padding: 9px 12px; color: var(--base-color, #000);
 }
 a.mail-auto-row:hover, a.mail-auto-row:focus { text-decoration: none; background: var(--bg-color-muted, #fafcfd); color: var(--base-color, #000); }
-a.mail-auto-row:focus, a.mail-auto-row:active, .mail-settings-entry .folder-btn:focus { outline: 0; box-shadow: none; }   /* click feedback = background only */
+a.mail-auto-row:focus, a.mail-auto-row:active, a.mail-auto-row:focus-visible,
+.mail-settings-entry .folder-btn:focus, .mail-settings-entry .folder-btn:active { outline: 0 !important; box-shadow: none !important; }   /* no 2px ring on click — feedback = background only */
 .mail-auto-icon {
     display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%;
     color: var(--light-color, #91a4a5); background: var(--bg-color, #f2f5f5);
