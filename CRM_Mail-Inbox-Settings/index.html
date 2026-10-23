@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20261019-18" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20261023-01" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
 </head>
@@ -103,24 +103,31 @@
                                 </div>
                             </div>
 
-                            <!-- Folders: as on prod, incl. "Налаштування" as the last item -->
+                            <!-- Folders: real folders only. "Налаштування" moved into the block below -->
                             <ul class="mailbox__list-folders" id="mailFolders">
                                 <li class="mailbox__list-folders--item"><button class="folder-btn btn truncate active" data-folder="inbox"><span class="sp-icon icon-inbox-2"></span><span class="mailbox__list-folders--item-name"> Вхідні <span class="badge">2082</span></span></button></li>
                                 <li class="mailbox__list-folders--item"><button class="folder-btn btn truncate" data-folder="sent"><span class="sp-icon icon-outbox-2"></span><span class="mailbox__list-folders--item-name"> Надіслані </span></button></li>
                                 <li class="mailbox__list-folders--item"><button class="folder-btn btn truncate" data-folder="starred"><span class="sp-icon icon-star"></span><span class="mailbox__list-folders--item-name"> Позначені </span></button></li>
                                 <li class="mailbox__list-folders--item"><button class="folder-btn btn truncate" data-folder="drafts"><span class="sp-icon icon-pencil"></span><span class="mailbox__list-folders--item-name"> Чернетки </span></button></li>
                                 <li class="mailbox__list-folders--item"><button class="folder-btn btn truncate" data-folder="trash"><span class="sp-icon icon-bin"></span><span class="mailbox__list-folders--item-name"> Кошик </span></button></li>
-                                <li class="mailbox__list-folders--item"><button class="folder-btn btn truncate" data-folder="settings"><span class="sp-icon icon-mixer"></span><span class="mailbox__list-folders--item-name"> Налаштування </span></button></li>
                             </ul>
 
-                            <!-- ═══ NEW: automation status block (replaces .automate-creation) ═══ -->
+                            <!-- ═══ NEW: "Налаштування" block = settings entry + read-only automation status ═══
+                                 - no toggles here: changes only in settings, applied on "Зберегти" (+ confirm when switching off)
+                                 - users without rights: same statuses, no link to settings -->
                             <section class="mail-auto" id="mailAuto" aria-labelledby="mailAutoTitle">
-                                <div class="mail-auto-head">
-                                    <span class="mail-auto-title" id="mailAutoTitle">Автоматизація CRM</span>
+                                <button type="button" class="mail-auto-head js-open-settings" id="mailAutoHead">
+                                    <span class="sp-icon icon-mixer"></span>
+                                    <span class="mail-auto-title" id="mailAutoTitle">Налаштування</span>
+                                    <span class="sp-icon icon-chevron-right mail-auto-chevron"></span>
+                                </button>
+                                <div class="mail-auto-summary">
+                                    <span class="mail-auto-caption">Автоматизація CRM</span>
                                     <span class="mail-auto-counter" id="mailAutoCounter">1 з 3</span>
                                 </div>
                                 <div class="mail-auto-progress" aria-hidden="true"><span class="mail-auto-progress-bar" id="mailAutoProgress"></span></div>
-                                <div class="mail-auto-list" id="mailAutoList"></div>
+                                <ul class="mail-auto-list" id="mailAutoList"></ul>
+                                <p class="mail-auto-lock" id="mailAutoLock"><span class="sp-icon icon-locked"></span>Змінювати може адміністратор</p>
                             </section>
                         </div>
 
@@ -215,11 +222,38 @@
             <button type="button" data-proto-state="on">Усе увімкнено</button>
         </div>
     </div>
+    <div class="proto-state-row">
+        <span class="proto-state-label">Права</span>
+        <div class="proto-state-toggle">
+            <button type="button" class="active" data-proto-role="admin">Адміністратор</button>
+            <button type="button" data-proto-role="viewer">Без прав</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ CONFIRM: switching automations off ══════ -->
+<div class="modal fade" id="confirmOffModal" tabindex="-1" role="dialog" aria-labelledby="confirmOffTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрити"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="confirmOffTitle">Вимкнути автоматизацію?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Після збереження перестане працювати:</p>
+                <ul id="confirmOffList"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+                <button type="button" class="btn btn-danger" id="confirmOffYes">Вимкнути й зберегти</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="scripts/prototype.js?v=20261019-18"></script>
+<script src="scripts/prototype.js?v=20261023-01"></script>
 </body>
 </html>

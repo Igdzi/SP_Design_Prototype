@@ -18,6 +18,7 @@
         pipeline: 'Продажі',
         stage: 'Новий лід',
         view: 'list',
+        role: 'admin',          // 'admin' can change settings, 'viewer' sees statuses only
         dealOwner: 'ok',
         contactOwner: 'me'
     }, PRESETS.mixed);
@@ -27,95 +28,50 @@
         return OWNERS[0];
     }
 
-    function avatar(o) {
-        return '<span class="mail-avatar" style="background:' + o.color + '" aria-hidden="true">' + o.initials + '</span>';
-    }
-
-    function ownerLabel(o) {
-        return o.name + (o.short ? ' <span class="text-muted">· ' + o.short + '</span>' : '');
-    }
-
-    function switcher(id, key, checked, label) {
-        return '<span class="inline-block">' +
-            '<input class="switcher-toggle js-auto-toggle" type="checkbox" id="' + id + '" data-key="' + key + '"' + (checked ? ' checked' : '') + ' aria-label="' + label + '">' +
-            '<label for="' + id + '"></label></span>';
-    }
-
-    function status(on, textOn, textOff) {
-        return '<div class="mail-auto-status">' +
-            '<span class="badge badge-status ' + (on ? 'status-green' : 'status-default') + '"> </span>' +
-            '<span>' + (on ? textOn : textOff) + '</span></div>';
+    function status(on, text) {
+        return '<span class="mail-auto-status">' +
+            '<span class="badge badge-status ' + (on ? 'status-green' : 'status-default') + '"> </span>' + text + '</span>';
     }
 
     function contactsStatusText() {
-        if (state.contactsIn && state.contactsOut) return 'Для вхідних і вихідних';
-        if (state.contactsIn) return 'Для вхідних';
-        if (state.contactsOut) return 'Для вихідних';
+        if (state.contactsIn && state.contactsOut) return 'Увімкнено';
+        if (state.contactsIn) return 'Вхідні';
+        if (state.contactsOut) return 'Вихідні';
         return 'Вимкнено';
     }
 
-    /* ── Sidebar block ── */
-    function row(o) {
-        return '<div class="mail-auto-item' + (o.on ? ' is-on' : '') + '" data-item="' + o.item + '">' +
-            '<span class="mail-auto-icon"><span class="sp-icon ' + o.icon + '"></span></span>' +
-            '<div>' +
-                '<div class="mail-auto-top"><span class="mail-auto-name">' + o.name + '</span>' + (o.switcher || '') + '</div>' +
-                status(o.on, o.statusOn, 'Вимкнено') +
-                '<p class="mail-auto-desc">' + o.desc + '</p>' +
-                (o.subs || '') +
-                (o.meta ? '<dl class="mail-auto-meta">' + o.meta + '</dl>' : '') +
-                (o.on && o.link ? o.link : '') +
-            '</div>' +
-        '</div>';
-    }
-
-    function ownerDd(o) {
-        return '<dd>' + avatar(o) + '<span class="mail-auto-meta-value" title="' + o.name + '">' + ownerLabel(o) + '</span></dd>';
-    }
-
+    /* ── Sidebar "Налаштування" block: read-only statuses + entry to settings ── */
     function renderSidebar() {
-        var dealO = owner(state.dealOwner);
-        var contO = owner(state.contactOwner);
+        var isAdmin = state.role === 'admin';
         var contactsOn = state.contactsIn || state.contactsOut;
+        var rows = [
+            { section: 'deals',    name: 'Створення угод',      on: state.deals,    text: state.deals ? 'Увімкнено' : 'Вимкнено',
+              title: state.deals ? 'Воронка: ' + state.pipeline + ' · ' + state.stage : '' },
+            { section: 'contacts', name: 'Створення контактів', on: contactsOn,     text: contactsStatusText(),
+              title: contactsOn ? 'Контакти створюються для ' + (state.contactsIn && state.contactsOut ? 'вхідних і вихідних' : state.contactsIn ? 'вхідних' : 'вихідних') + ' листів' : '' },
+            { section: 'dialogs',  name: 'Відповіді на листи<sup class="color-active">NEW</sup>', plain: 'Відповіді на листи',
+              on: state.dialogs, text: state.dialogs ? 'Увімкнено' : 'Вимкнено', title: '' }
+        ];
 
-        var html =
-            row({
-                item: 'deals', on: state.deals, icon: 'icon-deal', name: 'Створення угод',
-                switcher: switcher('swDeals', 'deals', state.deals, 'Створення угод'),
-                statusOn: 'Увімкнено',
-                desc: 'Лист із нової адреси одразу стане угодою у воронці',
-                meta: '<dt>Воронка та статус</dt><dd><span class="mail-auto-meta-value" title="' + state.pipeline + ' · ' + state.stage + '">' + state.pipeline + ' · ' + state.stage + '</span></dd>' +
-                      '<dt>Відповідальний</dt>' + ownerDd(dealO),
-                link: '<a href="#" class="mail-auto-edit" data-section="deals">Змінити</a>'
-            }) +
-            row({
-                item: 'contacts', on: contactsOn, icon: 'icon-contact', name: 'Створення контактів',
-                statusOn: contactsStatusText(),
-                desc: 'Нові адреси з листування потраплять у контакти',
-                subs: '<ul class="mail-auto-subs">' +
-                        '<li><span>Вхідні листи</span>' + switcher('swContactsIn', 'contactsIn', state.contactsIn, 'Контакти для вхідних листів') + '</li>' +
-                        '<li><span>Вихідні листи</span>' + switcher('swContactsOut', 'contactsOut', state.contactsOut, 'Контакти для вихідних листів') + '</li>' +
-                      '</ul>',
-                meta: '<dt>Відповідальний</dt>' + ownerDd(contO),
-                link: '<a href="#" class="mail-auto-edit" data-section="contacts">Змінити</a>'
-            }) +
-            row({
-                item: 'dialogs', on: state.dialogs, icon: 'icon-comment', name: 'Відповіді <span class="mail-auto-nowrap">на листи<sup class="color-active">NEW</sup></span>',
-                switcher: switcher('swDialogs', 'dialogs', state.dialogs, 'Відповіді на листи'),
-                statusOn: 'Увімкнено',
-                desc: 'Додавання листів у розділ «Діалоги» та автоматизація через чат-бота',
-                meta: '<dd><span class="mail-auto-meta-value is-wrap">Нові листи з\'являються в «Діалогах»</span></dd>',
-                link: '<a href="#" class="mail-auto-edit js-goto-dialogs">Налаштувати чат-бота</a>'
-            });
-
-        document.getElementById('mailAutoList').innerHTML = html;
+        document.getElementById('mailAutoList').innerHTML = rows.map(function (r) {
+            var inner = '<span class="mail-auto-name" title="' + (r.plain || r.name) + '">' + r.name + '</span>' + status(r.on, r.text);
+            var tip = r.title ? ' title="' + r.title + '"' : '';
+            return '<li>' + (isAdmin
+                ? '<a href="#" class="mail-auto-row" data-section="' + r.section + '"' + tip + '>' + inner + '</a>'
+                : '<div class="mail-auto-row"' + tip + '>' + inner + '</div>') + '</li>';
+        }).join('');
 
         var enabled = (state.deals ? 1 : 0) + (contactsOn ? 1 : 0) + (state.dialogs ? 1 : 0);
         var counter = document.getElementById('mailAutoCounter');
         counter.textContent = enabled + ' з 3';
         counter.title = 'Увімкнено ' + enabled + ' з 3 автоматизацій';
         document.getElementById('mailAutoProgress').style.width = (enabled / 3 * 100) + '%';
-        document.getElementById('mailAuto').classList.toggle('is-empty', enabled === 0);
+
+        var block = document.getElementById('mailAuto');
+        block.classList.toggle('is-readonly', !isAdmin);
+        var head = document.getElementById('mailAutoHead');
+        head.disabled = !isAdmin;
+        head.setAttribute('aria-label', isAdmin ? 'Відкрити налаштування скриньки' : 'Налаштування скриньки (лише перегляд)');
     }
 
     /* ── Settings view (right column, like prod) ── */
@@ -148,9 +104,10 @@
         var isSettings = view === 'settings';
         $('#viewList').toggleClass('hidden', isSettings);
         $('#viewSettings').toggleClass('hidden', !isSettings);
-        $('.js-open-settings').toggleClass('active', isSettings);
+        $('#mailAutoHead').toggleClass('active', isSettings);
         $('#mailFolders .folder-btn').toggleClass('active', false);
         $('#mailFolders .folder-btn[data-folder="' + view + '"]').addClass('active');
+        if (isSettings && state.role !== 'admin') return setView('inbox');
         if (isSettings) {
             syncSettings();
             if (section) {
@@ -161,15 +118,42 @@
         }
     }
 
-    function saveSettings() {
+    function readForm() {
         var pv = ($('#setPipeline').val() || '').split('|');
-        state.deals = $('#setDeals').prop('checked');
-        state.contactsIn = $('#setContactsIn').prop('checked');
-        state.contactsOut = $('#setContactsOut').prop('checked');
-        state.dialogs = $('#setDialogs').prop('checked');
-        state.pipeline = pv[0]; state.stage = pv[1];
-        state.dealOwner = $('#setDealOwner').val();
-        state.contactOwner = $('#setContactOwner').val();
+        return {
+            deals: $('#setDeals').prop('checked'),
+            contactsIn: $('#setContactsIn').prop('checked'),
+            contactsOut: $('#setContactsOut').prop('checked'),
+            dialogs: $('#setDialogs').prop('checked'),
+            pipeline: pv[0], stage: pv[1],
+            dealOwner: $('#setDealOwner').val(),
+            contactOwner: $('#setContactOwner').val()
+        };
+    }
+
+    var OFF_LABELS = {
+        deals: 'Створення угод з нових листів',
+        contactsIn: 'Створення контактів для вхідних листів',
+        contactsOut: 'Створення контактів для вихідних листів',
+        dialogs: 'Відповіді на листи: листи зникнуть з «Діалогів», чат-бот перестане відповідати'
+    };
+
+    var pending = null;
+
+    function saveSettings() {
+        var next = readForm();
+        var turningOff = Object.keys(OFF_LABELS).filter(function (k) { return state[k] && !next[k]; });
+        if (turningOff.length) {                       // conscious action: confirm before switching off
+            pending = next;
+            $('#confirmOffList').html(turningOff.map(function (k) { return '<li>' + OFF_LABELS[k] + '</li>'; }).join(''));
+            $('#confirmOffModal').modal('show');
+            return;
+        }
+        applySettings(next);
+    }
+
+    function applySettings(next) {
+        $.extend(state, next);
         renderSidebar();
         toast('Налаштування скриньки збережено');
     }
@@ -203,29 +187,6 @@
         setTimeout(close, 3000);
     }
 
-    function flash(item) {
-        var row = document.querySelector('[data-item="' + item + '"]');
-        if (!row) return;
-        row.classList.add('is-flash');
-        setTimeout(function () { row.classList.remove('is-flash'); }, 600);
-    }
-
-    var LABELS = {
-        deals: 'Створення угод',
-        contactsIn: 'Контакти з вхідних листів',
-        contactsOut: 'Контакти з вихідних листів',
-        dialogs: 'Відповіді на листи'
-    };
-
-    function applyToggle(key, value) {
-        state[key] = value;
-        renderSidebar();
-        syncSettings();
-        flash(key.indexOf('contacts') === 0 ? 'contacts' : key);
-        var msg = LABELS[key] + (value ? ' увімкнено' : ' вимкнено');
-        toast(msg, value ? 'success' : 'info');   // off → neutral info alert
-    }
-
     /* ── Mail list mock ── */
     var MAILS = [
         ['SendPulse', 'Нове повідомлення в CRM', 'Привіт! У розділі «Пошта» вашої CRM з\'явився новий лист. Перейдіть за посиланням…', 28, '11 жовтня'],
@@ -256,15 +217,15 @@
 
     /* ── Events ── */
     $(document)
-        .on('change', '.js-auto-toggle', function () {
-            applyToggle(this.getAttribute('data-key'), this.checked);
-        })
         .on('change', '#viewSettings input[type="checkbox"]', syncSubs)
-        .on('click', '.js-open-settings', function (e) { e.preventDefault(); $(this).tooltip('hide'); setView('settings'); })
-        .on('click', '.mail-auto-edit[data-section]', function (e) { e.preventDefault(); setView('settings', this.getAttribute('data-section')); })
-        .on('click', '.js-goto-dialogs', function (e) { e.preventDefault(); })
+        .on('click', '.js-open-settings', function (e) { e.preventDefault(); if (state.role === 'admin') setView('settings'); })
+        .on('click', 'a.mail-auto-row', function (e) { e.preventDefault(); setView('settings', this.getAttribute('data-section')); })
         .on('click', '#mailFolders .folder-btn', function () { setView(this.getAttribute('data-folder')); })
         .on('click', '#settingsSave', function () { saveSettings(); })
+        .on('click', '#confirmOffYes', function () {
+            $('#confirmOffModal').modal('hide');
+            if (pending) { applySettings(pending); pending = null; }
+        })
         .on('click', '.mailbox__list-select .dropdown-menu a, .mail-settings-delete', function (e) { e.preventDefault(); })
         .on('click', '[data-proto-state]', function () {
             $('[data-proto-state]').removeClass('active');
@@ -272,6 +233,13 @@
             $.extend(state, PRESETS[this.getAttribute('data-proto-state')]);
             renderSidebar();
             syncSettings();
+        })
+        .on('click', '[data-proto-role]', function () {
+            $('[data-proto-role]').removeClass('active');
+            $(this).addClass('active');
+            state.role = this.getAttribute('data-proto-role');
+            renderSidebar();
+            if (state.role !== 'admin' && state.view === 'settings') setView('inbox');
         });
 
     fillOwners();
