@@ -34,9 +34,9 @@
     }
 
     function contactsStatusText() {
-        if (state.contactsIn && state.contactsOut) return 'Увімкнено';
-        if (state.contactsIn) return 'Вхідні';
-        if (state.contactsOut) return 'Вихідні';
+        if (state.contactsIn && state.contactsOut) return 'Для вхідних і вихідних';
+        if (state.contactsIn) return 'Для вхідних';
+        if (state.contactsOut) return 'Для вихідних';
         return 'Вимкнено';
     }
 
@@ -45,25 +45,26 @@
         var isAdmin = state.role === 'admin';
         var contactsOn = state.contactsIn || state.contactsOut;
         var rows = [
-            { section: 'deals',    name: 'Створення угод',      on: state.deals,    text: state.deals ? 'Увімкнено' : 'Вимкнено',
+            { section: 'deals',    icon: 'icon-deal',    name: 'Створення угод',      on: state.deals,    text: state.deals ? 'Увімкнено' : 'Вимкнено',
               title: state.deals ? 'Воронка: ' + state.pipeline + ' · ' + state.stage : '' },
-            { section: 'contacts', name: 'Створення контактів', on: contactsOn,     text: contactsStatusText(),
-              title: contactsOn ? 'Контакти створюються для ' + (state.contactsIn && state.contactsOut ? 'вхідних і вихідних' : state.contactsIn ? 'вхідних' : 'вихідних') + ' листів' : '' },
-            { section: 'dialogs',  name: 'Відповіді на листи<sup class="color-active">NEW</sup>', plain: 'Відповіді на листи',
+            { section: 'contacts', icon: 'icon-contact', name: 'Створення контактів', on: contactsOn,     text: contactsStatusText(), title: '' },
+            { section: 'dialogs',  icon: 'icon-comment', name: 'Відповіді на листи<sup class="color-active">NEW</sup>',
               on: state.dialogs, text: state.dialogs ? 'Увімкнено' : 'Вимкнено', title: '' }
         ];
 
         document.getElementById('mailAutoList').innerHTML = rows.map(function (r) {
-            var inner = '<span class="mail-auto-name" title="' + (r.plain || r.name) + '">' + r.name + '</span>' + status(r.on, r.text);
+            var inner = '<span class="mail-auto-icon"><span class="sp-icon ' + r.icon + '"></span></span>' +
+                '<span><span class="mail-auto-name">' + r.name + '</span>' + status(r.on, r.text) + '</span>';
+            var cls = 'mail-auto-row' + (r.on ? ' is-on' : '');
             var tip = r.title ? ' title="' + r.title + '"' : '';
             return '<li>' + (isAdmin
-                ? '<a href="#" class="mail-auto-row" data-section="' + r.section + '"' + tip + '>' + inner + '</a>'
-                : '<div class="mail-auto-row"' + tip + '>' + inner + '</div>') + '</li>';
+                ? '<a href="#" class="' + cls + '" data-section="' + r.section + '"' + tip + '>' + inner + '</a>'
+                : '<div class="' + cls + '"' + tip + '>' + inner + '</div>') + '</li>';
         }).join('');
 
         var enabled = (state.deals ? 1 : 0) + (contactsOn ? 1 : 0) + (state.dialogs ? 1 : 0);
         var counter = document.getElementById('mailAutoCounter');
-        counter.textContent = enabled + ' з 3';
+        counter.textContent = enabled + '/3';
         counter.title = 'Увімкнено ' + enabled + ' з 3 автоматизацій';
         document.getElementById('mailAutoProgress').style.width = (enabled / 3 * 100) + '%';
 

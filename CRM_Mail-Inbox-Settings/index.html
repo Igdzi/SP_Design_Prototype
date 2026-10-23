@@ -7,7 +7,7 @@
 
     <link href="https://login.sendpulse.com/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="https://login.sendpulse.com/dist/css/template.min.css" rel="stylesheet" media="screen">
-    <link href="styles/prototype.css?v=20261023-01" rel="stylesheet" media="screen">
+    <link href="styles/prototype.css?v=20261023-02" rel="stylesheet" media="screen">
 
     <link rel="icon" href="https://login.sendpulse.com/img/favicon/sendpulse/favicon.svg">
 </head>
@@ -112,18 +112,20 @@
                                 <li class="mailbox__list-folders--item"><button class="folder-btn btn truncate" data-folder="trash"><span class="sp-icon icon-bin"></span><span class="mailbox__list-folders--item-name"> Кошик </span></button></li>
                             </ul>
 
-                            <!-- ═══ NEW: "Налаштування" block = settings entry + read-only automation status ═══
-                                 - no toggles here: changes only in settings, applied on "Зберегти" (+ confirm when switching off)
-                                 - users without rights: same statuses, no link to settings -->
+                            <!-- ═══ NEW: "Налаштування" — separate row between folders and the automation block (not a folder) ═══ -->
+                            <ul class="mailbox__list-folders mail-settings-entry">
+                                <li class="mailbox__list-folders--item">
+                                    <button type="button" class="folder-btn btn truncate js-open-settings" id="mailAutoHead">
+                                        <span class="sp-icon icon-mixer"></span><span class="mailbox__list-folders--item-name"> Налаштування <span class="sp-icon icon-chevron-right mail-auto-chevron"></span></span>
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <!-- ═══ NEW: automation status — read only (no toggles), one indicator per row = status label ═══ -->
                             <section class="mail-auto" id="mailAuto" aria-labelledby="mailAutoTitle">
-                                <button type="button" class="mail-auto-head js-open-settings" id="mailAutoHead">
-                                    <span class="sp-icon icon-mixer"></span>
-                                    <span class="mail-auto-title" id="mailAutoTitle">Налаштування</span>
-                                    <span class="sp-icon icon-chevron-right mail-auto-chevron"></span>
-                                </button>
-                                <div class="mail-auto-summary">
-                                    <span class="mail-auto-caption">Автоматизація CRM</span>
-                                    <span class="mail-auto-counter" id="mailAutoCounter">1 з 3</span>
+                                <div class="mail-auto-head">
+                                    <span class="mail-auto-title" id="mailAutoTitle">Автоматизація CRM</span>
+                                    <span class="mail-auto-counter" id="mailAutoCounter">1/3</span>
                                 </div>
                                 <div class="mail-auto-progress" aria-hidden="true"><span class="mail-auto-progress-bar" id="mailAutoProgress"></span></div>
                                 <ul class="mail-auto-list" id="mailAutoList"></ul>
@@ -254,6 +256,6 @@
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="scripts/prototype.js?v=20261023-01"></script>
+<script src="scripts/prototype.js?v=20261023-02"></script>
 </body>
 </html>
