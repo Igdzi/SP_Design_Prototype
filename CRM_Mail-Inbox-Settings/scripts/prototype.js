@@ -131,10 +131,13 @@
         if (isSettings && state.role !== 'admin') return setView('inbox');
         if (isSettings) {
             syncSettings();
+            // "Налаштування" = settings of the whole mailbox → no highlight; only an automation row highlights its section
+            $('.mail-settings-sec').removeClass('is-target');
             if (section) {
                 var el = document.getElementById('sec-' + section);
                 el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-                el.classList.remove('is-target'); void el.offsetWidth; el.classList.add('is-target');
+                void el.offsetWidth; el.classList.add('is-target');
+                el.addEventListener('animationend', function done() { el.classList.remove('is-target'); el.removeEventListener('animationend', done); });
             }
         }
     }
