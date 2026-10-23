@@ -131,10 +131,6 @@ a.mail-auto-row:focus, a.mail-auto-row:active, a.mail-auto-row:focus-visible,
 .mail-auto-status { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-size: 14px; color: var(--muted-color, #465152); }
 .mail-auto-status .badge-status { width: 10px; height: 10px; margin: 0; }
 
-/* Viewer without rights */
-.mail-auto-lock { display: none; align-items: center; gap: 6px; margin: 0; padding: 8px 12px; font-size: 13px; color: var(--muted-color, #465152); background: var(--bg-color-muted, #fafcfd); }
-.mail-auto-lock .sp-icon { margin: 0; opacity: .6; }
-.mail-auto.is-readonly .mail-auto-lock { display: flex; }
 
 /* ── Settings view (prod: .mail-settings.panel in the right column) ── */
 .mail-settings { width: 748px; max-width: 100%; border: 0; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); }
