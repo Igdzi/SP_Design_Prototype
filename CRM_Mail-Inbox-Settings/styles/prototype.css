@@ -98,13 +98,9 @@
 
 
 /* "Налаштування" — standalone row with folder look (gap 15px from folders/automation via .mailbox__list-folders margin) */
-.mail-settings-entry .mailbox__list-folders--item-name { justify-content: flex-start; gap: 8px; }
-.mail-settings-entry .mail-auto-chevron { margin-left: auto; font-size: 11px; }
-.mail-settings-entry .folder-btn:hover .mail-auto-chevron { color: var(--sp-primary, #009fc1); }
 .mail-settings-entry .folder-btn.active { background: var(--bg-color-muted, #fafcfd) !important; box-shadow: none !important; }
 .mail-settings-entry .folder-btn.active .sp-icon { color: rgb(104, 143, 161) !important; }
 .mail-settings-entry .folder-btn[disabled] { opacity: 1; cursor: default; }
-.mail-settings-entry .folder-btn[disabled] .mail-auto-chevron { display: none; }
 
 /* Automation block — white card, no border; read-only statuses */
 .mail-auto { background: var(--panel-bg, #fff); border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); overflow: hidden; }
@@ -122,6 +118,7 @@
     padding: 9px 12px; color: var(--base-color, #000);
 }
 a.mail-auto-row:hover, a.mail-auto-row:focus { text-decoration: none; background: var(--bg-color-muted, #fafcfd); color: var(--base-color, #000); }
+a.mail-auto-row:focus, a.mail-auto-row:active, .mail-settings-entry .folder-btn:focus { outline: 0; box-shadow: none; }   /* click feedback = background only */
 .mail-auto-icon {
     display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%;
     color: var(--light-color, #91a4a5); background: var(--bg-color, #f2f5f5);

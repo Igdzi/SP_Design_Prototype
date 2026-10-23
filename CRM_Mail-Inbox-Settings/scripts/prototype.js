@@ -220,7 +220,7 @@
     $(document)
         .on('change', '#viewSettings input[type="checkbox"]', syncSubs)
         .on('click', '.js-open-settings', function (e) { e.preventDefault(); if (state.role === 'admin') setView('settings'); })
-        .on('click', 'a.mail-auto-row', function (e) { e.preventDefault(); setView('settings', this.getAttribute('data-section')); })
+        .on('click', 'a.mail-auto-row', function (e) { e.preventDefault(); this.blur(); setView('settings'); })   // just opens settings, no section highlight
         .on('click', '#mailFolders .folder-btn', function () { setView(this.getAttribute('data-folder')); })
         .on('click', '#settingsSave', function () { saveSettings(); })
         .on('click', '#confirmOffYes', function () {
