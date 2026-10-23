@@ -46,7 +46,7 @@
     function ownerLine(id) {
         var o = owner(id);
         return '<span class="mail-auto-meta-line">' +
-            '<span class="mail-avatar" style="background:' + o.color + '" aria-hidden="true">' + o.initials + '</span>' +
+            '<span class="mail-avatar" style="background:' + o.color + '" aria-hidden="true">' + o.name.charAt(0) + '</span>' +
             '<span class="mail-auto-meta-text" title="Відповідальний: ' + o.name + '">' + o.name + '</span></span>';
     }
 
