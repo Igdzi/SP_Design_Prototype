@@ -33,6 +33,23 @@
             '<span class="badge badge-status ' + (on ? 'status-green' : 'status-default') + '"> </span>' + text + '</span>';
     }
 
+    var PIPE_COLORS = { 'Продажі': '#009fc1', 'Партнери': '#8e6bd8', 'Підтримка': '#e3a92d' };
+
+    // pipeline = letter icon (hover → full pipeline name) · stage name
+    function pipelineLine() {
+        var c = PIPE_COLORS[state.pipeline] || '#009fc1';
+        return '<span class="mail-auto-meta-line">' +
+            '<span class="mail-pipe" style="background:' + c + '" data-toggle="tooltip" data-placement="top" title="Воронка: ' + state.pipeline + '">' + state.pipeline.charAt(0) + '</span>' +
+            '<span class="mail-auto-dot">·</span><span class="mail-auto-meta-text" title="Статус: ' + state.stage + '">' + state.stage + '</span></span>';
+    }
+
+    function ownerLine(id) {
+        var o = owner(id);
+        return '<span class="mail-auto-meta-line">' +
+            '<span class="mail-avatar" style="background:' + o.color + '" aria-hidden="true">' + o.initials + '</span>' +
+            '<span class="mail-auto-meta-text" title="Відповідальний: ' + o.name + '">' + o.name + '</span></span>';
+    }
+
     function contactsStatusText() {
         if (state.contactsIn && state.contactsOut) return 'Для вхідних і вихідних';
         if (state.contactsIn) return 'Для вхідних';
@@ -46,21 +63,24 @@
         var contactsOn = state.contactsIn || state.contactsOut;
         var rows = [
             { section: 'deals',    icon: 'icon-deal',    name: 'Створення угод',      on: state.deals,    text: state.deals ? 'Увімкнено' : 'Вимкнено',
-              title: state.deals ? 'Воронка: ' + state.pipeline + ' · ' + state.stage : '' },
-            { section: 'contacts', icon: 'icon-contact', name: 'Створення контактів', on: contactsOn,     text: contactsStatusText(), title: '' },
+              meta: state.deals ? pipelineLine() + ownerLine(state.dealOwner) : '' },
+            { section: 'contacts', icon: 'icon-contact', name: 'Створення контактів', on: contactsOn,     text: contactsStatusText(),
+              meta: contactsOn ? ownerLine(state.contactOwner) : '' },
             { section: 'dialogs',  icon: 'icon-comment', name: 'Відповіді на листи<sup class="color-active">NEW</sup>',
               on: state.dialogs, text: state.dialogs ? 'Увімкнено' : 'Вимкнено', title: '' }
         ];
 
         document.getElementById('mailAutoList').innerHTML = rows.map(function (r) {
             var inner = '<span class="mail-auto-icon"><span class="sp-icon ' + r.icon + '"></span></span>' +
-                '<span><span class="mail-auto-name">' + r.name + '</span>' + status(r.on, r.text) + '</span>';
+                '<span class="mail-auto-body"><span class="mail-auto-name">' + r.name + '</span>' + status(r.on, r.text) +
+                (r.meta ? '<span class="mail-auto-meta">' + r.meta + '</span>' : '') + '</span>';
             var cls = 'mail-auto-row' + (r.on ? ' is-on' : '');
-            var tip = r.title ? ' title="' + r.title + '"' : '';
+            var tip = '';
             return '<li>' + (isAdmin
                 ? '<a href="#" class="' + cls + '" data-section="' + r.section + '"' + tip + '>' + inner + '</a>'
                 : '<div class="' + cls + '"' + tip + '>' + inner + '</div>') + '</li>';
         }).join('');
+        $('#mailAutoList [data-toggle="tooltip"]').tooltip({ container: 'body' });
 
         var enabled = (state.deals ? 1 : 0) + (contactsOn ? 1 : 0) + (state.dialogs ? 1 : 0);
         var counter = document.getElementById('mailAutoCounter');
