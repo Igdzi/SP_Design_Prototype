@@ -149,7 +149,7 @@ a.mail-auto-row:focus, a.mail-auto-row:active, a.mail-auto-row:focus-visible,
     display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
     width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; line-height: 1;
 }
-.mail-pipe { cursor: help; border-radius: 6px; }   /* pipeline = rounded square, operator = circle */
+.mail-pipe { cursor: help; }
 
 
 /* ── Settings view (prod: .mail-settings.panel in the right column) ── */
