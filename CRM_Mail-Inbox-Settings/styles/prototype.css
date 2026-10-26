@@ -142,16 +142,14 @@ a.mail-auto-row:focus, a.mail-auto-row:active, a.mail-auto-row:focus-visible,
 .mail-stage-chip {
     min-width: 0; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
     padding: 2px 8px; border-radius: 4px; font-size: 13px; line-height: 18px;
-    color: #023346; background: rgb(194, 238, 247);
 }
-.mail-auto-meta-line { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 14px; color: var(--base-color, #000); }
+.mail-auto-meta-line { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 14px; color: var(--base-color, #000); }
 .mail-auto-meta-text { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.mail-auto-dot { flex: 0 0 auto; width: 4px; height: 4px; border-radius: 50%; background: var(--light-color, #91a4a5); font-size: 0; }   /* central dot between pipeline and stage */
 .mail-pipe, .mail-avatar {
     display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
     width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700; color: #fff; line-height: 1;
 }
-.mail-pipe { cursor: help; }
+.mail-pipe { cursor: help; border-radius: 6px; }   /* pipeline = rounded square, operator = circle */
 
 
 /* ── Settings view (prod: .mail-settings.panel in the right column) ── */

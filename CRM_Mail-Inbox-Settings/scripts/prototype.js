@@ -34,15 +34,22 @@
     }
 
     var PIPE_COLORS = { 'Продажі': '#009fc1', 'Партнери': '#8e6bd8', 'Підтримка': '#e3a92d' };
+    // stage colors as configured in the pipeline (label bg / text)
+    var STAGE_COLORS = {
+        'Новий лід':      ['rgb(194, 238, 247)', '#023346'],
+        'Кваліфікація':   ['rgb(255, 236, 179)', '#5c4400'],
+        'Перший контакт': ['rgb(222, 214, 250)', '#3b2a7a']
+    };
 
     // pipeline = letter icon (hover → full pipeline name) · stage name
     // Воронка та статус: [letter icon, hover → pipeline name] · [stage chip]
     function pipelineLine() {
         var c = PIPE_COLORS[state.pipeline] || '#009fc1';
+        var sc = STAGE_COLORS[state.stage] || STAGE_COLORS['Новий лід'];
         return '<span class="mail-auto-meta-group"><span class="mail-auto-meta-label">Воронка та статус</span>' +
             '<span class="mail-auto-meta-line">' +
             '<span class="mail-pipe" style="background:' + c + '" data-toggle="tooltip" data-placement="top" title="Воронка: ' + state.pipeline + '">' + state.pipeline.charAt(0) + '</span>' +
-            '<span class="mail-auto-dot">·</span><span class="mail-stage-chip" title="Статус: ' + state.stage + '">' + state.stage + '</span></span></span>';
+            '<span class="mail-stage-chip" style="background:' + sc[0] + ';color:' + sc[1] + '" title="Етап: ' + state.stage + '">' + state.stage + '</span></span></span>';
     }
 
     // Відповідальний: (letter avatar) Name
@@ -70,7 +77,7 @@
               meta: state.deals ? pipelineLine() + ownerLine(state.dealOwner) : '' },
             { section: 'contacts', icon: 'icon-contact', name: 'Створення контактів', on: contactsOn,     text: contactsStatusText(),
               meta: contactsOn ? ownerLine(state.contactOwner) : '' },
-            { section: 'dialogs',  icon: 'icon-comment', name: 'Передавати в <span class="mail-auto-nowrap">чат\u2011бот<sup class="color-active">NEW</sup></span>',
+            { section: 'dialogs',  icon: 'icon-comment', name: 'Додавати в діалоги <span class="mail-auto-nowrap">чат\u2011бота<sup class="color-active">NEW</sup></span>',
               on: state.dialogs, text: state.dialogs ? 'Увімкнено' : 'Вимкнено', title: '' }
         ];
 
@@ -163,7 +170,7 @@
         deals: 'Створення угод з нових листів',
         contactsIn: 'Створення контактів для вхідних листів',
         contactsOut: 'Створення контактів для вихідних листів',
-        dialogs: 'Передавати в чат-бот: листи зникнуть з «Діалогів», чат-бот перестане відповідати'
+        dialogs: 'Додавати в діалоги чат-бота: листи зникнуть з «Діалогів», чат-бот перестане відповідати'
     };
 
     var pending = null;
