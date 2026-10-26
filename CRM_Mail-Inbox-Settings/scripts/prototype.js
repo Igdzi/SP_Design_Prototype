@@ -36,18 +36,22 @@
     var PIPE_COLORS = { 'Продажі': '#009fc1', 'Партнери': '#8e6bd8', 'Підтримка': '#e3a92d' };
 
     // pipeline = letter icon (hover → full pipeline name) · stage name
+    // Воронка та статус: [letter icon, hover → pipeline name] · [stage chip]
     function pipelineLine() {
         var c = PIPE_COLORS[state.pipeline] || '#009fc1';
-        return '<span class="mail-auto-meta-line">' +
+        return '<span class="mail-auto-meta-group"><span class="mail-auto-meta-label">Воронка та статус</span>' +
+            '<span class="mail-auto-meta-line">' +
             '<span class="mail-pipe" style="background:' + c + '" data-toggle="tooltip" data-placement="top" title="Воронка: ' + state.pipeline + '">' + state.pipeline.charAt(0) + '</span>' +
-            '<span class="mail-auto-dot">·</span><span class="mail-auto-meta-text" title="Статус: ' + state.stage + '">' + state.stage + '</span></span>';
+            '<span class="mail-auto-dot">·</span><span class="mail-stage-chip" title="Статус: ' + state.stage + '">' + state.stage + '</span></span></span>';
     }
 
+    // Відповідальний: (letter avatar) Name
     function ownerLine(id) {
         var o = owner(id);
-        return '<span class="mail-auto-meta-line">' +
+        return '<span class="mail-auto-meta-group"><span class="mail-auto-meta-label">Відповідальний</span>' +
+            '<span class="mail-auto-meta-line">' +
             '<span class="mail-avatar" style="background:' + o.color + '" aria-hidden="true">' + o.name.charAt(0) + '</span>' +
-            '<span class="mail-auto-meta-text" title="Відповідальний: ' + o.name + '">' + o.name + '</span></span>';
+            '<span class="mail-auto-meta-text" title="' + o.name + '">' + o.name + '</span></span></span>';
     }
 
     function contactsStatusText() {
@@ -66,7 +70,7 @@
               meta: state.deals ? pipelineLine() + ownerLine(state.dealOwner) : '' },
             { section: 'contacts', icon: 'icon-contact', name: 'Створення контактів', on: contactsOn,     text: contactsStatusText(),
               meta: contactsOn ? ownerLine(state.contactOwner) : '' },
-            { section: 'dialogs',  icon: 'icon-comment', name: 'Відповіді на листи<sup class="color-active">NEW</sup>',
+            { section: 'dialogs',  icon: 'icon-comment', name: 'Передавати в <span class="mail-auto-nowrap">чат\u2011бот<sup class="color-active">NEW</sup></span>',
               on: state.dialogs, text: state.dialogs ? 'Увімкнено' : 'Вимкнено', title: '' }
         ];
 
@@ -159,7 +163,7 @@
         deals: 'Створення угод з нових листів',
         contactsIn: 'Створення контактів для вхідних листів',
         contactsOut: 'Створення контактів для вихідних листів',
-        dialogs: 'Відповіді на листи: листи зникнуть з «Діалогів», чат-бот перестане відповідати'
+        dialogs: 'Передавати в чат-бот: листи зникнуть з «Діалогів», чат-бот перестане відповідати'
     };
 
     var pending = null;

@@ -136,7 +136,14 @@ a.mail-auto-row:focus, a.mail-auto-row:active, a.mail-auto-row:focus-visible,
 
 /* Details of an enabled automation: [П] · Новий лід  /  (ОК) Олена Коваль */
 .mail-auto-body { min-width: 0; }
-.mail-auto-meta { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.mail-auto-meta { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.mail-auto-meta-group { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.mail-auto-meta-label { font-size: 12px; line-height: 1.3; color: var(--muted-color, #465152); }
+.mail-stage-chip {
+    min-width: 0; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    padding: 2px 8px; border-radius: 4px; font-size: 13px; line-height: 18px;
+    color: #023346; background: rgb(194, 238, 247);
+}
 .mail-auto-meta-line { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 14px; color: var(--base-color, #000); }
 .mail-auto-meta-text { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .mail-auto-dot { flex: 0 0 auto; width: 4px; height: 4px; border-radius: 50%; background: var(--light-color, #91a4a5); font-size: 0; }   /* central dot between pipeline and stage */
@@ -151,7 +158,7 @@ a.mail-auto-row:focus, a.mail-auto-row:active, a.mail-auto-row:focus-visible,
 .mail-settings { width: 748px; max-width: 100%; border: 0; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); }
 .mail-settings .panel-body { padding: 24px; }
 .mail-settings .form-group { margin-bottom: 20px; }                     /* 20px between inputs */
-.mail-settings-group { display: block; margin: 0 0 2px; }                /* "Автоматизація CRM" = input label style; 2px + 8px block padding = 10px to checkboxes */
+.mail-settings-group { display: block; margin: 0 0 2px; }                /* "Автоматизація Email" = input label style; 2px + 8px block padding = 10px to checkboxes */
 
 /* Logical blocks (deals / contacts / dialogs): 20px apart = 8 padding + 4 margin + 8 padding.
    Padding exists for the "is-target" highlight when the user comes from "Змінити". */
@@ -178,3 +185,5 @@ a.mail-auto-row:focus, a.mail-auto-row:active, a.mail-auto-row:focus-visible,
 /* fixes */
 .mailbox__list-select--btn .truncate { flex: 1 1 auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .mailbox__list-select--btn .caret { flex: 0 0 auto; }
+
+.mail-auto-nowrap { white-space: nowrap; }
