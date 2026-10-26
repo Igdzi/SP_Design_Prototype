@@ -42,23 +42,21 @@
     };
 
     // pipeline = letter icon (hover → full pipeline name) · stage name
-    // Воронка та статус: [letter icon, hover → pipeline name] · [stage chip]
+    // pipeline: [rounded-square letter icon, hover → pipeline name] [colored stage label]
     function pipelineLine() {
         var c = PIPE_COLORS[state.pipeline] || '#009fc1';
         var sc = STAGE_COLORS[state.stage] || STAGE_COLORS['Новий лід'];
-        return '<span class="mail-auto-meta-group"><span class="mail-auto-meta-label">Воронка та статус</span>' +
-            '<span class="mail-auto-meta-line">' +
+        return '<span class="mail-auto-meta-line">' +
             '<span class="mail-pipe" style="background:' + c + '" data-toggle="tooltip" data-placement="top" title="Воронка: ' + state.pipeline + '">' + state.pipeline.charAt(0) + '</span>' +
-            '<span class="mail-stage-chip" style="background:' + sc[0] + ';color:' + sc[1] + '" title="Етап: ' + state.stage + '">' + state.stage + '</span></span></span>';
+            '<span class="mail-stage-chip" style="background:' + sc[0] + ';color:' + sc[1] + '" title="Етап: ' + state.stage + '">' + state.stage + '</span></span>';
     }
 
-    // Відповідальний: (letter avatar) Name
+    // owner: (round letter avatar) Name
     function ownerLine(id) {
         var o = owner(id);
-        return '<span class="mail-auto-meta-group"><span class="mail-auto-meta-label">Відповідальний</span>' +
-            '<span class="mail-auto-meta-line">' +
+        return '<span class="mail-auto-meta-line">' +
             '<span class="mail-avatar" style="background:' + o.color + '" aria-hidden="true">' + o.name.charAt(0) + '</span>' +
-            '<span class="mail-auto-meta-text" title="' + o.name + '">' + o.name + '</span></span></span>';
+            '<span class="mail-auto-meta-text" title="Відповідальний: ' + o.name + '">' + o.name + '</span></span>';
     }
 
     function contactsStatusText() {
